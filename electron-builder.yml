@@ -51,14 +51,14 @@ nsis:
   artifactName: ClassNotes-${version}-Setup.exe
   oneClick: false
   allowToChangeInstallationDirectory: true
-# Auto-update channel. Once OWNER/REPO is set in package.json the publish
-# block should be uncommented and the release workflow will upload to GitHub
-# Releases automatically. Until then, distribute installers manually.
-# publish:
-#   provider: github
-#   owner: OWNER
-#   repo: REPO
-#   releaseType: release
+# Auto-update channel. electron-updater reads latest.yml from the GitHub
+# Releases page configured below. The release workflow uploads latest.yml +
+# signed installers automatically when a v* tag is pushed.
+publish:
+  provider: github
+  owner: kodakku22
+  repo: class-note
+  releaseType: release
 asarUnpack:
   # pdfjs-dist ships a WebWorker that must remain unpacked so it can be loaded
   # by a separate process (asar archives are not loadable as Workers).

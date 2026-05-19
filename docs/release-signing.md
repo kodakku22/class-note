@@ -10,11 +10,12 @@ setup needed before publishing the first signed release.
 | Component | Status |
 |---|---|
 | `electron-builder.yml` signing config | ✅ wired (sha256 + `signAndEditExecutable`) |
-| `.github/workflows/release.yml` | ✅ reads `WINDOWS_CERTIFICATE_BASE64` + `WINDOWS_CERTIFICATE_PASSWORD` secrets |
-| GitHub Actions secrets configured | ⚠️ **TODO** (see steps below) |
-| Code-signing certificate purchased | ⚠️ **TODO** |
-| `electron-builder.yml` `publish:` block | ⚠️ commented out (needs OWNER/REPO) |
+| `electron-builder.yml` `publish:` block | ✅ set to `github` provider, `kodakku22/class-note` |
+| `.github/workflows/release.yml` | ✅ reads cert secrets, runs `--publish always`, injects `GH_TOKEN` |
+| `electron/updater.ts` | ✅ wired (5 s post-startup check, IPC `update:check` / `update:install`) |
 | `package.json` `repository.url` | ✅ set to `kodakku22/class-note` |
+| Code-signing certificate purchased | ⚠️ **TODO** (apply to SignPath OSS — see Step 1) |
+| GitHub Actions secrets configured | ⚠️ **TODO** (blocked on certificate — see Step 2) |
 | Test release on real installer | ❌ blocked on above |
 
 ---

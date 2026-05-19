@@ -53,12 +53,13 @@ jobs:
           "CSC_LINK=$certPath" | Out-File -FilePath $env:GITHUB_ENV -Append
 
       - name: Package Windows installers
-        run: npx electron-builder --win nsis portable --publish never
+        run: npx electron-builder --win nsis portable --publish always
         env:
           APP_RELEASE: ${{ github.ref_name }}
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
           TELEMETRY_ENDPOINT: ${{ secrets.TELEMETRY_ENDPOINT }}
           CSC_KEY_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Smoke test packaged app
         run: npm run test:release-smoke
