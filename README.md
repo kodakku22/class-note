@@ -66,8 +66,9 @@ Download the latest Windows build from the repository's GitHub Releases page:
 - `ClassNotes-<version>-Setup.exe` for a normal installer
 - `ClassNotes-<version>-Portable.exe` for a portable build
 
-During early OSS publishing, unsigned Windows builds may show a SmartScreen
-warning. Code signing is on the public roadmap.
+Until the SignPath Foundation code-signing certificate is active, Windows
+builds may show a SmartScreen warning. See **Code Signing** below for the
+current status and how to verify what you downloaded.
 
 Release assets include `SHA256SUMS.txt` when hashes are generated. To verify a
 downloaded EXE on Windows:
@@ -78,6 +79,23 @@ Get-Content .\SHA256SUMS.txt
 ```
 
 The hash printed by `Get-FileHash` should match the line for that EXE.
+
+## Code Signing
+
+ClassNotes is applying to the [SignPath Foundation](https://signpath.org)
+Open Source code-signing program. Once the application is approved and
+the certificate is provisioned, Windows release builds will be signed by
+**SignPath Foundation**, the SmartScreen warning will gradually disappear,
+and `electron-updater`'s auto-update channel will activate.
+
+The full project policy — team roles, signing scope, release flow, and
+reporting channels — lives in
+[docs/code-signing-policy.md](docs/code-signing-policy.md). End-user
+verification steps (Digital Signatures dialog, `signtool verify`, SHA-256
+cross-check) live in [SECURITY.md](SECURITY.md#verifying-a-release).
+
+> Free code signing will be provided by [SignPath.io](https://signpath.io),
+> certificate by [SignPath Foundation](https://signpath.org).
 
 ## First Run
 
@@ -167,6 +185,7 @@ Key project documents:
 - [Research workflows](docs/research-workflows.md)
 - [Privacy](docs/privacy.md)
 - [Distribution](docs/distribution.md)
+- [Code signing policy](docs/code-signing-policy.md)
 - [Roadmap](ROADMAP.md)
 - [Governance](GOVERNANCE.md)
 - [Contributing](CONTRIBUTING.md)
