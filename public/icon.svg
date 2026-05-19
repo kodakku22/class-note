@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="bg" x1="24" y1="20" x2="232" y2="236" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#101624"/>
+      <stop offset=".45" stop-color="#1f2340"/>
+      <stop offset="1" stop-color="#0b0f19"/>
+    </linearGradient>
+    <linearGradient id="edge" x1="42" y1="31" x2="221" y2="226" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2fffd0"/>
+      <stop offset=".52" stop-color="#5865f2"/>
+      <stop offset="1" stop-color="#d946ef"/>
+    </linearGradient>
+  </defs>
+  <rect x="16" y="16" width="224" height="224" rx="54" fill="url(#bg)"/>
+  <rect x="22" y="22" width="212" height="212" rx="48" fill="none" stroke="url(#edge)" stroke-width="8"/>
+  <path d="M73 55h92c15 0 27 12 27 27v119c0 7-6 13-13 13H73c-12 0-22-10-22-22V77c0-12 10-22 22-22Z" fill="#f7fbff"/>
+  <path d="M73 55h26v159H73c-12 0-22-10-22-22V77c0-12 10-22 22-22Z" fill="#5865f2"/>
+  <path d="M119 96h50M119 123h43M119 150h55" stroke="#242938" stroke-width="10" stroke-linecap="round"/>
+  <path d="M67 82h20M67 110h20M67 138h20M67 166h20" stroke="#c9d4ff" stroke-width="8" stroke-linecap="round"/>
+  <path d="M113 191l33-51h-24l25-52-3 41h27l-58 62Z" fill="#2fffd0"/>
+  <circle cx="169" cy="78" r="12" fill="#d946ef"/>
+  <circle cx="196" cy="112" r="10" fill="#2fffd0"/>
+  <circle cx="166" cy="139" r="9" fill="#8b5cf6"/>
+  <path d="M169 78l27 34-30 27" stroke="#7487ff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

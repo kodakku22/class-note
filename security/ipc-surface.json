@@ -1,0 +1,1593 @@
+{
+  "generatedAt": "2026-05-17T17:54:38.344Z",
+  "counts": {
+    "mainHandlers": 152,
+    "preloadInvokes": 152,
+    "rendererEvents": 11,
+    "missingHandlers": 0,
+    "unexposedHandlers": 0
+  },
+  "mainHandlers": [
+    {
+      "channel": "ai:analyzeVault",
+      "file": "electron/ipc/agents.ts",
+      "line": 318
+    },
+    {
+      "channel": "ai:applyTags",
+      "file": "electron/ipc/agents.ts",
+      "line": 214
+    },
+    {
+      "channel": "ai:autoTag",
+      "file": "electron/ipc/agents.ts",
+      "line": 193
+    },
+    {
+      "channel": "ai:generateCanvas",
+      "file": "electron/ipc/agents.ts",
+      "line": 252
+    },
+    {
+      "channel": "ai:learningCoach",
+      "file": "electron/ipc/agents.ts",
+      "line": 271
+    },
+    {
+      "channel": "ai:learningCoachAndSave",
+      "file": "electron/ipc/agents.ts",
+      "line": 290
+    },
+    {
+      "channel": "ai:optimizeMarkdown",
+      "file": "electron/ipc/agents.ts",
+      "line": 234
+    },
+    {
+      "channel": "ai:summarize",
+      "file": "electron/ipc/agents.ts",
+      "line": 125
+    },
+    {
+      "channel": "ai:summarizeAndApply",
+      "file": "electron/ipc/agents.ts",
+      "line": 147
+    },
+    {
+      "channel": "attachments:dropFiles",
+      "file": "electron/ipc/attachments.ts",
+      "line": 178
+    },
+    {
+      "channel": "attachments:index",
+      "file": "electron/ipc/attachments.ts",
+      "line": 197
+    },
+    {
+      "channel": "attachments:pick",
+      "file": "electron/ipc/attachments.ts",
+      "line": 136
+    },
+    {
+      "channel": "attachments:saveImage",
+      "file": "electron/ipc/attachments.ts",
+      "line": 161
+    },
+    {
+      "channel": "books:appendReadingNote",
+      "file": "electron/ipc/books.ts",
+      "line": 180
+    },
+    {
+      "channel": "books:create",
+      "file": "electron/ipc/books.ts",
+      "line": 92
+    },
+    {
+      "channel": "books:delete",
+      "file": "electron/ipc/books.ts",
+      "line": 152
+    },
+    {
+      "channel": "books:getReadingNote",
+      "file": "electron/ipc/books.ts",
+      "line": 170
+    },
+    {
+      "channel": "books:list",
+      "file": "electron/ipc/books.ts",
+      "line": 45
+    },
+    {
+      "channel": "books:updateMeta",
+      "file": "electron/ipc/books.ts",
+      "line": 125
+    },
+    {
+      "channel": "books:writeReadingNote",
+      "file": "electron/ipc/books.ts",
+      "line": 201
+    },
+    {
+      "channel": "diagnostics:export",
+      "file": "electron/ipc/diagnostics.ts",
+      "line": 29
+    },
+    {
+      "channel": "dialog:pickFolder",
+      "file": "electron/main.ts",
+      "line": 313
+    },
+    {
+      "channel": "docai:ask",
+      "file": "electron/ipc/docai.ts",
+      "line": 351
+    },
+    {
+      "channel": "docai:askMulti",
+      "file": "electron/ipc/docai.ts",
+      "line": 427
+    },
+    {
+      "channel": "docai:generate",
+      "file": "electron/ipc/docai.ts",
+      "line": 556
+    },
+    {
+      "channel": "docai:getChunks",
+      "file": "electron/ipc/docai.ts",
+      "line": 304
+    },
+    {
+      "channel": "docai:listVaultFiles",
+      "file": "electron/ipc/docai.ts",
+      "line": 259
+    },
+    {
+      "channel": "docai:multiAnalyze",
+      "file": "electron/ipc/docai.ts",
+      "line": 509
+    },
+    {
+      "channel": "docai:summarize",
+      "file": "electron/ipc/docai.ts",
+      "line": 318
+    },
+    {
+      "channel": "epistemic:bootstrap",
+      "file": "electron/ipc/epistemic.ts",
+      "line": 261
+    },
+    {
+      "channel": "epistemic:checkConsistency",
+      "file": "electron/ipc/epistemic.ts",
+      "line": 378
+    },
+    {
+      "channel": "epistemic:mapIsomorphism",
+      "file": "electron/ipc/epistemic.ts",
+      "line": 326
+    },
+    {
+      "channel": "epistemic:peerReview",
+      "file": "electron/ipc/epistemic.ts",
+      "line": 281
+    },
+    {
+      "channel": "experiments:generateLineageReport",
+      "file": "electron/ipc/experiments.ts",
+      "line": 224
+    },
+    {
+      "channel": "experiments:generateReproPackage",
+      "file": "electron/ipc/experiments.ts",
+      "line": 161
+    },
+    {
+      "channel": "experiments:list",
+      "file": "electron/ipc/experiments.ts",
+      "line": 155
+    },
+    {
+      "channel": "experiments:pdfToMarkdown",
+      "file": "electron/ipc/experiments.ts",
+      "line": 243
+    },
+    {
+      "channel": "experiments:pickPDFFile",
+      "file": "electron/ipc/experiments.ts",
+      "line": 233
+    },
+    {
+      "channel": "export:toHtml",
+      "file": "electron/ipc/export.ts",
+      "line": 53
+    },
+    {
+      "channel": "export:toPdf",
+      "file": "electron/ipc/export.ts",
+      "line": 16
+    },
+    {
+      "channel": "index:rebuild",
+      "file": "electron/ipc/index.ts",
+      "line": 10
+    },
+    {
+      "channel": "index:status",
+      "file": "electron/ipc/index.ts",
+      "line": 6
+    },
+    {
+      "channel": "latex:detectPandoc",
+      "file": "electron/ipc/latex.ts",
+      "line": 207
+    },
+    {
+      "channel": "latex:exportNote",
+      "file": "electron/ipc/latex.ts",
+      "line": 219
+    },
+    {
+      "channel": "latex:listStyles",
+      "file": "electron/ipc/latex.ts",
+      "line": 212
+    },
+    {
+      "channel": "links:backlinks",
+      "file": "electron/ipc/links.ts",
+      "line": 95
+    },
+    {
+      "channel": "links:listTargets",
+      "file": "electron/ipc/links.ts",
+      "line": 89
+    },
+    {
+      "channel": "log:write",
+      "file": "electron/main.ts",
+      "line": 402
+    },
+    {
+      "channel": "materials:addFiles",
+      "file": "electron/ipc/materials.ts",
+      "line": 22
+    },
+    {
+      "channel": "memos:create",
+      "file": "electron/ipc/memos.ts",
+      "line": 84
+    },
+    {
+      "channel": "memos:delete",
+      "file": "electron/ipc/memos.ts",
+      "line": 123
+    },
+    {
+      "channel": "memos:list",
+      "file": "electron/ipc/memos.ts",
+      "line": 47
+    },
+    {
+      "channel": "memos:update",
+      "file": "electron/ipc/memos.ts",
+      "line": 112
+    },
+    {
+      "channel": "outputs:list",
+      "file": "electron/ipc/wiki.ts",
+      "line": 298
+    },
+    {
+      "channel": "papers:appendReadingNote",
+      "file": "electron/ipc/papers.ts",
+      "line": 274
+    },
+    {
+      "channel": "papers:create",
+      "file": "electron/ipc/papers.ts",
+      "line": 148
+    },
+    {
+      "channel": "papers:delete",
+      "file": "electron/ipc/papers.ts",
+      "line": 225
+    },
+    {
+      "channel": "papers:exportBibtex",
+      "file": "electron/ipc/papers.ts",
+      "line": 295
+    },
+    {
+      "channel": "papers:getReadingNote",
+      "file": "electron/ipc/papers.ts",
+      "line": 258
+    },
+    {
+      "channel": "papers:importFromArxiv",
+      "file": "electron/ipc/papers.ts",
+      "line": 487
+    },
+    {
+      "channel": "papers:importFromBibtex",
+      "file": "electron/ipc/papers.ts",
+      "line": 674
+    },
+    {
+      "channel": "papers:importFromDOI",
+      "file": "electron/ipc/papers.ts",
+      "line": 556
+    },
+    {
+      "channel": "papers:importFromPDF",
+      "file": "electron/ipc/papers.ts",
+      "line": 809
+    },
+    {
+      "channel": "papers:list",
+      "file": "electron/ipc/papers.ts",
+      "line": 113
+    },
+    {
+      "channel": "papers:listForCitation",
+      "file": "electron/ipc/papers.ts",
+      "line": 359
+    },
+    {
+      "channel": "papers:pickBibtexFile",
+      "file": "electron/ipc/papers.ts",
+      "line": 664
+    },
+    {
+      "channel": "papers:pickPDFFile",
+      "file": "electron/ipc/papers.ts",
+      "line": 654
+    },
+    {
+      "channel": "papers:updateMeta",
+      "file": "electron/ipc/papers.ts",
+      "line": 197
+    },
+    {
+      "channel": "plugins:getViewUrl",
+      "file": "electron/ipc/plugins.ts",
+      "line": 95
+    },
+    {
+      "channel": "plugins:list",
+      "file": "electron/ipc/plugins.ts",
+      "line": 77
+    },
+    {
+      "channel": "plugins:runCommand",
+      "file": "electron/ipc/plugins.ts",
+      "line": 82
+    },
+    {
+      "channel": "qa:ask",
+      "file": "electron/ipc/qa.ts",
+      "line": 183
+    },
+    {
+      "channel": "qa:login",
+      "file": "electron/ipc/qa.ts",
+      "line": 169
+    },
+    {
+      "channel": "qa:readLog",
+      "file": "electron/ipc/qa.ts",
+      "line": 161
+    },
+    {
+      "channel": "qa:status",
+      "file": "electron/ipc/qa.ts",
+      "line": 165
+    },
+    {
+      "channel": "research:getDashboard",
+      "file": "electron/ipc/research.ts",
+      "line": 11
+    },
+    {
+      "channel": "research:listDeadlines",
+      "file": "electron/ipc/research.ts",
+      "line": 19
+    },
+    {
+      "channel": "research:reproducibilityReport",
+      "file": "electron/ipc/vault-safety.ts",
+      "line": 35
+    },
+    {
+      "channel": "research:saveDeadlines",
+      "file": "electron/ipc/research.ts",
+      "line": 27
+    },
+    {
+      "channel": "search:query",
+      "file": "electron/ipc/search.ts",
+      "line": 144
+    },
+    {
+      "channel": "settings:checkSelectedModelDeprecation",
+      "file": "electron/ipc/settings.ts",
+      "line": 350
+    },
+    {
+      "channel": "settings:clearApiKey",
+      "file": "electron/ipc/settings.ts",
+      "line": 451
+    },
+    {
+      "channel": "settings:clearProviderApiKey",
+      "file": "electron/ipc/settings.ts",
+      "line": 421
+    },
+    {
+      "channel": "settings:get",
+      "file": "electron/ipc/settings.ts",
+      "line": 299
+    },
+    {
+      "channel": "settings:getAiConfig",
+      "file": "electron/ipc/settings.ts",
+      "line": 318
+    },
+    {
+      "channel": "settings:getModelCatalogue",
+      "file": "electron/ipc/settings.ts",
+      "line": 333
+    },
+    {
+      "channel": "settings:getProviderAuthStatus",
+      "file": "electron/ipc/settings.ts",
+      "line": 386
+    },
+    {
+      "channel": "settings:hasApiKey",
+      "file": "electron/ipc/settings.ts",
+      "line": 313
+    },
+    {
+      "channel": "settings:loginProvider",
+      "file": "electron/ipc/settings.ts",
+      "line": 426
+    },
+    {
+      "channel": "settings:set",
+      "file": "electron/ipc/settings.ts",
+      "line": 303
+    },
+    {
+      "channel": "settings:setAiConfig",
+      "file": "electron/ipc/settings.ts",
+      "line": 367
+    },
+    {
+      "channel": "settings:setApiKey",
+      "file": "electron/ipc/settings.ts",
+      "line": 439
+    },
+    {
+      "channel": "settings:setProviderApiKey",
+      "file": "electron/ipc/settings.ts",
+      "line": 408
+    },
+    {
+      "channel": "settings:testProvider",
+      "file": "electron/ipc/settings.ts",
+      "line": 460
+    },
+    {
+      "channel": "shell:openExternal",
+      "file": "electron/main.ts",
+      "line": 344
+    },
+    {
+      "channel": "shell:openLogDir",
+      "file": "electron/main.ts",
+      "line": 382
+    },
+    {
+      "channel": "shell:openUrl",
+      "file": "electron/main.ts",
+      "line": 357
+    },
+    {
+      "channel": "shell:revealInFolder",
+      "file": "electron/main.ts",
+      "line": 368
+    },
+    {
+      "channel": "skills:analyzeWithObsidianCLI",
+      "file": "electron/ipc/skills.ts",
+      "line": 29
+    },
+    {
+      "channel": "skills:detectObsidian",
+      "file": "electron/ipc/skills.ts",
+      "line": 18
+    },
+    {
+      "channel": "skills:interopReport",
+      "file": "electron/ipc/skills.ts",
+      "line": 33
+    },
+    {
+      "channel": "skills:redetectObsidian",
+      "file": "electron/ipc/skills.ts",
+      "line": 23
+    },
+    {
+      "channel": "telemetry:track",
+      "file": "electron/main.ts",
+      "line": 390
+    },
+    {
+      "channel": "timetable:read",
+      "file": "electron/ipc/timetable.ts",
+      "line": 15
+    },
+    {
+      "channel": "timetable:write",
+      "file": "electron/ipc/timetable.ts",
+      "line": 30
+    },
+    {
+      "channel": "update:check",
+      "file": "electron/updater.ts",
+      "line": 45
+    },
+    {
+      "channel": "update:install",
+      "file": "electron/updater.ts",
+      "line": 57
+    },
+    {
+      "channel": "vault:createSubject",
+      "file": "electron/ipc/vault.ts",
+      "line": 125
+    },
+    {
+      "channel": "vault:createTodaysNote",
+      "file": "electron/ipc/vault.ts",
+      "line": 320
+    },
+    {
+      "channel": "vault:createTypedNote",
+      "file": "electron/ipc/vault.ts",
+      "line": 339
+    },
+    {
+      "channel": "vault:deleteNote",
+      "file": "electron/ipc/vault.ts",
+      "line": 484
+    },
+    {
+      "channel": "vault:deleteSubject",
+      "file": "electron/ipc/vault.ts",
+      "line": 468
+    },
+    {
+      "channel": "vault:deleteTemplate",
+      "file": "electron/ipc/vault.ts",
+      "line": 410
+    },
+    {
+      "channel": "vault:duplicateNote",
+      "file": "electron/ipc/vault.ts",
+      "line": 508
+    },
+    {
+      "channel": "vault:graphData",
+      "file": "electron/ipc/vault.ts",
+      "line": 575
+    },
+    {
+      "channel": "vault:init",
+      "file": "electron/ipc/vault.ts",
+      "line": 93
+    },
+    {
+      "channel": "vault:installSample",
+      "file": "electron/ipc/vault.ts",
+      "line": 677
+    },
+    {
+      "channel": "vault:listDailyNotes",
+      "file": "electron/ipc/vault.ts",
+      "line": 646
+    },
+    {
+      "channel": "vault:listFiles",
+      "file": "electron/ipc/vault.ts",
+      "line": 207
+    },
+    {
+      "channel": "vault:listFilesEnriched",
+      "file": "electron/ipc/vault.ts",
+      "line": 146
+    },
+    {
+      "channel": "vault:listSubjects",
+      "file": "electron/ipc/vault.ts",
+      "line": 113
+    },
+    {
+      "channel": "vault:listTemplates",
+      "file": "electron/ipc/vault.ts",
+      "line": 376
+    },
+    {
+      "channel": "vault:readBoard",
+      "file": "electron/ipc/vault.ts",
+      "line": 547
+    },
+    {
+      "channel": "vault:readNote",
+      "file": "electron/ipc/vault.ts",
+      "line": 235
+    },
+    {
+      "channel": "vault:readNoteWithMtime",
+      "file": "electron/ipc/vault.ts",
+      "line": 242
+    },
+    {
+      "channel": "vault:readTemplate",
+      "file": "electron/ipc/vault.ts",
+      "line": 388
+    },
+    {
+      "channel": "vault:renameNote",
+      "file": "electron/ipc/vault.ts",
+      "line": 420
+    },
+    {
+      "channel": "vault:renameSubject",
+      "file": "electron/ipc/vault.ts",
+      "line": 531
+    },
+    {
+      "channel": "vault:writeBoard",
+      "file": "electron/ipc/vault.ts",
+      "line": 565
+    },
+    {
+      "channel": "vault:writeNote",
+      "file": "electron/ipc/vault.ts",
+      "line": 253
+    },
+    {
+      "channel": "vault:writeTemplate",
+      "file": "electron/ipc/vault.ts",
+      "line": 397
+    },
+    {
+      "channel": "vaultSafety:audit",
+      "file": "electron/ipc/vault-safety.ts",
+      "line": 11
+    },
+    {
+      "channel": "vaultSafety:createBackup",
+      "file": "electron/ipc/vault-safety.ts",
+      "line": 19
+    },
+    {
+      "channel": "vaultSafety:listBackups",
+      "file": "electron/ipc/vault-safety.ts",
+      "line": 27
+    },
+    {
+      "channel": "watcher:start",
+      "file": "electron/main.ts",
+      "line": 416
+    },
+    {
+      "channel": "watcher:stop",
+      "file": "electron/main.ts",
+      "line": 423
+    },
+    {
+      "channel": "web:clip",
+      "file": "electron/ipc/web.ts",
+      "line": 155
+    },
+    {
+      "channel": "wiki:collectRaw",
+      "file": "electron/ipc/wiki.ts",
+      "line": 321
+    },
+    {
+      "channel": "wiki:compile",
+      "file": "electron/ipc/wiki.ts",
+      "line": 349
+    },
+    {
+      "channel": "wiki:getSchema",
+      "file": "electron/ipc/wiki.ts",
+      "line": 328
+    },
+    {
+      "channel": "wiki:healthCheck",
+      "file": "electron/ipc/wiki.ts",
+      "line": 528
+    },
+    {
+      "channel": "wiki:importFromQALogs",
+      "file": "electron/ipc/wiki.ts",
+      "line": 498
+    },
+    {
+      "channel": "wiki:list",
+      "file": "electron/ipc/wiki.ts",
+      "line": 231
+    },
+    {
+      "channel": "wiki:read",
+      "file": "electron/ipc/wiki.ts",
+      "line": 255
+    },
+    {
+      "channel": "wiki:readIndex",
+      "file": "electron/ipc/wiki.ts",
+      "line": 276
+    },
+    {
+      "channel": "wiki:saveOutput",
+      "file": "electron/ipc/wiki.ts",
+      "line": 284
+    },
+    {
+      "channel": "wiki:setSchema",
+      "file": "electron/ipc/wiki.ts",
+      "line": 336
+    },
+    {
+      "channel": "wiki:write",
+      "file": "electron/ipc/wiki.ts",
+      "line": 264
+    },
+    {
+      "channel": "window:close",
+      "file": "electron/main.ts",
+      "line": 339
+    },
+    {
+      "channel": "window:isMaximized",
+      "file": "electron/main.ts",
+      "line": 334
+    },
+    {
+      "channel": "window:minimize",
+      "file": "electron/main.ts",
+      "line": 322
+    },
+    {
+      "channel": "window:toggleMaximize",
+      "file": "electron/main.ts",
+      "line": 327
+    }
+  ],
+  "preloadInvokes": [
+    {
+      "channel": "ai:analyzeVault",
+      "file": "electron/preload.ts",
+      "line": 405
+    },
+    {
+      "channel": "ai:applyTags",
+      "file": "electron/preload.ts",
+      "line": 395
+    },
+    {
+      "channel": "ai:autoTag",
+      "file": "electron/preload.ts",
+      "line": 393
+    },
+    {
+      "channel": "ai:generateCanvas",
+      "file": "electron/preload.ts",
+      "line": 399
+    },
+    {
+      "channel": "ai:learningCoach",
+      "file": "electron/preload.ts",
+      "line": 401
+    },
+    {
+      "channel": "ai:learningCoachAndSave",
+      "file": "electron/preload.ts",
+      "line": 403
+    },
+    {
+      "channel": "ai:optimizeMarkdown",
+      "file": "electron/preload.ts",
+      "line": 397
+    },
+    {
+      "channel": "ai:summarize",
+      "file": "electron/preload.ts",
+      "line": 390
+    },
+    {
+      "channel": "ai:summarizeAndApply",
+      "file": "electron/preload.ts",
+      "line": 392
+    },
+    {
+      "channel": "attachments:dropFiles",
+      "file": "electron/preload.ts",
+      "line": 533
+    },
+    {
+      "channel": "attachments:index",
+      "file": "electron/preload.ts",
+      "line": 535
+    },
+    {
+      "channel": "attachments:pick",
+      "file": "electron/preload.ts",
+      "line": 529
+    },
+    {
+      "channel": "attachments:saveImage",
+      "file": "electron/preload.ts",
+      "line": 531
+    },
+    {
+      "channel": "books:appendReadingNote",
+      "file": "electron/preload.ts",
+      "line": 331
+    },
+    {
+      "channel": "books:create",
+      "file": "electron/preload.ts",
+      "line": 319
+    },
+    {
+      "channel": "books:delete",
+      "file": "electron/preload.ts",
+      "line": 322
+    },
+    {
+      "channel": "books:getReadingNote",
+      "file": "electron/preload.ts",
+      "line": 326
+    },
+    {
+      "channel": "books:list",
+      "file": "electron/preload.ts",
+      "line": 317
+    },
+    {
+      "channel": "books:updateMeta",
+      "file": "electron/preload.ts",
+      "line": 321
+    },
+    {
+      "channel": "books:writeReadingNote",
+      "file": "electron/preload.ts",
+      "line": 336
+    },
+    {
+      "channel": "diagnostics:export",
+      "file": "electron/preload.ts",
+      "line": 145
+    },
+    {
+      "channel": "dialog:pickFolder",
+      "file": "electron/preload.ts",
+      "line": 35
+    },
+    {
+      "channel": "docai:ask",
+      "file": "electron/preload.ts",
+      "line": 607
+    },
+    {
+      "channel": "docai:askMulti",
+      "file": "electron/preload.ts",
+      "line": 609
+    },
+    {
+      "channel": "docai:generate",
+      "file": "electron/preload.ts",
+      "line": 613
+    },
+    {
+      "channel": "docai:getChunks",
+      "file": "electron/preload.ts",
+      "line": 614
+    },
+    {
+      "channel": "docai:listVaultFiles",
+      "file": "electron/preload.ts",
+      "line": 615
+    },
+    {
+      "channel": "docai:multiAnalyze",
+      "file": "electron/preload.ts",
+      "line": 611
+    },
+    {
+      "channel": "docai:summarize",
+      "file": "electron/preload.ts",
+      "line": 605
+    },
+    {
+      "channel": "epistemic:bootstrap",
+      "file": "electron/preload.ts",
+      "line": 504
+    },
+    {
+      "channel": "epistemic:checkConsistency",
+      "file": "electron/preload.ts",
+      "line": 510
+    },
+    {
+      "channel": "epistemic:mapIsomorphism",
+      "file": "electron/preload.ts",
+      "line": 508
+    },
+    {
+      "channel": "epistemic:peerReview",
+      "file": "electron/preload.ts",
+      "line": 506
+    },
+    {
+      "channel": "experiments:generateLineageReport",
+      "file": "electron/preload.ts",
+      "line": 496
+    },
+    {
+      "channel": "experiments:generateReproPackage",
+      "file": "electron/preload.ts",
+      "line": 494
+    },
+    {
+      "channel": "experiments:list",
+      "file": "electron/preload.ts",
+      "line": 492
+    },
+    {
+      "channel": "experiments:pdfToMarkdown",
+      "file": "electron/preload.ts",
+      "line": 500
+    },
+    {
+      "channel": "experiments:pickPDFFile",
+      "file": "electron/preload.ts",
+      "line": 498
+    },
+    {
+      "channel": "export:toHtml",
+      "file": "electron/preload.ts",
+      "line": 119
+    },
+    {
+      "channel": "export:toPdf",
+      "file": "electron/preload.ts",
+      "line": 118
+    },
+    {
+      "channel": "index:rebuild",
+      "file": "electron/preload.ts",
+      "line": 196
+    },
+    {
+      "channel": "index:status",
+      "file": "electron/preload.ts",
+      "line": 192
+    },
+    {
+      "channel": "latex:detectPandoc",
+      "file": "electron/preload.ts",
+      "line": 342
+    },
+    {
+      "channel": "latex:exportNote",
+      "file": "electron/preload.ts",
+      "line": 356
+    },
+    {
+      "channel": "latex:listStyles",
+      "file": "electron/preload.ts",
+      "line": 344
+    },
+    {
+      "channel": "links:backlinks",
+      "file": "electron/preload.ts",
+      "line": 525
+    },
+    {
+      "channel": "links:listTargets",
+      "file": "electron/preload.ts",
+      "line": 523
+    },
+    {
+      "channel": "log:write",
+      "file": "electron/preload.ts",
+      "line": 140
+    },
+    {
+      "channel": "materials:addFiles",
+      "file": "electron/preload.ts",
+      "line": 124
+    },
+    {
+      "channel": "memos:create",
+      "file": "electron/preload.ts",
+      "line": 516
+    },
+    {
+      "channel": "memos:delete",
+      "file": "electron/preload.ts",
+      "line": 519
+    },
+    {
+      "channel": "memos:list",
+      "file": "electron/preload.ts",
+      "line": 514
+    },
+    {
+      "channel": "memos:update",
+      "file": "electron/preload.ts",
+      "line": 518
+    },
+    {
+      "channel": "outputs:list",
+      "file": "electron/preload.ts",
+      "line": 574
+    },
+    {
+      "channel": "papers:appendReadingNote",
+      "file": "electron/preload.ts",
+      "line": 450
+    },
+    {
+      "channel": "papers:create",
+      "file": "electron/preload.ts",
+      "line": 443
+    },
+    {
+      "channel": "papers:delete",
+      "file": "electron/preload.ts",
+      "line": 446
+    },
+    {
+      "channel": "papers:exportBibtex",
+      "file": "electron/preload.ts",
+      "line": 467
+    },
+    {
+      "channel": "papers:getReadingNote",
+      "file": "electron/preload.ts",
+      "line": 448
+    },
+    {
+      "channel": "papers:importFromArxiv",
+      "file": "electron/preload.ts",
+      "line": 456
+    },
+    {
+      "channel": "papers:importFromBibtex",
+      "file": "electron/preload.ts",
+      "line": 475
+    },
+    {
+      "channel": "papers:importFromDOI",
+      "file": "electron/preload.ts",
+      "line": 462
+    },
+    {
+      "channel": "papers:importFromPDF",
+      "file": "electron/preload.ts",
+      "line": 488
+    },
+    {
+      "channel": "papers:list",
+      "file": "electron/preload.ts",
+      "line": 428
+    },
+    {
+      "channel": "papers:listForCitation",
+      "file": "electron/preload.ts",
+      "line": 480
+    },
+    {
+      "channel": "papers:pickBibtexFile",
+      "file": "electron/preload.ts",
+      "line": 470
+    },
+    {
+      "channel": "papers:pickPDFFile",
+      "file": "electron/preload.ts",
+      "line": 482
+    },
+    {
+      "channel": "papers:updateMeta",
+      "file": "electron/preload.ts",
+      "line": 445
+    },
+    {
+      "channel": "plugins:getViewUrl",
+      "file": "electron/preload.ts",
+      "line": 424
+    },
+    {
+      "channel": "plugins:list",
+      "file": "electron/preload.ts",
+      "line": 420
+    },
+    {
+      "channel": "plugins:runCommand",
+      "file": "electron/preload.ts",
+      "line": 422
+    },
+    {
+      "channel": "qa:ask",
+      "file": "electron/preload.ts",
+      "line": 583
+    },
+    {
+      "channel": "qa:login",
+      "file": "electron/preload.ts",
+      "line": 581
+    },
+    {
+      "channel": "qa:readLog",
+      "file": "electron/preload.ts",
+      "line": 579
+    },
+    {
+      "channel": "qa:status",
+      "file": "electron/preload.ts",
+      "line": 580
+    },
+    {
+      "channel": "research:getDashboard",
+      "file": "electron/preload.ts",
+      "line": 410
+    },
+    {
+      "channel": "research:listDeadlines",
+      "file": "electron/preload.ts",
+      "line": 414
+    },
+    {
+      "channel": "research:reproducibilityReport",
+      "file": "electron/preload.ts",
+      "line": 412
+    },
+    {
+      "channel": "research:saveDeadlines",
+      "file": "electron/preload.ts",
+      "line": 416
+    },
+    {
+      "channel": "search:query",
+      "file": "electron/preload.ts",
+      "line": 185
+    },
+    {
+      "channel": "settings:checkSelectedModelDeprecation",
+      "file": "electron/preload.ts",
+      "line": 261
+    },
+    {
+      "channel": "settings:clearApiKey",
+      "file": "electron/preload.ts",
+      "line": 302
+    },
+    {
+      "channel": "settings:clearProviderApiKey",
+      "file": "electron/preload.ts",
+      "line": 293
+    },
+    {
+      "channel": "settings:get",
+      "file": "electron/preload.ts",
+      "line": 210
+    },
+    {
+      "channel": "settings:getAiConfig",
+      "file": "electron/preload.ts",
+      "line": 232
+    },
+    {
+      "channel": "settings:getModelCatalogue",
+      "file": "electron/preload.ts",
+      "line": 248
+    },
+    {
+      "channel": "settings:getProviderAuthStatus",
+      "file": "electron/preload.ts",
+      "line": 284
+    },
+    {
+      "channel": "settings:hasApiKey",
+      "file": "electron/preload.ts",
+      "line": 299
+    },
+    {
+      "channel": "settings:loginProvider",
+      "file": "electron/preload.ts",
+      "line": 295
+    },
+    {
+      "channel": "settings:set",
+      "file": "electron/preload.ts",
+      "line": 226
+    },
+    {
+      "channel": "settings:setAiConfig",
+      "file": "electron/preload.ts",
+      "line": 271
+    },
+    {
+      "channel": "settings:setApiKey",
+      "file": "electron/preload.ts",
+      "line": 301
+    },
+    {
+      "channel": "settings:setProviderApiKey",
+      "file": "electron/preload.ts",
+      "line": 289
+    },
+    {
+      "channel": "settings:testProvider",
+      "file": "electron/preload.ts",
+      "line": 308
+    },
+    {
+      "channel": "shell:openExternal",
+      "file": "electron/preload.ts",
+      "line": 126
+    },
+    {
+      "channel": "shell:openLogDir",
+      "file": "electron/preload.ts",
+      "line": 132
+    },
+    {
+      "channel": "shell:openUrl",
+      "file": "electron/preload.ts",
+      "line": 130
+    },
+    {
+      "channel": "shell:revealInFolder",
+      "file": "electron/preload.ts",
+      "line": 128
+    },
+    {
+      "channel": "skills:analyzeWithObsidianCLI",
+      "file": "electron/preload.ts",
+      "line": 369
+    },
+    {
+      "channel": "skills:detectObsidian",
+      "file": "electron/preload.ts",
+      "line": 362
+    },
+    {
+      "channel": "skills:interopReport",
+      "file": "electron/preload.ts",
+      "line": 371
+    },
+    {
+      "channel": "skills:redetectObsidian",
+      "file": "electron/preload.ts",
+      "line": 364
+    },
+    {
+      "channel": "telemetry:track",
+      "file": "electron/preload.ts",
+      "line": 157
+    },
+    {
+      "channel": "timetable:read",
+      "file": "electron/preload.ts",
+      "line": 312
+    },
+    {
+      "channel": "timetable:write",
+      "file": "electron/preload.ts",
+      "line": 313
+    },
+    {
+      "channel": "update:check",
+      "file": "electron/preload.ts",
+      "line": 163
+    },
+    {
+      "channel": "update:install",
+      "file": "electron/preload.ts",
+      "line": 166
+    },
+    {
+      "channel": "vault:createSubject",
+      "file": "electron/preload.ts",
+      "line": 52
+    },
+    {
+      "channel": "vault:createTodaysNote",
+      "file": "electron/preload.ts",
+      "line": 79
+    },
+    {
+      "channel": "vault:createTypedNote",
+      "file": "electron/preload.ts",
+      "line": 87
+    },
+    {
+      "channel": "vault:deleteNote",
+      "file": "electron/preload.ts",
+      "line": 112
+    },
+    {
+      "channel": "vault:deleteSubject",
+      "file": "electron/preload.ts",
+      "line": 106
+    },
+    {
+      "channel": "vault:deleteTemplate",
+      "file": "electron/preload.ts",
+      "line": 99
+    },
+    {
+      "channel": "vault:duplicateNote",
+      "file": "electron/preload.ts",
+      "line": 114
+    },
+    {
+      "channel": "vault:graphData",
+      "file": "electron/preload.ts",
+      "line": 100
+    },
+    {
+      "channel": "vault:init",
+      "file": "electron/preload.ts",
+      "line": 48
+    },
+    {
+      "channel": "vault:installSample",
+      "file": "electron/preload.ts",
+      "line": 110
+    },
+    {
+      "channel": "vault:listDailyNotes",
+      "file": "electron/preload.ts",
+      "line": 89
+    },
+    {
+      "channel": "vault:listFiles",
+      "file": "electron/preload.ts",
+      "line": 54
+    },
+    {
+      "channel": "vault:listFilesEnriched",
+      "file": "electron/preload.ts",
+      "line": 61
+    },
+    {
+      "channel": "vault:listSubjects",
+      "file": "electron/preload.ts",
+      "line": 50
+    },
+    {
+      "channel": "vault:listTemplates",
+      "file": "electron/preload.ts",
+      "line": 93
+    },
+    {
+      "channel": "vault:readBoard",
+      "file": "electron/preload.ts",
+      "line": 102
+    },
+    {
+      "channel": "vault:readNote",
+      "file": "electron/preload.ts",
+      "line": 63
+    },
+    {
+      "channel": "vault:readNoteWithMtime",
+      "file": "electron/preload.ts",
+      "line": 65
+    },
+    {
+      "channel": "vault:readTemplate",
+      "file": "electron/preload.ts",
+      "line": 95
+    },
+    {
+      "channel": "vault:renameNote",
+      "file": "electron/preload.ts",
+      "line": 91
+    },
+    {
+      "channel": "vault:renameSubject",
+      "file": "electron/preload.ts",
+      "line": 108
+    },
+    {
+      "channel": "vault:writeBoard",
+      "file": "electron/preload.ts",
+      "line": 104
+    },
+    {
+      "channel": "vault:writeNote",
+      "file": "electron/preload.ts",
+      "line": 77
+    },
+    {
+      "channel": "vault:writeTemplate",
+      "file": "electron/preload.ts",
+      "line": 97
+    },
+    {
+      "channel": "vaultSafety:audit",
+      "file": "electron/preload.ts",
+      "line": 149
+    },
+    {
+      "channel": "vaultSafety:createBackup",
+      "file": "electron/preload.ts",
+      "line": 150
+    },
+    {
+      "channel": "vaultSafety:listBackups",
+      "file": "electron/preload.ts",
+      "line": 151
+    },
+    {
+      "channel": "watcher:start",
+      "file": "electron/preload.ts",
+      "line": 200
+    },
+    {
+      "channel": "watcher:stop",
+      "file": "electron/preload.ts",
+      "line": 201
+    },
+    {
+      "channel": "web:clip",
+      "file": "electron/preload.ts",
+      "line": 382
+    },
+    {
+      "channel": "wiki:collectRaw",
+      "file": "electron/preload.ts",
+      "line": 548
+    },
+    {
+      "channel": "wiki:compile",
+      "file": "electron/preload.ts",
+      "line": 553
+    },
+    {
+      "channel": "wiki:getSchema",
+      "file": "electron/preload.ts",
+      "line": 549
+    },
+    {
+      "channel": "wiki:healthCheck",
+      "file": "electron/preload.ts",
+      "line": 554
+    },
+    {
+      "channel": "wiki:importFromQALogs",
+      "file": "electron/preload.ts",
+      "line": 556
+    },
+    {
+      "channel": "wiki:list",
+      "file": "electron/preload.ts",
+      "line": 539
+    },
+    {
+      "channel": "wiki:read",
+      "file": "electron/preload.ts",
+      "line": 541
+    },
+    {
+      "channel": "wiki:readIndex",
+      "file": "electron/preload.ts",
+      "line": 544
+    },
+    {
+      "channel": "wiki:saveOutput",
+      "file": "electron/preload.ts",
+      "line": 546
+    },
+    {
+      "channel": "wiki:setSchema",
+      "file": "electron/preload.ts",
+      "line": 551
+    },
+    {
+      "channel": "wiki:write",
+      "file": "electron/preload.ts",
+      "line": 543
+    },
+    {
+      "channel": "window:close",
+      "file": "electron/preload.ts",
+      "line": 43
+    },
+    {
+      "channel": "window:isMaximized",
+      "file": "electron/preload.ts",
+      "line": 42
+    },
+    {
+      "channel": "window:minimize",
+      "file": "electron/preload.ts",
+      "line": 38
+    },
+    {
+      "channel": "window:toggleMaximize",
+      "file": "electron/preload.ts",
+      "line": 40
+    }
+  ],
+  "rendererEvents": [
+    {
+      "channel": "docai:chunk",
+      "file": "electron/preload.ts",
+      "line": 618
+    },
+    {
+      "channel": "docai:citations",
+      "file": "electron/preload.ts",
+      "line": 625
+    },
+    {
+      "channel": "docai:done",
+      "file": "electron/preload.ts",
+      "line": 639
+    },
+    {
+      "channel": "docai:error",
+      "file": "electron/preload.ts",
+      "line": 644
+    },
+    {
+      "channel": "qa:chunk",
+      "file": "electron/preload.ts",
+      "line": 586
+    },
+    {
+      "channel": "qa:done",
+      "file": "electron/preload.ts",
+      "line": 591
+    },
+    {
+      "channel": "qa:error",
+      "file": "electron/preload.ts",
+      "line": 596
+    },
+    {
+      "channel": "update:available",
+      "file": "electron/preload.ts",
+      "line": 171
+    },
+    {
+      "channel": "update:downloaded",
+      "file": "electron/preload.ts",
+      "line": 178
+    },
+    {
+      "channel": "vault:changed",
+      "file": "electron/preload.ts",
+      "line": 204
+    },
+    {
+      "channel": "wiki:compile:progress",
+      "file": "electron/preload.ts",
+      "line": 568
+    }
+  ],
+  "missingHandlers": [],
+  "unexposedHandlers": []
+}

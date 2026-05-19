@@ -1,0 +1,90 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release-windows:
+    name: Build signed Windows release
+    runs-on: windows-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Quality gates
+        run: |
+          npm run lint
+          npm test -- --run
+          npm run test:coverage
+          npm run license:check
+          npm run security:evidence
+          npm audit
+          npm audit --omit=dev
+
+      - name: Build renderer and main process
+        run: npm run build
+        env:
+          APP_RELEASE: ${{ github.ref_name }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          TELEMETRY_ENDPOINT: ${{ secrets.TELEMETRY_ENDPOINT }}
+
+      - name: Decode Windows signing certificate
+        if: ${{ secrets.WINDOWS_CERTIFICATE_BASE64 != '' }}
+        shell: pwsh
+        run: |
+          $certPath = Join-Path $env:RUNNER_TEMP "classnotes-codesign.pfx"
+          [IO.File]::WriteAllBytes($certPath, [Convert]::FromBase64String("${{ secrets.WINDOWS_CERTIFICATE_BASE64 }}"))
+          "CSC_LINK=$certPath" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: Package Windows installers
+        run: npx electron-builder --win nsis portable --publish never
+        env:
+          APP_RELEASE: ${{ github.ref_name }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          TELEMETRY_ENDPOINT: ${{ secrets.TELEMETRY_ENDPOINT }}
+          CSC_KEY_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+
+      - name: Smoke test packaged app
+        run: npm run test:release-smoke
+
+      - name: Generate SHA256 checksums
+        run: npm run hash:release
+
+      - name: Verify release artifacts
+        run: npm run test:release-artifacts
+
+      - name: Upload release artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ClassNotes-Windows-${{ github.ref_name }}
+          path: |
+            release/*.exe
+            release/*.yml
+            release/*.blockmap
+            release/SHA256SUMS.txt
+
+      - name: Create draft GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          files: |
+            release/*.exe
+            release/*.yml
+            release/*.blockmap
+            release/SHA256SUMS.txt

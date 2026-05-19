@@ -1,0 +1,73 @@
+name: Bug report
+description: Report a reproducible ClassNotes bug
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. Please do not include private Vault contents or API keys.
+  - type: input
+    id: version
+    attributes:
+      label: ClassNotes version
+      placeholder: "0.1.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options:
+        - Windows 11
+        - Windows 10
+        - macOS
+        - Linux
+        - Other
+    validations:
+      required: true
+  - type: dropdown
+    id: ai-provider
+    attributes:
+      label: AI provider
+      options:
+        - none
+        - claude-cli
+        - anthropic-api
+        - not related
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open ...
+        2. Click ...
+        3. See ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: vault-shape
+    attributes:
+      label: Vault shape
+      description: Describe folder types only. Do not paste private note contents.
+      placeholder: "Papers: 20 files, Books: 3 files, one subject with PDFs..."
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs
+      description: Redact paths, API keys, tokens, and private content.
+      render: text

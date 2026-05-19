@@ -1,0 +1,42 @@
+name: Feature request
+description: Suggest an improvement to ClassNotes
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What research workflow or learning workflow is blocked?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - research-workflow
+        - ai-agent
+        - papers
+        - books
+        - lectures
+        - packaging
+        - docs
+        - other
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: textarea
+    id: privacy
+    attributes:
+      label: Privacy or AI considerations
+      description: Note whether the feature sends data outside the local Vault.

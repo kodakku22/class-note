@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/kodakku22/class-note/security/advisories/new
+    about: Please use private vulnerability reporting instead of a public issue.
+  - name: Privacy or data-handling question
+    url: mailto:security@classnotes.app
+    about: Use this channel for questions that may include sensitive context.

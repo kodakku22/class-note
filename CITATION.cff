@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use ClassNotes in academic work, please cite it using this metadata."
+title: "ClassNotes"
+version: "0.1.0"
+date-released: "2026-05-13"
+abstract: "A local-first AI research workspace for Markdown-based literature notes, citations, lectures, and research progress."
+authors:
+  - name: "ClassNotes contributors"
+repository-code: "https://github.com/kodakku22/class-note"
+url: "https://github.com/kodakku22/class-note"
+license: "Apache-2.0"
+keywords:
+  - "local-first"
+  - "research notes"
+  - "Markdown"
+  - "Obsidian"
+  - "citation management"
+  - "AI-assisted research"

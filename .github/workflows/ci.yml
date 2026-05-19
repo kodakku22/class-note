@@ -1,0 +1,133 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify (lint + unit + build)
+    runs-on: windows-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm test -- --run
+
+      - name: Coverage
+        run: npm run test:coverage
+
+      - name: License check
+        run: npm run license:check
+
+      - name: Security evidence
+        run: npm run security:evidence
+
+      - name: Build
+        run: npm run build
+
+      - name: Perf smoke (record baseline)
+        run: node scripts/perf-smoke.mjs
+        continue-on-error: true  # informational baseline, not a gate
+
+      - name: Upload PERF.md (after smoke)
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: perf-log
+          path: docs/PERF.md
+
+      - name: Full dependency audit
+        run: npm audit
+
+      - name: Production dependency audit
+        run: npm audit --omit=dev
+
+  e2e:
+    name: E2E (Playwright + Electron)
+    runs-on: windows-latest
+    timeout-minutes: 30
+    needs: verify
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Build (needed for electron.launch())
+        run: npm run build
+
+      - name: Run E2E tests
+        run: npm run test:e2e
+
+      - name: Upload Playwright traces on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-traces
+          path: test-results/**/trace.zip
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Upload Playwright report on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  # Optional matrix smoke: just build + lint on macOS/Linux to catch
+  # platform-specific regressions early. E2E and full test suite remain
+  # Windows-only because the primary distribution target is Windows.
+  cross-platform-smoke:
+    name: Cross-platform smoke (${{ matrix.os }})
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test -- --run
+      - run: npm run build

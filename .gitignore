@@ -1,0 +1,27 @@
+node_modules/
+dist/
+dist-electron/
+release/
+*.log
+.DS_Store
+.vscode/
+.idea/
+
+# build / test artifacts
+build/
+coverage/
+coverage_out.txt
+coverage_output.txt
+playwright-report/
+test-results/
+*.tsbuildinfo
+
+# OS
+Thumbs.db
+
+# secrets
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
