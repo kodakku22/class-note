@@ -19,9 +19,14 @@ test-results/
 # OS
 Thumbs.db
 
-# secrets
+# secrets / machine-local configs
 .env
 .env.local
 .env.*.local
 *.pem
 *.key
+.mcp.json
+.claude/settings.local.json
+
+# design-system upload prep (external font binaries, not part of source)
+design-assets/
