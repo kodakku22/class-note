@@ -42,8 +42,9 @@ win:
   # CSC_LINK (decoded .pfx path) and CSC_KEY_PASSWORD must be set in CI.
   # If left unset, electron-builder produces an UNSIGNED build (auto-updater
   # will refuse such builds — see docs/release-signing.md).
-  signingHashAlgorithms:
-    - sha256
+  signtoolOptions:
+    signingHashAlgorithms:
+      - sha256
   signAndEditExecutable: true
 portable:
   artifactName: ClassNotes-${version}-Portable.exe
