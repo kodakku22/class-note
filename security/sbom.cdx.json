@@ -1,10 +1,10 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.5",
-  "serialNumber": "urn:uuid:7eca8433-bb28-46ce-b25a-83d94959ffa5",
+  "serialNumber": "urn:uuid:1877780d-26b6-424d-bc9e-3c92ef2ed9f5",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-05-17T17:54:37.616Z",
+    "timestamp": "2026-05-21T17:03:07.321Z",
     "tools": [
       {
         "vendor": "ClassNotes",
@@ -4465,23 +4465,9 @@
     },
     {
       "type": "library",
-      "name": "@types/prop-types",
-      "version": "15.7.15",
-      "purl": "pkg:npm/%40types/prop-types@15.7.15",
-      "scope": "required",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ]
-    },
-    {
-      "type": "library",
       "name": "@types/react-dom",
-      "version": "18.3.7",
-      "purl": "pkg:npm/%40types/react-dom@18.3.7",
+      "version": "19.2.3",
+      "purl": "pkg:npm/%40types/react-dom@19.2.3",
       "scope": "required",
       "licenses": [
         {
@@ -4494,8 +4480,8 @@
     {
       "type": "library",
       "name": "@types/react",
-      "version": "18.3.28",
-      "purl": "pkg:npm/%40types/react@18.3.28",
+      "version": "19.2.15",
+      "purl": "pkg:npm/%40types/react@19.2.15",
       "scope": "required",
       "licenses": [
         {
@@ -4872,8 +4858,8 @@
     {
       "type": "library",
       "name": "@vitest/coverage-v8",
-      "version": "4.1.5",
-      "purl": "pkg:npm/%40vitest/coverage-v8@4.1.5",
+      "version": "4.1.7",
+      "purl": "pkg:npm/%40vitest/coverage-v8@4.1.7",
       "scope": "optional",
       "licenses": [
         {
@@ -4886,8 +4872,22 @@
     {
       "type": "library",
       "name": "@vitest/expect",
-      "version": "4.1.5",
-      "purl": "pkg:npm/%40vitest/expect@4.1.5",
+      "version": "4.1.7",
+      "purl": "pkg:npm/%40vitest/expect@4.1.7",
+      "scope": "optional",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "@vitest/mocker",
+      "version": "4.1.7",
+      "purl": "pkg:npm/%40vitest/mocker@4.1.7",
       "scope": "optional",
       "licenses": [
         {
@@ -4900,8 +4900,8 @@
     {
       "type": "library",
       "name": "@vitest/pretty-format",
-      "version": "4.1.5",
-      "purl": "pkg:npm/%40vitest/pretty-format@4.1.5",
+      "version": "4.1.7",
+      "purl": "pkg:npm/%40vitest/pretty-format@4.1.7",
       "scope": "optional",
       "licenses": [
         {
@@ -4914,8 +4914,8 @@
     {
       "type": "library",
       "name": "@vitest/runner",
-      "version": "4.1.5",
-      "purl": "pkg:npm/%40vitest/runner@4.1.5",
+      "version": "4.1.7",
+      "purl": "pkg:npm/%40vitest/runner@4.1.7",
       "scope": "optional",
       "licenses": [
         {
@@ -4928,8 +4928,8 @@
     {
       "type": "library",
       "name": "@vitest/snapshot",
-      "version": "4.1.5",
-      "purl": "pkg:npm/%40vitest/snapshot@4.1.5",
+      "version": "4.1.7",
+      "purl": "pkg:npm/%40vitest/snapshot@4.1.7",
       "scope": "optional",
       "licenses": [
         {
@@ -4942,8 +4942,8 @@
     {
       "type": "library",
       "name": "@vitest/spy",
-      "version": "4.1.5",
-      "purl": "pkg:npm/%40vitest/spy@4.1.5",
+      "version": "4.1.7",
+      "purl": "pkg:npm/%40vitest/spy@4.1.7",
       "scope": "optional",
       "licenses": [
         {
@@ -4956,8 +4956,8 @@
     {
       "type": "library",
       "name": "@vitest/ui",
-      "version": "4.1.5",
-      "purl": "pkg:npm/%40vitest/ui@4.1.5",
+      "version": "4.1.7",
+      "purl": "pkg:npm/%40vitest/ui@4.1.7",
       "scope": "optional",
       "licenses": [
         {
@@ -4970,8 +4970,8 @@
     {
       "type": "library",
       "name": "@vitest/utils",
-      "version": "4.1.5",
-      "purl": "pkg:npm/%40vitest/utils@4.1.5",
+      "version": "4.1.7",
+      "purl": "pkg:npm/%40vitest/utils@4.1.7",
       "scope": "optional",
       "licenses": [
         {
@@ -6356,8 +6356,8 @@
     {
       "type": "library",
       "name": "concurrently",
-      "version": "8.2.2",
-      "purl": "pkg:npm/concurrently@8.2.2",
+      "version": "9.2.1",
+      "purl": "pkg:npm/concurrently@9.2.1",
       "scope": "optional",
       "licenses": [
         {
@@ -7198,20 +7198,6 @@
       "name": "data-view-byte-offset",
       "version": "1.0.1",
       "purl": "pkg:npm/data-view-byte-offset@1.0.1",
-      "scope": "optional",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ]
-    },
-    {
-      "type": "library",
-      "name": "date-fns",
-      "version": "2.30.0",
-      "purl": "pkg:npm/date-fns@2.30.0",
       "scope": "optional",
       "licenses": [
         {
@@ -13909,8 +13895,8 @@
     {
       "type": "library",
       "name": "react-dom",
-      "version": "18.3.1",
-      "purl": "pkg:npm/react-dom@18.3.1",
+      "version": "19.2.6",
+      "purl": "pkg:npm/react-dom@19.2.6",
       "scope": "required",
       "licenses": [
         {
@@ -14007,8 +13993,8 @@
     {
       "type": "library",
       "name": "react",
-      "version": "18.3.1",
-      "purl": "pkg:npm/react@18.3.1",
+      "version": "19.2.6",
+      "purl": "pkg:npm/react@19.2.6",
       "scope": "required",
       "licenses": [
         {
@@ -14581,8 +14567,8 @@
     {
       "type": "library",
       "name": "scheduler",
-      "version": "0.23.2",
-      "purl": "pkg:npm/scheduler@0.23.2",
+      "version": "0.27.0",
+      "purl": "pkg:npm/scheduler@0.27.0",
       "scope": "required",
       "licenses": [
         {
@@ -14941,13 +14927,6 @@
           }
         }
       ]
-    },
-    {
-      "type": "library",
-      "name": "spawn-command",
-      "version": "0.0.2",
-      "purl": "pkg:npm/spawn-command@0.0.2",
-      "scope": "optional"
     },
     {
       "type": "library",
@@ -15820,8 +15799,8 @@
     {
       "type": "library",
       "name": "typescript",
-      "version": "5.9.3",
-      "purl": "pkg:npm/typescript@5.9.3",
+      "version": "6.0.3",
+      "purl": "pkg:npm/typescript@6.0.3",
       "scope": "optional",
       "licenses": [
         {
@@ -16226,22 +16205,8 @@
     {
       "type": "library",
       "name": "vitest",
-      "version": "4.1.5",
-      "purl": "pkg:npm/vitest@4.1.5",
-      "scope": "optional",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ]
-    },
-    {
-      "type": "library",
-      "name": "vitest/node_modules/@vitest/mocker",
-      "version": "4.1.5",
-      "purl": "pkg:npm/vitest/node_modules/%40vitest/mocker@4.1.5",
+      "version": "4.1.7",
+      "purl": "pkg:npm/vitest@4.1.7",
       "scope": "optional",
       "licenses": [
         {
