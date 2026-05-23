@@ -20,6 +20,7 @@ import { WebClipDialog } from './components/skills/WebClipDialog';
 import { CitationPicker } from './components/papers/CitationPicker';
 import type { ActivePluginView } from './components/plugins/PluginView';
 import { insertAtActiveCaret } from './state/activeEditor';
+import { applyTheme } from './utils/theme';
 
 const SUBJECT_PANEL_WIDTH_KEY = 'classnotes:subjectPanelWidth';
 const SUBJECT_PANEL_DEFAULT_WIDTH = 360;
@@ -135,7 +136,7 @@ export function App() {
       if (!completed && !vaultPath) {
         setShowOnboarding(true);
       }
-      if (s.theme === 'dark') document.body.classList.add('dark');
+      applyTheme((s.theme as 'light' | 'dark') ?? 'dark');
     });
     return () => { cancelled = true; };
   }, [vaultPath]);
@@ -182,10 +183,13 @@ export function App() {
     if (!vaultPath) setActivePluginView(null);
   }, [vaultPath]);
 
-  // Apply persisted theme on startup
+  // Apply persisted theme on startup. main.tsx already applied the
+  // localStorage-cached theme synchronously; this resolves the
+  // authoritative value from Electron settings and re-applies if the
+  // user's saved choice differs from the cache.
   useEffect(() => {
     window.api.settings.get().then((s) => {
-      document.body.classList.toggle('dark', s.theme === 'dark');
+      applyTheme((s.theme as 'light' | 'dark') ?? 'dark');
     });
   }, []);
 

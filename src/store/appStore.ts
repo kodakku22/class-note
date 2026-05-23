@@ -3,8 +3,7 @@
 // store for things that genuinely need to be shared across distant
 // components (theme, sidebar collapse, currently-open file path).
 import { create } from 'zustand';
-
-type Theme = 'light' | 'dark';
+import { applyTheme, type Theme } from '../utils/theme';
 
 interface AppState {
   theme: Theme;
@@ -16,11 +15,14 @@ interface AppState {
 }
 
 export const useAppStore = create<AppState>((set) => ({
-  theme: 'light',
+  // Dark is the canonical default per the design system handoff. Users
+  // who prefer light flip it in Settings; the choice is persisted via
+  // applyTheme() to both Electron settings (App.tsx) and localStorage.
+  theme: 'dark',
   sidebarOpen: true,
   currentFilePath: null,
   setTheme: (t) => {
-    document.body.classList.toggle('dark', t === 'dark');
+    applyTheme(t);
     set({ theme: t });
   },
   toggleSidebar: () => set((s) => ({ sidebarOpen: !s.sidebarOpen })),

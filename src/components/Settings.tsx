@@ -4,6 +4,7 @@ import { SkillsPanel } from './skills/SkillsPanel';
 import { AiSettingsPanel } from './ai/AiSettingsPanel';
 import type { RailUiMode } from '../navigation/rail';
 import type { ResearchReproducibilityReport, VaultSafetyAudit } from '../types';
+import { applyTheme } from '../utils/theme';
 
 const EFFORTS = [
   { id: 'low', label: 'low', sub: '軽い質問・短い回答' },
@@ -59,7 +60,7 @@ export function Settings({
       theme,
       telemetryEnabled,
     });
-    document.body.classList.toggle('dark', theme === 'dark');
+    applyTheme(theme);
     setSaving(false);
     setSaved(true);
     setTimeout(() => setSaved(false), 1500);

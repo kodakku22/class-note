@@ -1,156 +1,359 @@
-/* ===== Design Tokens =====
+/* =============================================================================
+ * ClassNotes Design Tokens
  *
- * Light mode: Anytype の温かみあるオフホワイト (#F9F9F7) をベースに
- * Milanote のソフトなカード影とカラーラベルを融合。
- * Dark mode: 後段の `body.dark` で同名トークンを上書きする。
- */
-:root {
-  /* Surfaces */
-  --bg: #F9F9F7;
-  --bg-primary: #F9F9F7;
-  --bg-sidebar: #F2F2EF;
-  --bg-secondary: #FFFFFF;
-  --bg-card: #FFFFFF;
-  --bg-card-hover: #FAFAF8;
-  --bg-elevated: #FFFFFF;
-  --bg-hover: rgba(55, 53, 47, 0.06);
-  --bg-hover-strong: rgba(55, 53, 47, 0.1);
-  --bg-selected: rgba(61, 115, 232, 0.10);
-  --bg-input: #FFFFFF;
+ * Source of truth: design_handoff_classnotes/docs/colors_and_type.css
+ * (kodakku22/class-note canonical design system).
+ *
+ * Two themes coexist:
+ *   1. Dark "Discord shell"       — default app chrome (:root)
+ *   2. Light "Anytype × Milanote" — alternate ([data-theme="light"])
+ *
+ * Activate light theme by setting one of:
+ *   <html data-theme="light">          (canonical, used by Settings)
+ *   <body class="light">               (backward-compat alias)
+ *
+ * Dark mode is the default. Set <html data-theme="dark"> or <body class="dark">
+ * explicitly only when forcing dark; with neither attribute, :root resolves to
+ * the dark tokens defined below.
+ * ============================================================================= */
 
-  /* Text */
-  --text: #1A1A1A;
-  --text-primary: #1A1A1A;
-  --text-secondary: #6B6B6B;
-  --text-tertiary: #9E9E9E;
-  --text-on-accent: #FFFFFF;
+/* =============================================================================
+ * 1. BASE TOKENS — dark default (Discord shell)
+ * ============================================================================= */
+:root,
+:root[data-theme="dark"],
+body.dark {
+  /* ---- Discord-style shell surfaces ---- */
+  --discord-rail:           #1e1f22;
+  --discord-sidebar:        #2b2d31;
+  --discord-sidebar-soft:   #313338;
+  --discord-channel:        #383a40;
+  --discord-chat:           #313338;
+  --discord-chat-deep:      #2b2d31;
+  --discord-popout:         #111214;
+  --discord-border:         #1f2023;
+  --discord-border-soft:    rgba(255, 255, 255, 0.08);
+  --discord-hover:          rgba(78, 80, 88, 0.55);
+  --discord-selected:       #404249;
+  --discord-accent:         #5865f2;
+  --discord-accent-hover:   #4752c4;
+  --discord-green:          #23a559;
 
-  /* Lines */
-  --divider: rgba(0, 0, 0, 0.06);
-  --border: rgba(0, 0, 0, 0.08);
-  --border-strong: rgba(0, 0, 0, 0.16);
+  /* ---- Semantic surfaces (dark) ---- */
+  --bg:              var(--discord-chat);
+  --bg-primary:      var(--discord-chat);
+  --bg-sidebar:      var(--discord-sidebar);
+  --bg-secondary:    var(--discord-channel);
+  --bg-card:         #383a40;
+  --bg-card-hover:   #3f4248;
+  --bg-elevated:     #232428;
+  --bg-hover:        var(--discord-hover);
+  --bg-hover-strong: rgba(78, 80, 88, 0.85);
+  --bg-selected:     rgba(88, 101, 242, 0.22);
+  --bg-input:        #1e1f22;
 
-  /* Accent (Anytype blue) */
-  --accent: #3D73E8;
-  --accent-hover: #2756c4;
-  --accent-soft: rgba(61, 115, 232, 0.10);
+  /* ---- Text (dark) ---- */
+  --text:           #f2f3f5;
+  --text-primary:   #f2f3f5;
+  --text-secondary: #b5bac1;
+  --text-tertiary:  #80848e;
+  --text-muted:     #6d717a;
+  --text-on-accent: #ffffff;
 
-  /* Status */
-  --good: #2E8B57;
-  --warn: #D08700;
-  --danger: #D44648;
-  --success: #2E8B57;
+  /* ---- Lines (dark) ---- */
+  --border:        var(--discord-border-soft);
+  --border-strong: rgba(255, 255, 255, 0.15);
+  --divider:       var(--discord-border);
 
-  /* Milanote-style soft shadows */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-card: 0 1px 4px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.04);
-  --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.12), 0 8px 32px rgba(0, 0, 0, 0.06);
-  --shadow-md: var(--shadow-card);
+  /* ---- Accent (dark uses blurple) ---- */
+  --accent:       var(--discord-accent);
+  --accent-hover: var(--discord-accent-hover);
+  --accent-soft:  rgba(88, 101, 242, 0.20);
+  --accent-bg:    rgba(88, 101, 242, 0.20);
 
-  /* Milanote 12-color card palette (light mode) */
+  /* ---- Status ---- */
+  --good:    #2fffd0;
+  --success: var(--discord-green);
+  --warn:    #D08700;
+  --danger:  #f23f42;
+  --info:    #5865f2;
+
+  /* ---- Reading-status pills (Papers / Books) ---- */
+  --status-reading: #f0b429;
+  --status-review:  #d97757;
+  --status-done:    #2fffd0;
+
+  /* ---- Progress / chart palette (Research Progress) ---- */
+  --chart-teal:   #2fffd0;
+  --chart-blue:   #5865f2;
+  --chart-purple: #b16cea;
+  --chart-yellow: #f0b429;
+  --chart-pink:   #d946ef;
+
+  /* ---- Milanote 12-color card palette (light values; remapped in dark below) ---- */
   --card-default: #FFFFFF;
-  --card-red: #FFEBEB;
-  --card-orange: #FFF3E0;
-  --card-yellow: #FFFDE7;
-  --card-green: #E8F5E9;
-  --card-teal: #E0F7FA;
-  --card-blue: #E3F2FD;
-  --card-purple: #F3E5F5;
-  --card-pink: #FCE4EC;
-  --card-gray: #F5F5F5;
-  --card-brown: #EFEBE9;
-  --card-indigo: #E8EAF6;
+  --card-red:     #FFEBEB;
+  --card-orange:  #FFF3E0;
+  --card-yellow:  #FFFDE7;
+  --card-green:   #E8F5E9;
+  --card-teal:    #E0F7FA;
+  --card-blue:    #E3F2FD;
+  --card-purple:  #F3E5F5;
+  --card-pink:    #FCE4EC;
+  --card-gray:    #F5F5F5;
+  --card-brown:   #EFEBE9;
+  --card-indigo:  #E8EAF6;
 
-  /* Radii */
-  --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-lg: 10px;
+  /* ---- Radii ---- */
+  --radius-sm:   6px;
+  --radius-md:   8px;
+  --radius-lg:   10px;
   --radius-card: 8px;
+  --radius-pill: 999px;
 
-  /* Type scale */
-  --text-xs: 11px;
-  --text-sm: 13px;
-  --text-base: 15px;
-  --text-lg: 17px;
-  --text-xl: 20px;
-  --text-2xl: 24px;
-  --text-3xl: 30px;
-  --text-4xl: 38px;
-  --leading-tight: 1.25;
-  --leading-normal: 1.5;
-  --leading-loose: 1.75;
-  --weight-light: 300;
-  --weight-regular: 400;
-  --weight-medium: 500;
-  --weight-semibold: 600;
-  --weight-bold: 700;
+  /* ---- Spacing scale (4px base) ---- */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
 
-  /* Motion */
+  /* ---- Shadows (dark = mostly flat) ---- */
+  --shadow-sm:    none;
+  --shadow-card:  0 1px 4px rgba(0, 0, 0, 0.18), 0 4px 16px rgba(0, 0, 0, 0.10);
+  --shadow-md:    0 18px 48px rgba(0, 0, 0, 0.34);
+  --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.30), 0 8px 32px rgba(0, 0, 0, 0.18);
+  --shadow-lg:    0 24px 64px rgba(0, 0, 0, 0.50);
+
+  /* ---- Motion ---- */
   --duration-instant: 60ms;
-  --duration-fast: 120ms;
-  --duration-normal: 200ms;
-  --duration-slow: 350ms;
+  --duration-fast:    120ms;
+  --duration-normal:  200ms;
+  --duration-slow:    350ms;
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth:   cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* Fonts (Anytype-style modern sans + monospace + serif) */
+  /* ---- Type stacks ---- */
   --font-ui: 'Inter', 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI',
              'Yu Gothic UI', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP',
              'Helvetica Neue', Arial, sans-serif;
   --font-mono: 'Geist Mono', 'JetBrains Mono', ui-monospace, 'SF Mono', Consolas, monospace;
   --font-serif: 'Lora', Georgia, 'Yu Mincho', serif;
   --font: var(--font-ui);
+
+  /* ---- Type scale (px-based) ---- */
+  --text-xs:   11px;
+  --text-sm:   13px;
+  --text-base: 15px;
+  --text-lg:   17px;
+  --text-xl:   20px;
+  --text-2xl:  24px;
+  --text-3xl:  30px;
+  --text-4xl:  38px;
+
+  --leading-tight:  1.25;
+  --leading-normal: 1.5;
+  --leading-loose:  1.75;
+
+  --weight-light:    300;
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+  --weight-black:    800;
 }
 
-/* ===== Discord-inspired dark shell tokens ===== */
-:root,
-body.dark {
-  --discord-rail: #1e1f22;
-  --discord-sidebar: #2b2d31;
-  --discord-sidebar-soft: #313338;
-  --discord-channel: #383a40;
-  --discord-chat: #313338;
-  --discord-chat-deep: #2b2d31;
-  --discord-popout: #111214;
-  --discord-border: #1f2023;
-  --discord-border-soft: rgba(255, 255, 255, 0.08);
-  --discord-hover: rgba(78, 80, 88, 0.55);
-  --discord-selected: #404249;
-  --discord-accent: #5865f2;
-  --discord-accent-hover: #4752c4;
-  --discord-green: #23a559;
+/* =============================================================================
+ * 2. LIGHT THEME — Anytype off-white + Milanote soft shadows
+ * Activated via <html data-theme="light"> or <body class="light">.
+ * ============================================================================= */
+:root[data-theme="light"],
+body.light {
+  --bg:              #F9F9F7;
+  --bg-primary:      #F9F9F7;
+  --bg-sidebar:      #F2F2EF;
+  --bg-secondary:    #FFFFFF;
+  --bg-card:         #FFFFFF;
+  --bg-card-hover:   #FAFAF8;
+  --bg-elevated:     #FFFFFF;
+  --bg-hover:        rgba(55, 53, 47, 0.06);
+  --bg-hover-strong: rgba(55, 53, 47, 0.10);
+  --bg-selected:     rgba(61, 115, 232, 0.10);
+  --bg-input:        #FFFFFF;
 
-  --bg: var(--discord-chat);
-  --bg-primary: var(--discord-chat);
-  --bg-sidebar: var(--discord-sidebar);
-  --bg-secondary: var(--discord-channel);
-  --bg-card: #383a40;
-  --bg-card-hover: #3f4248;
-  --bg-elevated: #232428;
-  --bg-hover: var(--discord-hover);
-  --bg-hover-strong: rgba(78, 80, 88, 0.85);
-  --bg-selected: rgba(88, 101, 242, 0.22);
-  --bg-input: #1e1f22;
+  --text:           #1A1A1A;
+  --text-primary:   #1A1A1A;
+  --text-secondary: #6B6B6B;
+  --text-tertiary:  #9E9E9E;
+  --text-muted:     #B3B3B3;
+  --text-on-accent: #FFFFFF;
 
-  --text: #f2f3f5;
-  --text-primary: #f2f3f5;
-  --text-secondary: #b5bac1;
-  --text-tertiary: #80848e;
-  --text-muted: #6d717a;
+  --divider:       rgba(0, 0, 0, 0.06);
+  --border:        rgba(0, 0, 0, 0.08);
+  --border-strong: rgba(0, 0, 0, 0.16);
 
-  --border: var(--discord-border-soft);
-  --border-strong: rgba(255, 255, 255, 0.15);
-  --divider: var(--discord-border);
-  --accent: var(--discord-accent);
-  --accent-hover: var(--discord-accent-hover);
-  --accent-bg: rgba(88, 101, 242, 0.2);
-  --danger: #f23f42;
-  --success: var(--discord-green);
+  /* Anytype blue */
+  --accent:       #3D73E8;
+  --accent-hover: #2756c4;
+  --accent-soft:  rgba(61, 115, 232, 0.10);
+  --accent-bg:    rgba(61, 115, 232, 0.12);
 
-  --radius-sm: 6px;
-  --radius-md: 8px;
-  --radius-lg: 10px;
-  --shadow-sm: none;
-  --shadow-md: 0 18px 48px rgba(0, 0, 0, 0.34);
+  /* Status — re-tuned for AA contrast on #F9F9F7 / #FFFFFF */
+  --good:    #2E8B57;
+  --success: #2E8B57;
+  --warn:    #D08700;
+  --danger:  #D44648;
+  --info:    #3D73E8;
+
+  /* Reading-status pills — text colors lifted for light backgrounds */
+  --status-reading: #B7791F;   /* darker yellow, AA on #FFFDE7 */
+  --status-review:  #B85B2F;   /* darker terracotta */
+  --status-done:    #0E8F73;   /* darker teal, AA on #E0F7FA */
+
+  --shadow-sm:    0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-card:  0 1px 4px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.04);
+  --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.12), 0 8px 32px rgba(0, 0, 0, 0.06);
+  --shadow-md:    var(--shadow-card);
+  --shadow-lg:    0 24px 64px rgba(0, 0, 0, 0.16);
+
+  --radius-sm:   4px;
+  --radius-md:   6px;
+  --radius-lg:   10px;
 }
+
+/* =============================================================================
+ * 3. SEMANTIC TYPE UTILITY CLASSES — .cn-*
+ * From canonical handoff spec. Use these for documentation-style typography;
+ * the existing app components keep their current class names.
+ * ============================================================================= */
+.cn-h1, h1.cn {
+  font-family: var(--font-ui);
+  font-size:   var(--text-4xl);
+  line-height: var(--leading-tight);
+  font-weight: var(--weight-bold);
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin: 0 0 var(--space-4);
+}
+.cn-h2, h2.cn {
+  font-family: var(--font-ui);
+  font-size:   var(--text-3xl);
+  line-height: var(--leading-tight);
+  font-weight: var(--weight-semibold);
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
+  margin: 0 0 var(--space-3);
+}
+.cn-h3, h3.cn {
+  font-family: var(--font-ui);
+  font-size:   var(--text-2xl);
+  line-height: var(--leading-tight);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+  margin: 0 0 var(--space-3);
+}
+.cn-h4, h4.cn {
+  font-family: var(--font-ui);
+  font-size:   var(--text-xl);
+  line-height: var(--leading-tight);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+  margin: 0 0 var(--space-2);
+}
+
+/* Sidebar section labels (Favorites / Channels / Recent) */
+.cn-eyebrow {
+  font-family: var(--font-ui);
+  font-size:   var(--text-xs);
+  font-weight: var(--weight-black);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.cn-p, p.cn {
+  font-family: var(--font-ui);
+  font-size:   var(--text-base);
+  line-height: var(--leading-normal);
+  font-weight: var(--weight-regular);
+  color: var(--text-primary);
+  margin: 0 0 var(--space-3);
+}
+
+.cn-small {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+.cn-meta {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+}
+
+/* Inline code, BibTeX keys, file paths */
+.cn-code, code.cn {
+  font-family: var(--font-mono);
+  font-size:   0.92em;
+  background:  var(--bg-elevated);
+  color:       var(--text-primary);
+  padding:     2px 6px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+/* Wikilink — [[…]] anchor */
+.cn-wikilink {
+  color: var(--accent);
+  text-decoration: none;
+  background: var(--accent-bg);
+  padding: 1px 4px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.cn-wikilink:hover { background: var(--accent-soft); }
+
+/* Citation chip — [@bibkey] */
+.cn-cite {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  color: var(--text-tertiary);
+}
+
+/* Keyboard shortcut */
+.cn-kbd {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: var(--discord-popout, var(--bg-elevated));
+  border: 1px solid var(--border);
+  color: var(--text-tertiary);
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+}
+
+/* Reading-mode prose (toggled on Note viewer) */
+.cn-prose {
+  font-family: var(--font-serif);
+  font-size:   var(--text-lg);
+  line-height: var(--leading-loose);
+  color: var(--text-primary);
+  max-width: 68ch;
+}
+
+/* Reading-status pill (.tag-chip variant) */
+.cn-status {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.02em;
+}
+.cn-status.reading { color: var(--status-reading); background: rgba(240, 180, 41, 0.14); }
+.cn-status.review  { color: var(--status-review);  background: rgba(217, 119, 87, 0.16); }
+.cn-status.done    { color: var(--status-done);    background: rgba(47, 255, 208, 0.12); }
