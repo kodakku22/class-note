@@ -27,14 +27,6 @@ export function preprocessNotes(text: string): string {
     );
 }
 
-export function extractTags(text: string): string[] {
-  const set = new Set<string>();
-  const re = /(?:^|\s)#([\p{L}\p{N}_\-/]+)/gu;
-  let m: RegExpExecArray | null;
-  while ((m = re.exec(text))) set.add(m[1]);
-  return Array.from(set);
-}
-
 export function parseEmbedSrc(src: string): { name: string; width?: number } {
   // src example: "embed:photo.jpg|400" or "embed:photo.jpg"
   const body = src.slice('embed:'.length);

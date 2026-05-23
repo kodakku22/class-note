@@ -1,7 +1,6 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { BacklinksPanel } from '../../src/components/BacklinksPanel';
-import { SearchBar } from '../../src/components/SearchBar';
 import { VaultPicker } from '../../src/components/VaultPicker';
 
 describe('core local-first workflows', () => {
@@ -44,35 +43,9 @@ describe('core local-first workflows', () => {
     expect(onRemoveRecent).toHaveBeenCalledWith('D:\\Lab\\ExistingVault');
   });
 
-  it('searches the Vault after debounce and jumps to the selected hit', async () => {
-    const onJumpToFile = vi.fn();
-    const api = {
-      search: {
-        query: vi.fn().mockResolvedValue([
-          {
-            fileName: 'Gradient.md',
-            filePath: 'C:\\Vault\\Math\\notes\\Gradient.md',
-            subject: '数学',
-            snippet: 'gradient descent',
-          },
-        ]),
-      },
-    };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (window as any).api = api;
-
-    render(<SearchBar vaultPath={'C:\\Vault'} onJumpToFile={onJumpToFile} />);
-
-    fireEvent.change(screen.getByPlaceholderText('🔍 全体検索...'), {
-      target: { value: 'gradient' },
-    });
-
-    const hit = await screen.findByText('Gradient.md');
-    expect(api.search.query).toHaveBeenCalledWith('C:\\Vault', 'gradient');
-    fireEvent.click(hit);
-    expect(onJumpToFile).toHaveBeenCalledWith('数学', 'C:\\Vault\\Math\\notes\\Gradient.md');
-    expect(screen.queryByText('Gradient.md')).not.toBeInTheDocument();
-  });
+  // The "searches the Vault after debounce" test was removed when the
+  // unused SearchBar component was deleted. Full-vault search lives in
+  // CommandPalette (Ctrl+P / Ctrl+K) which has its own coverage.
 
   it('renders backlinks and navigates to the referenced note', async () => {
     const onJumpToFile = vi.fn();

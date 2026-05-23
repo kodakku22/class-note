@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { preprocessNotes, extractTags, parseEmbedSrc } from '../../src/components/Wikilink';
+import { preprocessNotes, parseEmbedSrc } from '../../src/components/Wikilink';
 
 describe('preprocessNotes', () => {
   it('converts wikilinks to markdown links', () => {
@@ -44,34 +44,6 @@ describe('preprocessNotes', () => {
     const result = preprocessNotes('[[数学 入門]]');
     expect(result).toContain('wikilink:');
     expect(result).toContain(encodeURIComponent('数学 入門'));
-  });
-});
-
-describe('extractTags', () => {
-  it('extracts tags from text', () => {
-    const tags = extractTags('Note about #math and #physics');
-    expect(tags).toContain('math');
-    expect(tags).toContain('physics');
-  });
-
-  it('returns empty for no tags', () => {
-    expect(extractTags('No tags here')).toEqual([]);
-  });
-
-  it('deduplicates tags', () => {
-    const tags = extractTags('#math and also #math again');
-    expect(tags).toEqual(['math']);
-  });
-
-  it('handles unicode tags', () => {
-    const tags = extractTags('#数学 #物理');
-    expect(tags).toContain('数学');
-    expect(tags).toContain('物理');
-  });
-
-  it('handles tags at start of line', () => {
-    const tags = extractTags('#first');
-    expect(tags).toEqual(['first']);
   });
 });
 

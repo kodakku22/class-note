@@ -3469,11 +3469,15 @@ body.dark .graph-node-label {
 }
 .tag-input:focus-within { border-color: var(--accent, #4a90e2); }
 .tag-chip {
+  /* Compact-inline tag variant (different from the row variant at
+   * line ~2326 which is a pill button). Token-only — the stale
+   * #4a90e2 / rgba(74,144,226,...) hex fallbacks were from before
+   * the design system unified --accent on Discord blurple. */
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  background: var(--accent-soft, rgba(74, 144, 226, 0.12));
-  color: var(--accent, #4a90e2);
+  background: var(--accent-soft);
+  color: var(--accent);
   padding: 2px 6px;
   border-radius: 3px;
   font-size: 11px;
@@ -3571,19 +3575,25 @@ body.dark .graph-node-label {
 }
 .note-card:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-hover, 0 4px 12px rgba(0, 0, 0, 0.10));
+  box-shadow: var(--shadow-hover);
 }
 .note-card.active {
-  border-color: var(--accent, #4a90e2);
-  box-shadow: 0 0 0 2px var(--accent-soft, rgba(74, 144, 226, 0.15));
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-soft);
 }
 .note-card-toolbar {
+  /* Theme-aware background via --bg-elevated (#FFFFFF in light,
+   * #232428 in dark) plus the canonical card shadow. The previous
+   * implementation hardcoded rgba(255,255,255,0.85) and relied on a
+   * body.dark override at line 4995; this single declaration works
+   * in both themes via tokens. */
   position: absolute;
   top: 6px;
   right: 6px;
   display: none;
   gap: 2px;
-  background: rgba(255, 255, 255, 0.85);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-card);
   border-radius: 4px;
   padding: 2px;
   z-index: 2;
@@ -4662,11 +4672,12 @@ button.subtle:hover { color: var(--text); }
   border-radius: 50%;
   background: #888;
 }
-.status-dot.status-to-read { background: #888; }
-.status-dot.status-reading { background: #4a9eff; }
-.status-dot.status-read { background: #4caf50; }
-.status-dot.status-cited { background: #7b5cff; }
-.status-dot.status-skimmed { background: #ff9800; }
+/* .status-dot.status-* variants were declared here but no component
+ * ever referenced them — Papers/Books use their own dedicated dot
+ * classes (.papers-status-dot, .icon-rail-ai-status-dot). The variants
+ * also drifted from the HANDOFF status palette (e.g. reading was
+ * blue #4a9eff vs HANDOFF's --status-reading #f0b429). Removed to
+ * eliminate dead and misleading code. */
 
 /* Activity heatmap (GitHub-style) */
 .activity-heatmap {
@@ -4999,9 +5010,8 @@ body.dark {
 }
 body.dark .palette-highlight { background: rgba(255, 213, 79, 0.32); }
 body.dark .graph-svg { background: var(--bg-primary); }
-body.dark .note-card-toolbar {
-  background: rgba(40, 40, 40, 0.92);
-}
+/* .note-card-toolbar is now token-driven (var(--bg-elevated)), so the
+ * previous dark-mode override here is no longer needed. */
 body.dark code,
 body.dark pre {
   background: #1c1c1c;
