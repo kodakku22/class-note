@@ -16,7 +16,13 @@
 
 export type Theme = 'light' | 'dark';
 
-const STORAGE_KEY = 'classnotes_theme';
+// Project convention uses colon-separated namespaces for localStorage keys
+// (classnotes:subjectView, classnotes:recents, classnotes:subjectPanelWidth).
+// LEGACY_STORAGE_KEY is the snake_case key shipped briefly in 9f8089e;
+// readCachedTheme() reads it as a fallback so users who already booted
+// once on that build don't see a flash of the default dark theme.
+const STORAGE_KEY = 'classnotes:theme';
+const LEGACY_STORAGE_KEY = 'classnotes_theme';
 
 export function applyTheme(theme: Theme): void {
   // <html data-theme="...">
@@ -26,6 +32,8 @@ export function applyTheme(theme: Theme): void {
   document.body.classList.toggle('light', theme === 'light');
   try {
     localStorage.setItem(STORAGE_KEY, theme);
+    // Clean up the legacy key once we've written the canonical one.
+    localStorage.removeItem(LEGACY_STORAGE_KEY);
   } catch {
     // localStorage may be unavailable in jsdom / restricted contexts; ignore.
   }
@@ -33,7 +41,9 @@ export function applyTheme(theme: Theme): void {
 
 export function readCachedTheme(): Theme | null {
   try {
-    const v = localStorage.getItem(STORAGE_KEY);
+    const v =
+      localStorage.getItem(STORAGE_KEY) ??
+      localStorage.getItem(LEGACY_STORAGE_KEY);
     return v === 'light' || v === 'dark' ? v : null;
   } catch {
     return null;

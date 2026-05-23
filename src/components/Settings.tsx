@@ -37,7 +37,7 @@ export function Settings({
 }: Props) {
   const [model, setModel] = useState('opus');
   const [effort, setEffort] = useState('xhigh');
-  const [theme, setTheme] = useState<Theme>('light');
+  const [theme, setTheme] = useState<Theme>('dark');
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [showTemplates, setShowTemplates] = useState(false);
@@ -47,7 +47,7 @@ export function Settings({
     window.api.settings.get().then((s) => {
       setModel(s.model);
       setEffort(s.effort);
-      setTheme((s.theme as Theme) ?? 'light');
+      setTheme((s.theme as Theme) ?? 'dark');
       setTelemetryEnabled(Boolean(s.telemetryEnabled));
     });
   }, []);

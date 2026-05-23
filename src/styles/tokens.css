@@ -354,6 +354,21 @@ body.light {
   border-radius: var(--radius-pill);
   letter-spacing: 0.02em;
 }
-.cn-status.reading { color: var(--status-reading); background: rgba(240, 180, 41, 0.14); }
-.cn-status.review  { color: var(--status-review);  background: rgba(217, 119, 87, 0.16); }
-.cn-status.done    { color: var(--status-done);    background: rgba(47, 255, 208, 0.12); }
+/* Status backgrounds derive from the theme-active --status-* token via
+ * color-mix so light/dark each get a wash that matches its accent color.
+ * Without color-mix the background would stay locked to the dark-theme
+ * hex no matter which theme is active, killing the contrast lift in
+ * light mode. Electron 42 ships Chromium 135 which supports color-mix
+ * natively. */
+.cn-status.reading {
+  color: var(--status-reading);
+  background: color-mix(in srgb, var(--status-reading) 14%, transparent);
+}
+.cn-status.review {
+  color: var(--status-review);
+  background: color-mix(in srgb, var(--status-review) 16%, transparent);
+}
+.cn-status.done {
+  color: var(--status-done);
+  background: color-mix(in srgb, var(--status-done) 14%, transparent);
+}

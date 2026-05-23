@@ -23,7 +23,8 @@ import { insertAtActiveCaret } from './state/activeEditor';
 import { applyTheme } from './utils/theme';
 
 const SUBJECT_PANEL_WIDTH_KEY = 'classnotes:subjectPanelWidth';
-const SUBJECT_PANEL_DEFAULT_WIDTH = 360;
+// HANDOFF grid spec: 72px rail · 268px sidebar · 336px subject panel · 1fr viewer.
+const SUBJECT_PANEL_DEFAULT_WIDTH = 336;
 const SUBJECT_PANEL_MIN_WIDTH = 280;
 const SUBJECT_PANEL_MAX_WIDTH = 760;
 
@@ -128,6 +129,9 @@ export function App() {
   // First-launch: show the OnboardingWizard if the user hasn't completed it
   // and there's no recent vault. The wizard handles vault selection + AI
   // provider configuration in one flow.
+  // Theme is applied separately below — keep IPC reads single-purpose so
+  // re-running this effect on vaultPath changes doesn't redundantly hit
+  // applyTheme().
   useEffect(() => {
     let cancelled = false;
     window.api.settings.get().then((s) => {
@@ -136,7 +140,6 @@ export function App() {
       if (!completed && !vaultPath) {
         setShowOnboarding(true);
       }
-      applyTheme((s.theme as 'light' | 'dark') ?? 'dark');
     });
     return () => { cancelled = true; };
   }, [vaultPath]);
