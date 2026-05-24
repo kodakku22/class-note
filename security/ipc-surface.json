@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-24T02:11:36.587Z",
+  "generatedAt": "2026-05-24T15:52:34.935Z",
   "counts": {
     "mainHandlers": 153,
     "preloadInvokes": 153,
@@ -276,7 +276,7 @@
     {
       "channel": "outputs:list",
       "file": "electron/ipc/wiki.ts",
-      "line": 371
+      "line": 386
     },
     {
       "channel": "papers:appendReadingNote",
@@ -696,62 +696,62 @@
     {
       "channel": "wiki:collectRaw",
       "file": "electron/ipc/wiki.ts",
-      "line": 394
+      "line": 409
     },
     {
       "channel": "wiki:compile",
       "file": "electron/ipc/wiki.ts",
-      "line": 422
+      "line": 437
     },
     {
       "channel": "wiki:getSchema",
       "file": "electron/ipc/wiki.ts",
-      "line": 401
+      "line": 416
     },
     {
       "channel": "wiki:healthCheck",
       "file": "electron/ipc/wiki.ts",
-      "line": 601
+      "line": 616
     },
     {
       "channel": "wiki:importFromQALogs",
       "file": "electron/ipc/wiki.ts",
-      "line": 571
+      "line": 586
     },
     {
       "channel": "wiki:list",
       "file": "electron/ipc/wiki.ts",
-      "line": 266
+      "line": 276
     },
     {
       "channel": "wiki:listEntries",
       "file": "electron/ipc/wiki.ts",
-      "line": 295
+      "line": 305
     },
     {
       "channel": "wiki:read",
       "file": "electron/ipc/wiki.ts",
-      "line": 328
+      "line": 343
     },
     {
       "channel": "wiki:readIndex",
       "file": "electron/ipc/wiki.ts",
-      "line": 349
+      "line": 364
     },
     {
       "channel": "wiki:saveOutput",
       "file": "electron/ipc/wiki.ts",
-      "line": 357
+      "line": 372
     },
     {
       "channel": "wiki:setSchema",
       "file": "electron/ipc/wiki.ts",
-      "line": 409
+      "line": 424
     },
     {
       "channel": "wiki:write",
       "file": "electron/ipc/wiki.ts",
-      "line": 337
+      "line": 352
     },
     {
       "channel": "window:close",
