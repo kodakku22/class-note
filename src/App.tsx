@@ -1,8 +1,7 @@
-import { useEffect, useState, useCallback } from 'react';
+import { lazy, Suspense, useEffect, useState, useCallback } from 'react';
 import type { PointerEvent as ReactPointerEvent } from 'react';
 import { Sidebar } from './components/Sidebar';
 import { VaultPicker } from './components/VaultPicker';
-import { Settings } from './components/Settings';
 import { CommandPalette } from './components/CommandPalette';
 import { TypeSelector } from './components/TypeSelector';
 import { IconRail } from './components/layout/IconRail';
@@ -15,9 +14,21 @@ import { useFileNavigation } from './hooks/useFileNavigation';
 import { useWorkspaceLoader } from './hooks/useWorkspaceLoader';
 import { useCommandPalette } from './hooks/useCommandPalette';
 import { FAQPanel } from './components/help/FAQPanel';
-import { OnboardingWizard } from './components/onboarding/OnboardingWizard';
 import { WebClipDialog } from './components/skills/WebClipDialog';
 import { CitationPicker } from './components/papers/CitationPicker';
+
+// Lazy-loaded modals — these only render in response to a user action
+// (Settings cog, first-launch wizard) so excluding them from the initial
+// bundle measurably shrinks startup. Each lazy import becomes its own
+// Vite chunk; React Suspense paints null while the chunk streams in.
+const Settings = lazy(() =>
+  import('./components/Settings').then((m) => ({ default: m.Settings }))
+);
+const OnboardingWizard = lazy(() =>
+  import('./components/onboarding/OnboardingWizard').then((m) => ({
+    default: m.OnboardingWizard,
+  }))
+);
 import type { ActivePluginView } from './components/plugins/PluginView';
 import { insertAtActiveCaret } from './state/activeEditor';
 import { applyTheme } from './utils/theme';
@@ -342,13 +353,15 @@ export function App() {
       <div className="discord-window">
         <AppTitleBar label="セットアップ" canUseWorkspaceActions={false} />
         <div className="discord-window-content">
-          <OnboardingWizard
-            onComplete={handleOnboardingComplete}
-            onSkip={async () => {
-              await window.api.settings.set({ onboardingCompleted: true });
-              setShowOnboarding(false);
-            }}
-          />
+          <Suspense fallback={null}>
+            <OnboardingWizard
+              onComplete={handleOnboardingComplete}
+              onSkip={async () => {
+                await window.api.settings.set({ onboardingCompleted: true });
+                setShowOnboarding(false);
+              }}
+            />
+          </Suspense>
         </div>
       </div>
     );
@@ -463,15 +476,17 @@ export function App() {
       </div>
 
       {showSettings && (
-        <Settings
-          vaultPath={vaultPath}
-          uiMode={rail.uiMode}
-          onChangeUiMode={rail.handleChangeRailMode}
-          onCustomizeRail={() => setShowRailCustomize(true)}
-          onResetRailSimple={rail.handleResetRailSimple}
-          onSetRailFull={rail.handleSetRailFull}
-          onClose={() => setShowSettings(false)}
-        />
+        <Suspense fallback={null}>
+          <Settings
+            vaultPath={vaultPath}
+            uiMode={rail.uiMode}
+            onChangeUiMode={rail.handleChangeRailMode}
+            onCustomizeRail={() => setShowRailCustomize(true)}
+            onResetRailSimple={rail.handleResetRailSimple}
+            onSetRailFull={rail.handleSetRailFull}
+            onClose={() => setShowSettings(false)}
+          />
+        </Suspense>
       )}
 
       {showRailCustomize && (
