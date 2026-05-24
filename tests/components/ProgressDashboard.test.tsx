@@ -101,36 +101,59 @@ describe('ProgressDashboard', () => {
     });
   });
 
-  it('displays paper count', async () => {
+  it('renders the 今週の進捗 sparkbar section header', async () => {
     await act(async () => {
       render(<ProgressDashboard {...DEFAULT_PROPS} />);
     });
 
     await waitFor(() => {
-      expect(screen.getByText('10')).toBeInTheDocument();
-    });
-    // Check "論文" label
-    expect(screen.getAllByText('論文').length).toBeGreaterThan(0);
-  });
-
-  it('displays book count', async () => {
-    await act(async () => {
-      render(<ProgressDashboard {...DEFAULT_PROPS} />);
-    });
-
-    await waitFor(() => {
-      expect(screen.getByText('5')).toBeInTheDocument();
+      expect(screen.getByText('今週の進捗')).toBeInTheDocument();
     });
   });
 
-  it('displays subject count', async () => {
+  it('displays the papers reviewed sparkbar row', async () => {
+    // SAMPLE_DASHBOARD: papers byStatus { 'to-read': 3, reading: 4, read: 3 }.
+    // reviewed = read + cited + skimmed = 3 + 0 + 0 = 3 ; total = 10.
     await act(async () => {
       render(<ProgressDashboard {...DEFAULT_PROPS} />);
     });
 
     await waitFor(() => {
-      expect(screen.getByText('3')).toBeInTheDocument();
+      expect(screen.getByText('論文の精読')).toBeInTheDocument();
     });
+    expect(screen.getByText('3 / 10')).toBeInTheDocument();
+  });
+
+  it('displays the books read sparkbar row', async () => {
+    // SAMPLE_DASHBOARD: books byStatus { reading: 2, read: 3 }.
+    // active = reading + done = 2 + 0 = 2 ; total = 5.
+    await act(async () => {
+      render(<ProgressDashboard {...DEFAULT_PROPS} />);
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('書籍の読書')).toBeInTheDocument();
+    });
+    expect(screen.getByText('2 / 5')).toBeInTheDocument();
+  });
+
+  it('renders 5 sparkbar rows in chart-palette order', async () => {
+    await act(async () => {
+      render(<ProgressDashboard {...DEFAULT_PROPS} />);
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('今週の進捗')).toBeInTheDocument();
+    });
+    const rows = document.querySelectorAll('.progress-row-l');
+    expect(rows.length).toBe(5);
+    // Order: 論文 / 書籍 / Wiki / 締切 / 直近 7 日
+    const labels = Array.from(rows).map((r) => r.querySelector('.label')?.textContent ?? '');
+    expect(labels[0]).toContain('論文の精読');
+    expect(labels[1]).toContain('書籍の読書');
+    expect(labels[2]).toContain('Wiki 健全度');
+    expect(labels[3]).toContain('締切に余裕');
+    expect(labels[4]).toContain('直近 7 日の活動');
   });
 
   it('displays deadlines', async () => {
@@ -254,13 +277,23 @@ describe('ProgressDashboard', () => {
     });
   });
 
-  it('shows status breakdown for papers', async () => {
+  it('shows full Wiki health when no orphans', async () => {
+    // Wiki health heuristic: 100 - orphanCount * 5, floored at 0. With
+    // zero orphans the bar reads "100 %".
+    const dashboard = {
+      ...SAMPLE_DASHBOARD,
+      wikiHealth: { orphanCount: 0, tagCount: 8, topTags: [] },
+    };
+    (window as any).api.research.getDashboard = vi
+      .fn()
+      .mockResolvedValue({ ok: true, dashboard });
+
     await act(async () => {
       render(<ProgressDashboard {...DEFAULT_PROPS} />);
     });
 
     await waitFor(() => {
-      expect(screen.getByText(/reading: 4/)).toBeInTheDocument();
+      expect(screen.getByText('100 %')).toBeInTheDocument();
     });
   });
 

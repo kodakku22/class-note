@@ -9,12 +9,6 @@ type Props = {
   onOpenFile: (filePath: string) => void;
 };
 
-function statusRows(byStatus: Record<string, number>): Array<{ status: string; count: number }> {
-  return Object.entries(byStatus)
-    .map(([status, count]) => ({ status, count }))
-    .sort((a, b) => b.count - a.count || a.status.localeCompare(b.status));
-}
-
 export function ProgressDashboard({ vaultPath, reloadKey, onOpenFile }: Props) {
   const [dashboard, setDashboard] = useState<ResearchDashboard | null>(null);
   const [loading, setLoading] = useState(true);
@@ -166,37 +160,107 @@ export function ProgressDashboard({ vaultPath, reloadKey, onOpenFile }: Props) {
             )}
           </section>
 
+          {/*
+           * HANDOFF "This week" sparkbar dashboard (patterns.html L709-736).
+           * Five rows, colors assigned in chart-palette order
+           * (teal → blue → purple → yellow → pink) per the canonical
+           * "assigned in that order, no reordering" rule.
+           *
+           * Each row derives its progress fraction from existing
+           * dashboard.* fields so the card stays in sync with the rest of
+           * the data without any new IPC.
+           */}
           <section className="progress-section">
             <div className="progress-section-header">
-              <h3>研究素材</h3>
-              <span className="help">
-                論文 {dashboard.papers.total} 件 · 本 {dashboard.books.total} 件 · 授業ノート {dashboard.lectures.notes} 件
-              </span>
+              <h3>今週の進捗</h3>
+              <span className="help">主要指標の達成度</span>
             </div>
-            <div className="health-metrics">
-              <div className="health-metric">
-                <div className="health-metric-value">{dashboard.papers.total}</div>
-                <div className="health-metric-label">論文</div>
-                <div className="health-metric-help">
-                  {statusRows(dashboard.papers.byStatus)
-                    .map((r) => `${r.status}: ${r.count}`)
-                    .join(' / ') || '未登録'}
-                </div>
-              </div>
-              <div className="health-metric">
-                <div className="health-metric-value">{dashboard.books.total}</div>
-                <div className="health-metric-label">本</div>
-                <div className="health-metric-help">
-                  {statusRows(dashboard.books.byStatus)
-                    .map((r) => `${r.status}: ${r.count}`)
-                    .join(' / ') || '未登録'}
-                </div>
-              </div>
-              <div className="health-metric">
-                <div className="health-metric-value">{dashboard.lectures.subjects}</div>
-                <div className="health-metric-label">科目</div>
-                <div className="health-metric-help">{dashboard.lectures.notes} 件の授業ノート</div>
-              </div>
+            <div className="progress-card-l">
+              {(() => {
+                const totalPapers = dashboard.papers.total;
+                const reviewedPapers = ['read', 'cited', 'skimmed'].reduce(
+                  (sum, k) => sum + (dashboard.papers.byStatus[k] ?? 0),
+                  0
+                );
+                const totalBooks = dashboard.books.total;
+                const activeBooks = ['reading', 'done'].reduce(
+                  (sum, k) => sum + (dashboard.books.byStatus[k] ?? 0),
+                  0
+                );
+                const totalDeadlines = dashboard.deadlines.length;
+                const onTrackDeadlines = dashboard.deadlines.filter((d) => d.days >= 7).length;
+                // Wiki health heuristic: 100 if zero orphans, otherwise
+                // penalise 5 points per orphan, floored at 0. Mirrors the
+                // HANDOFF mock's '68%' style display.
+                const wikiHealth = Math.max(
+                  0,
+                  100 - dashboard.wikiHealth.orphanCount * 5
+                );
+                const recent7 = dashboard.activity
+                  .slice(-7)
+                  .reduce((sum, a) => sum + a.count, 0);
+                // 50 events/week is a healthy ceiling for an individual
+                // researcher; cap the bar visually at 100%.
+                const recentPct = Math.min(100, (recent7 / 50) * 100);
+
+                const rows: Array<{
+                  color: string;
+                  label: string;
+                  pct: number;
+                  val: string;
+                }> = [
+                  {
+                    color: 'var(--chart-teal)',
+                    label: '論文の精読',
+                    pct: totalPapers ? (reviewedPapers / totalPapers) * 100 : 0,
+                    val: `${reviewedPapers} / ${totalPapers}`,
+                  },
+                  {
+                    color: 'var(--chart-blue)',
+                    label: '書籍の読書',
+                    pct: totalBooks ? (activeBooks / totalBooks) * 100 : 0,
+                    val: `${activeBooks} / ${totalBooks}`,
+                  },
+                  {
+                    color: 'var(--chart-purple)',
+                    label: 'Wiki 健全度',
+                    pct: wikiHealth,
+                    val: `${Math.round(wikiHealth)} %`,
+                  },
+                  {
+                    color: 'var(--chart-yellow)',
+                    label: '締切に余裕',
+                    pct: totalDeadlines ? (onTrackDeadlines / totalDeadlines) * 100 : 0,
+                    val: `${onTrackDeadlines} / ${totalDeadlines}`,
+                  },
+                  {
+                    color: 'var(--chart-pink)',
+                    label: '直近 7 日の活動',
+                    pct: recentPct,
+                    val: `${recent7} 件`,
+                  },
+                ];
+
+                return rows.map((r) => (
+                  <div className="progress-row-l" key={r.label}>
+                    <span className="label">
+                      <span
+                        className="chart-dot"
+                        style={{ background: r.color }}
+                        aria-hidden
+                      />
+                      {r.label}
+                    </span>
+                    <div className="track" role="progressbar" aria-valuenow={Math.round(r.pct)} aria-valuemin={0} aria-valuemax={100} aria-label={r.label}>
+                      <div
+                        className="fill"
+                        style={{ width: `${r.pct}%`, background: r.color }}
+                      />
+                    </div>
+                    <span className="val">{r.val}</span>
+                  </div>
+                ));
+              })()}
             </div>
           </section>
 

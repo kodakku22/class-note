@@ -4605,6 +4605,65 @@ input:focus, textarea:focus, select:focus {
   text-align: right;
 }
 
+/* HANDOFF "This week" progress sparkbar card (patterns.html L709-736).
+ * One .progress-card-l wraps a stack of .progress-row-l rows; each row
+ * is a 156px label / 1fr track / 80px value grid. The track is the
+ * canonical 8px-tall rounded-pill progress bar; fill width and colour
+ * are set inline from the row's chart-palette assignment. */
+.progress-card-l {
+  background: var(--bg-card);
+  border: 1px solid var(--divider);
+  border-radius: var(--radius-card);
+  padding: 18px 22px;
+  box-shadow: var(--shadow-sm);
+}
+.progress-row-l {
+  display: grid;
+  grid-template-columns: 156px 1fr 80px;
+  gap: 16px;
+  align-items: center;
+  padding: 9px 0;
+}
+.progress-row-l + .progress-row-l {
+  border-top: 1px solid var(--divider);
+}
+.progress-row-l .label {
+  display: flex;
+  align-items: center;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--text-primary);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.progress-row-l .chart-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+.progress-row-l .track {
+  height: 8px;
+  background: color-mix(in srgb, var(--text-primary) 6%, transparent);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+.progress-row-l .fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  transition: width var(--duration-normal) var(--ease-standard);
+}
+.progress-row-l .val {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  text-align: right;
+}
+
 /* Deadlines.
  *
  * HANDOFF: rows colored by urgency — within 14 days uses the warm

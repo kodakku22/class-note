@@ -228,13 +228,6 @@ describe('ProgressDashboard actions', () => {
     });
   });
 
-  it('shows status breakdown in paper metric help', async () => {
-    await act(async () => { render(<ProgressDashboard vaultPath="/vault" onOpenFile={onOpenFile} />); });
-    await waitFor(() => {
-      expect(screen.getByText(/to-read: 8/)).toBeInTheDocument();
-    });
-  });
-
   it('shows wiki health orphan and tag counts', async () => {
     await act(async () => { render(<ProgressDashboard vaultPath="/vault" onOpenFile={onOpenFile} />); });
     await waitFor(() => {
@@ -260,12 +253,17 @@ describe('ProgressDashboard actions', () => {
     });
   });
 
-  it('shows empty status breakdown help when no papers', async () => {
-    const dashboard = { ...MOCK_DASHBOARD, papers: { total: 0, byStatus: {}, recent: [] } };
-    (window as any).api.research.getDashboard = vi.fn().mockResolvedValue({ ok: true, dashboard });
-    await act(async () => { render(<ProgressDashboard vaultPath="/vault" onOpenFile={onOpenFile} />); });
-    await waitFor(() => {
-      expect(screen.getByText('未登録')).toBeInTheDocument();
+  it('renders sparkbar row labels in the canonical chart-palette order', async () => {
+    // The 今週の進捗 card always renders five rows in this exact order.
+    await act(async () => {
+      render(<ProgressDashboard vaultPath="/vault" onOpenFile={onOpenFile} />);
     });
+    await waitFor(() => {
+      expect(screen.getByText('論文の精読')).toBeInTheDocument();
+    });
+    expect(screen.getByText('書籍の読書')).toBeInTheDocument();
+    expect(screen.getByText('Wiki 健全度')).toBeInTheDocument();
+    expect(screen.getByText('締切に余裕')).toBeInTheDocument();
+    expect(screen.getByText('直近 7 日の活動')).toBeInTheDocument();
   });
 });
