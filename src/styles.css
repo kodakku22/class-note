@@ -390,7 +390,12 @@ body {
 }
 
 .favorite-item::before {
+  /* HANDOFF foundations spec: favourites use a mustard star prefix
+   * (#f0b429, the same hue as the reading status pill) for a stable
+   * accent across themes. Explicit color overrides the parent rule's
+   * --text-muted so the star reads clearly in both light and dark. */
   content: '★';
+  color: #f0b429;
   font-size: 12px;
 }
 
@@ -5874,7 +5879,12 @@ body,
 }
 
 .favorite-item::before {
+  /* HANDOFF foundations spec: favourites use a mustard star prefix
+   * (#f0b429, the same hue as the reading status pill) for a stable
+   * accent across themes. Explicit color overrides the parent rule's
+   * --text-muted so the star reads clearly in both light and dark. */
   content: '★';
+  color: #f0b429;
   font-size: 12px;
 }
 
