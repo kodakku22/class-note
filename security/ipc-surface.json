@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-05-24T01:42:59.082Z",
+  "generatedAt": "2026-05-24T02:11:36.587Z",
   "counts": {
-    "mainHandlers": 152,
-    "preloadInvokes": 152,
+    "mainHandlers": 153,
+    "preloadInvokes": 153,
     "rendererEvents": 11,
     "missingHandlers": 0,
     "unexposedHandlers": 0
@@ -276,7 +276,7 @@
     {
       "channel": "outputs:list",
       "file": "electron/ipc/wiki.ts",
-      "line": 298
+      "line": 371
     },
     {
       "channel": "papers:appendReadingNote",
@@ -696,57 +696,62 @@
     {
       "channel": "wiki:collectRaw",
       "file": "electron/ipc/wiki.ts",
-      "line": 321
+      "line": 394
     },
     {
       "channel": "wiki:compile",
       "file": "electron/ipc/wiki.ts",
-      "line": 349
+      "line": 422
     },
     {
       "channel": "wiki:getSchema",
       "file": "electron/ipc/wiki.ts",
-      "line": 328
+      "line": 401
     },
     {
       "channel": "wiki:healthCheck",
       "file": "electron/ipc/wiki.ts",
-      "line": 528
+      "line": 601
     },
     {
       "channel": "wiki:importFromQALogs",
       "file": "electron/ipc/wiki.ts",
-      "line": 498
+      "line": 571
     },
     {
       "channel": "wiki:list",
       "file": "electron/ipc/wiki.ts",
-      "line": 231
+      "line": 266
+    },
+    {
+      "channel": "wiki:listEntries",
+      "file": "electron/ipc/wiki.ts",
+      "line": 295
     },
     {
       "channel": "wiki:read",
       "file": "electron/ipc/wiki.ts",
-      "line": 255
+      "line": 328
     },
     {
       "channel": "wiki:readIndex",
       "file": "electron/ipc/wiki.ts",
-      "line": 276
+      "line": 349
     },
     {
       "channel": "wiki:saveOutput",
       "file": "electron/ipc/wiki.ts",
-      "line": 284
+      "line": 357
     },
     {
       "channel": "wiki:setSchema",
       "file": "electron/ipc/wiki.ts",
-      "line": 336
+      "line": 409
     },
     {
       "channel": "wiki:write",
       "file": "electron/ipc/wiki.ts",
-      "line": 264
+      "line": 337
     },
     {
       "channel": "window:close",
@@ -883,37 +888,37 @@
     {
       "channel": "docai:ask",
       "file": "electron/preload.ts",
-      "line": 607
+      "line": 608
     },
     {
       "channel": "docai:askMulti",
       "file": "electron/preload.ts",
-      "line": 609
+      "line": 610
     },
     {
       "channel": "docai:generate",
       "file": "electron/preload.ts",
-      "line": 613
+      "line": 614
     },
     {
       "channel": "docai:getChunks",
       "file": "electron/preload.ts",
-      "line": 614
+      "line": 615
     },
     {
       "channel": "docai:listVaultFiles",
       "file": "electron/preload.ts",
-      "line": 615
+      "line": 616
     },
     {
       "channel": "docai:multiAnalyze",
       "file": "electron/preload.ts",
-      "line": 611
+      "line": 612
     },
     {
       "channel": "docai:summarize",
       "file": "electron/preload.ts",
-      "line": 605
+      "line": 606
     },
     {
       "channel": "epistemic:bootstrap",
@@ -1038,7 +1043,7 @@
     {
       "channel": "outputs:list",
       "file": "electron/preload.ts",
-      "line": 574
+      "line": 575
     },
     {
       "channel": "papers:appendReadingNote",
@@ -1128,22 +1133,22 @@
     {
       "channel": "qa:ask",
       "file": "electron/preload.ts",
-      "line": 583
+      "line": 584
     },
     {
       "channel": "qa:login",
       "file": "electron/preload.ts",
-      "line": 581
+      "line": 582
     },
     {
       "channel": "qa:readLog",
       "file": "electron/preload.ts",
-      "line": 579
+      "line": 580
     },
     {
       "channel": "qa:status",
       "file": "electron/preload.ts",
-      "line": 580
+      "line": 581
     },
     {
       "channel": "research:getDashboard",
@@ -1458,27 +1463,27 @@
     {
       "channel": "wiki:collectRaw",
       "file": "electron/preload.ts",
-      "line": 548
+      "line": 549
     },
     {
       "channel": "wiki:compile",
       "file": "electron/preload.ts",
-      "line": 553
+      "line": 554
     },
     {
       "channel": "wiki:getSchema",
       "file": "electron/preload.ts",
-      "line": 549
+      "line": 550
     },
     {
       "channel": "wiki:healthCheck",
       "file": "electron/preload.ts",
-      "line": 554
+      "line": 555
     },
     {
       "channel": "wiki:importFromQALogs",
       "file": "electron/preload.ts",
-      "line": 556
+      "line": 557
     },
     {
       "channel": "wiki:list",
@@ -1486,29 +1491,34 @@
       "line": 539
     },
     {
+      "channel": "wiki:listEntries",
+      "file": "electron/preload.ts",
+      "line": 540
+    },
+    {
       "channel": "wiki:read",
       "file": "electron/preload.ts",
-      "line": 541
+      "line": 542
     },
     {
       "channel": "wiki:readIndex",
       "file": "electron/preload.ts",
-      "line": 544
+      "line": 545
     },
     {
       "channel": "wiki:saveOutput",
       "file": "electron/preload.ts",
-      "line": 546
+      "line": 547
     },
     {
       "channel": "wiki:setSchema",
       "file": "electron/preload.ts",
-      "line": 551
+      "line": 552
     },
     {
       "channel": "wiki:write",
       "file": "electron/preload.ts",
-      "line": 543
+      "line": 544
     },
     {
       "channel": "window:close",
@@ -1535,37 +1545,37 @@
     {
       "channel": "docai:chunk",
       "file": "electron/preload.ts",
-      "line": 618
+      "line": 619
     },
     {
       "channel": "docai:citations",
       "file": "electron/preload.ts",
-      "line": 625
+      "line": 626
     },
     {
       "channel": "docai:done",
       "file": "electron/preload.ts",
-      "line": 639
+      "line": 640
     },
     {
       "channel": "docai:error",
       "file": "electron/preload.ts",
-      "line": 644
+      "line": 645
     },
     {
       "channel": "qa:chunk",
       "file": "electron/preload.ts",
-      "line": 586
+      "line": 587
     },
     {
       "channel": "qa:done",
       "file": "electron/preload.ts",
-      "line": 591
+      "line": 592
     },
     {
       "channel": "qa:error",
       "file": "electron/preload.ts",
-      "line": 596
+      "line": 597
     },
     {
       "channel": "update:available",
@@ -1585,7 +1595,7 @@
     {
       "channel": "wiki:compile:progress",
       "file": "electron/preload.ts",
-      "line": 568
+      "line": 569
     }
   ],
   "missingHandlers": [],
