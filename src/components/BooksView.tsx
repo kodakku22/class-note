@@ -65,7 +65,11 @@ function StatusDropdown({
     <div className="status-dropdown" ref={ref} onClick={(e) => e.stopPropagation()}>
       <button
         className="status-badge"
-        style={{ background: palette.bg, color: palette.fg }}
+        // color drives both text and the color-mix-derived background.
+        style={{
+          color: palette.fg,
+          background: 'color-mix(in srgb, currentColor 14%, transparent)',
+        }}
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="menu"
         aria-expanded={open}
@@ -101,16 +105,30 @@ type Props = {
 
 type Filter = 'all' | 'reading' | 'want-to-read' | 'done';
 
+// Books status labels stay in Japanese (読みたい/読書中/読了) — books are
+// generally read in the user's native language, so the Japanese reading
+// terms are friendlier than the lowercase-English convention that
+// applies to academic Papers (where reading / review / done are
+// terminology English-speaking researchers expect). Both surfaces use
+// the same underlying --status-* color tokens so the visual language
+// stays consistent across the product.
 const STATUS_LABEL: Record<NonNullable<BookMeta['status']>, string> = {
   'want-to-read': '読みたい',
   reading: '読書中',
   done: '読了',
 };
 
-const STATUS_COLOR: Record<NonNullable<BookMeta['status']>, { bg: string; fg: string }> = {
-  'want-to-read': { bg: '#fef5d4', fg: '#9a7d0a' },
-  reading: { bg: '#e3f2fd', fg: '#0d47a1' },
-  done: { bg: '#e8f5e9', fg: '#1b5e20' },
+// Color mapping uses the canonical --status-* tokens from
+// src/styles/tokens.css (which adapt across light/dark themes). The
+// previous implementation hardcoded six different hex values that
+// drifted from the design system and never theme-flipped. fg is the
+// resolved color value; bg is derived from fg at runtime via
+// color-mix(in srgb, currentColor 14%, transparent), matching the
+// Papers status-pill treatment.
+const STATUS_COLOR: Record<NonNullable<BookMeta['status']>, { fg: string }> = {
+  'want-to-read': { fg: 'var(--text-tertiary)' }, // planned (grey)
+  reading: { fg: 'var(--status-reading)' },        // yellow
+  done: { fg: 'var(--status-done)' },              // teal
 };
 
 export function BooksView({ vaultPath, onOpenBook, activeFilePath }: Props) {
