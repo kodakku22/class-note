@@ -147,7 +147,7 @@ export function OnboardingWizard({ onComplete, onSkip }: Props) {
 
         {step === 5 && (
           <>
-            <h2 id="onboarding-title">準備完了 🎉</h2>
+            <h2 id="onboarding-title">準備完了</h2>
             <div className="onboarding-content">
               <p>セットアップが完了しました。これから次の流れで使えます:</p>
               <ol style={{ lineHeight: 1.8 }}>

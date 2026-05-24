@@ -173,7 +173,7 @@ export function useCommandPalette(opts: CommandPaletteOptions): PaletteCommand[]
         id: 'compile-wiki',
         title: 'Wikiを生成',
         subtitle: 'VaultのノートからWikiページをコンパイル',
-        icon: '✨',
+        icon: '🤖',
         keywords: ['compile', 'wiki', 'ai'],
         run: async () => {
           const ok = window.confirm('Vault全体からWikiを生成します。数分かかる場合があります。');

@@ -2298,7 +2298,12 @@ input:focus, textarea:focus, select:focus {
 }
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes slideUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+/* HANDOFF motion rule (foundations.html): "Modals fade in with no
+ * movement". The previous slideUp keyframe added an 8px translateY
+ * entry that violated this rule. The keyframe is kept under the
+ * legacy name so we don't have to update every animation: callsite —
+ * it now performs an opacity-only fade. */
+@keyframes slideUp { from { opacity: 0; } to { opacity: 1; } }
 
 /* ===== Wikilinks & tags ===== */
 .wikilink {

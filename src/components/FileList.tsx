@@ -216,7 +216,7 @@ export function FileList({
       });
       items.push({
         id: 'ai-optimize',
-        emoji: '✨',
+        emoji: '🤖',
         label: 'AI で Markdown 整形',
         onSelect: async () => {
           setMenu(null);
