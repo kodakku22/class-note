@@ -146,32 +146,36 @@ describe('PapersView', () => {
     });
   });
 
-  it('shows first author', async () => {
+  it('shows first author in the subtitle', async () => {
+    // HANDOFF row paradigm: author / year / venue collapse into a
+    // single subtitle line like "Vaswani et al · 2017 · NeurIPS".
     await act(async () => {
       render(<PapersView vaultPath="/vault" onOpenFile={onOpenFile} />);
     });
     await waitFor(() => {
-      expect(screen.getByText('Vaswani et al.')).toBeInTheDocument();
+      expect(screen.getByText(/Vaswani et al\./)).toBeInTheDocument();
     });
   });
 
-  it('shows years', async () => {
+  it('shows years inside the subtitle', async () => {
+    // /2017/ alone would also match the bibkey @vaswani2017, so we
+    // constrain to "· 2017 ·" / "· 2019 ·" which only appears in the
+    // subtitle's interpunct-joined author/year/venue line.
     await act(async () => {
       render(<PapersView vaultPath="/vault" onOpenFile={onOpenFile} />);
     });
     await waitFor(() => {
-      expect(screen.getByText('2017')).toBeInTheDocument();
-      expect(screen.getByText('2019')).toBeInTheDocument();
+      expect(screen.getByText(/· 2017 ·/)).toBeInTheDocument();
+      expect(screen.getByText(/· 2019 ·/)).toBeInTheDocument();
     });
   });
 
-  it('shows venues', async () => {
+  it('shows venues inside the subtitle', async () => {
     await act(async () => {
       render(<PapersView vaultPath="/vault" onOpenFile={onOpenFile} />);
     });
     await waitFor(() => {
-      const venues = screen.getAllByText('NeurIPS');
-      expect(venues.length).toBeGreaterThan(0);
+      expect(screen.getAllByText(/NeurIPS/).length).toBeGreaterThan(0);
     });
   });
 
@@ -209,16 +213,20 @@ describe('PapersView', () => {
     expect(onOpenFile).toHaveBeenCalledWith('/vault/_papers/attention.md');
   });
 
-  it('shows sortable column headers', async () => {
+  it('shows sortable column controls in the toolbar', async () => {
+    // Sort controls migrated from a column-header row to the
+    // .papers-sort-toolbar above the list when the row paradigm
+    // changed (HANDOFF spec Phase 1.3).
     await act(async () => {
       render(<PapersView vaultPath="/vault" onOpenFile={onOpenFile} />);
     });
     await waitFor(() => {
       expect(screen.getByText('タイトル')).toBeInTheDocument();
-      expect(screen.getByText('著者')).toBeInTheDocument();
-      expect(screen.getByText('年')).toBeInTheDocument();
-      expect(screen.getByText('ステータス')).toBeInTheDocument();
     });
+    expect(screen.getByText('著者')).toBeInTheDocument();
+    expect(screen.getByText('年')).toBeInTheDocument();
+    expect(screen.getByText('状態')).toBeInTheDocument();
+    expect(screen.getByText('更新')).toBeInTheDocument();
   });
 
   it('shows import and export buttons', async () => {
@@ -286,7 +294,7 @@ describe('PapersView', () => {
       render(<PapersView vaultPath="/vault" onOpenFile={onOpenFile} />);
     });
     await waitFor(() => {
-      expect(screen.getByText('Brown et al.')).toBeInTheDocument();
+      expect(screen.getByText(/Brown et al\./)).toBeInTheDocument();
     });
   });
 
@@ -344,12 +352,12 @@ describe('PapersView', () => {
     });
   });
 
-  it('shows grid role', async () => {
+  it('uses list role (was grid before the HANDOFF row paradigm)', async () => {
     await act(async () => {
       render(<PapersView vaultPath="/vault" onOpenFile={onOpenFile} />);
     });
     await waitFor(() => {
-      expect(screen.getByRole('grid')).toBeInTheDocument();
+      expect(screen.getByRole('list')).toBeInTheDocument();
     });
   });
 });

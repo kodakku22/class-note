@@ -376,9 +376,11 @@ describe('PapersView context menu & actions', () => {
   });
 
   it('sorts by status', async () => {
+    // Sort toolbar label is now "状態" (was "ステータス" in the old
+    // column-header row replaced by HANDOFF Phase 1.3).
     await act(async () => { render(<PapersView vaultPath="/vault" onOpenFile={onOpenFile} />); });
     await waitForPapers();
-    await act(async () => { fireEvent.click(screen.getByText('ステータス')); });
+    await act(async () => { fireEvent.click(screen.getByText('状態')); });
     const arrow = document.querySelector('.sort-arrow');
     expect(arrow).toBeTruthy();
   });
@@ -420,12 +422,24 @@ describe('PapersView context menu & actions', () => {
 
   // --- firstAuthor edge cases ---
 
-  it('shows "—" for papers without authors', async () => {
+  it('omits missing author / year / venue from the subtitle', async () => {
+    // In the old paradigm each missing field rendered "—" in its own
+    // cell. The HANDOFF row paradigm collapses author/year/venue into
+    // a subtitle line where empty parts are filtered out — so papers
+    // without authors simply have no subtitle (or a shorter one).
+    // We verify the renderer doesn't leak placeholder dashes into the
+    // visible text.
     await act(async () => { render(<PapersView vaultPath="/vault" onOpenFile={onOpenFile} />); });
     await waitForPapers();
-    // noauthor.md has no authors field, empty-authors has empty array
-    const dashes = screen.getAllByText('—');
-    expect(dashes.length).toBeGreaterThanOrEqual(2); // venues and authors
+    // The em-dash literal should not appear as a standalone cell text.
+    // The empty-authors paper (no authors, no year, no venue) renders
+    // with no subtitle, not with three dashes.
+    const subtitleDashes = document
+      .querySelectorAll('.papers-subtitle')
+      ;
+    Array.from(subtitleDashes).forEach((el) => {
+      expect(el.textContent).not.toMatch(/^—$/);
+    });
   });
 
   it('shows +N for papers with more than 3 tags', async () => {

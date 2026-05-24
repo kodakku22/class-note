@@ -4234,34 +4234,34 @@ input:focus, textarea:focus, select:focus {
   overflow: hidden;
 }
 .papers-row {
+  /* HANDOFF row paradigm (patterns.html L312-367): 4-cell list row,
+   * not a table grid. PDF tile | flexible title-block | status pill |
+   * bibkey, with the title-block holding subtitle / summary / tags
+   * stacked. */
   display: grid;
-  grid-template-columns: minmax(200px, 2.5fr) 1.2fr 60px 1fr 1fr 1.5fr;
-  gap: 8px;
-  padding: 8px 12px;
+  grid-template-columns: 36px 1fr auto auto;
+  gap: 14px;
+  padding: 12px 14px;
   border-bottom: 1px solid var(--divider);
   cursor: pointer;
   align-items: center;
-  font-size: 13px;
-  /* HANDOFF: subtle hover lift on paper rows. */
+  font-size: var(--text-sm);
   transform: translateY(0);
   transition: background var(--duration-fast) var(--ease-standard),
-              transform var(--duration-fast) var(--ease-standard);
+              transform var(--duration-fast) var(--ease-standard),
+              box-shadow var(--duration-fast) var(--ease-standard);
 }
 .papers-row:hover {
-  background: var(--bg-secondary);
+  background: var(--bg-card-hover);
   transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
 }
 .papers-row.active { background: var(--accent-soft); }
-.papers-header-row {
-  background: var(--bg-secondary);
-  cursor: default;
-  font-weight: 600;
-  font-size: 11px;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-.papers-header-row:hover { background: var(--bg-secondary); }
+/* .papers-header-row was the legacy in-list column-header row; it was
+ * replaced by .papers-sort-toolbar (above .papers-list) when the row
+ * paradigm collapsed from a 6-column table to a 4-cell list. The
+ * declarations here are kept as no-ops in case any external CSS reads
+ * them, but no JSX renders the class anymore. */
 .papers-th {
   background: transparent;
   border: none;
@@ -4320,34 +4320,59 @@ input:focus, textarea:focus, select:focus {
   flex-shrink: 0;
 }
 .papers-status-label { font-size: 11px; }
-.papers-title { gap: 10px; }
-.papers-title-text {
+/* HANDOFF row title-block — the flexible middle cell containing title,
+ * subtitle (author · year · venue), optional summary, and tag row. */
+.papers-title-block {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
 }
 .papers-title-line {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--text-primary);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.papers-bibkey {
+.papers-subtitle {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.papers-tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 2px;
+}
+.papers-bibkey-cell {
+  /* Bibkey column (rightmost). Monospace, tertiary, fixed minimum width
+   * so the column edge is visually stable even when bibkey is missing
+   * (placeholder span carries the empty class). */
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--text-xs);
   color: var(--text-tertiary);
   letter-spacing: 0;
+  min-width: 8ch;
+  text-align: right;
+}
+.papers-bibkey-empty {
+  min-width: 1ch;
 }
 .papers-pdf-tile {
-  /* HANDOFF: small left-side visual indicator that a PDF asset is
-   * attached to this entry. Anytype-card style — soft accent wash
-   * with the accent text color. */
+  /* HANDOFF: small leftmost visual anchor that a PDF asset is attached.
+   * Anytype-card style — soft accent wash with the accent text colour.
+   * Width 36px matches the grid template's first column. */
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 36px;
+  width: 36px;
+  height: 40px;
   background: var(--accent-soft);
   color: var(--accent);
   font-family: var(--font-mono);
@@ -4356,6 +4381,10 @@ input:focus, textarea:focus, select:focus {
   letter-spacing: 0.04em;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border);
+}
+.papers-pdf-tile.placeholder {
+  background: transparent;
+  border-color: transparent;
 }
 .papers-tags {
   flex-wrap: wrap;

@@ -430,72 +430,91 @@ export function PapersView({ vaultPath, activeFilePath, reloadKey, onOpenFile, o
           </div>
         </div>
       ) : (
-        <div className="papers-list" role="grid">
-          <div className="papers-row papers-header-row" role="row">
+        <div className="papers-list" role="list">
+          {/*
+           * HANDOFF Spec Phase 1.3: row paradigm.
+           * Each paper row is now [PDF tile | title-block | status pill |
+           * bibkey] — 4 cells, list-style — rather than the previous
+           * 6-cell table grid. Author / year / venue collapse into a
+           * single subtitle line within the title-block. Sort is now
+           * a separate toolbar above the list (sortToolbar below).
+           */}
+          <div className="papers-sort-toolbar" role="toolbar" aria-label="並び替え">
+            <span className="papers-sort-label">並び替え:</span>
+            {headerCell('mtime', '更新')}
             {headerCell('title', 'タイトル')}
             {headerCell('authors', '著者')}
             {headerCell('year', '年')}
-            <div className="papers-th">学会/誌</div>
-            {headerCell('status', 'ステータス')}
-            <div className="papers-th">タグ</div>
+            {headerCell('status', '状態')}
           </div>
           {sorted.map((p) => {
             const status = p.meta.status ?? 'to-read';
             const statusInfo = STATUS_LABELS[status as PaperStatus] ?? STATUS_LABELS['to-read'];
             const tags = Array.isArray(p.meta.tags) ? p.meta.tags : [];
             const isActive = activeFilePath === p.filePath;
+            const subtitleParts = [
+              firstAuthor(p.meta.authors),
+              p.meta.year ? String(p.meta.year) : null,
+              p.meta.venue ?? null,
+            ].filter((s): s is string => Boolean(s && s !== '—'));
             return (
               <div
                 key={p.filePath}
                 className={`papers-row ${isActive ? 'active' : ''}`}
-                role="row"
+                role="listitem"
                 onClick={() => onOpenFile(p.filePath)}
                 onContextMenu={(e) =>
                   setMenu({ x: e.clientX, y: e.clientY, items: buildMenu(p, e) })
                 }
               >
-                <div className="papers-cell papers-title">
-                  {p.meta.pdf && (
-                    <span className="papers-pdf-tile" aria-label="PDF available">
-                      PDF
-                    </span>
-                  )}
-                  <div className="papers-title-text">
-                    <div className="papers-title-line">
-                      {p.meta.title ?? p.fileName}
-                    </div>
-                    {p.meta.summary && (
-                      <div className="papers-summary">{p.meta.summary}</div>
-                    )}
-                    {p.meta.bibkey && (
-                      <span className="papers-bibkey">@{p.meta.bibkey}</span>
-                    )}
-                  </div>
-                </div>
-                <div className="papers-cell">{firstAuthor(p.meta.authors)}</div>
-                <div className="papers-cell">{p.meta.year ?? '—'}</div>
-                <div className="papers-cell">{p.meta.venue ?? '—'}</div>
-                <div className="papers-cell">
-                  <span
-                    className={`papers-status-pill papers-status-${status}`}
-                    style={{ color: statusInfo.color }}
-                  >
-                    <span
-                      className="papers-status-dot"
-                      style={{ background: statusInfo.color }}
-                      aria-hidden
-                    />
-                    <span className="papers-status-label">{statusInfo.label}</span>
+                {p.meta.pdf ? (
+                  <span className="papers-pdf-tile" aria-label="PDF available">
+                    PDF
                   </span>
+                ) : (
+                  <span className="papers-pdf-tile placeholder" aria-hidden />
+                )}
+                <div className="papers-title-block">
+                  <div className="papers-title-line">
+                    {p.meta.title ?? p.fileName}
+                  </div>
+                  {subtitleParts.length > 0 && (
+                    <div className="papers-subtitle">
+                      {subtitleParts.join(' · ')}
+                    </div>
+                  )}
+                  {p.meta.summary && (
+                    <div className="papers-summary">{p.meta.summary}</div>
+                  )}
+                  {tags.length > 0 && (
+                    <div className="papers-tags-row">
+                      {tags.slice(0, 3).map((t) => (
+                        <span key={t} className="papers-tag">
+                          {t}
+                        </span>
+                      ))}
+                      {tags.length > 3 && (
+                        <span className="papers-tag">+{tags.length - 3}</span>
+                      )}
+                    </div>
+                  )}
                 </div>
-                <div className="papers-cell papers-tags">
-                  {tags.slice(0, 3).map((t) => (
-                    <span key={t} className="papers-tag">
-                      {t}
-                    </span>
-                  ))}
-                  {tags.length > 3 && <span className="papers-tag">+{tags.length - 3}</span>}
-                </div>
+                <span
+                  className={`papers-status-pill papers-status-${status}`}
+                  style={{ color: statusInfo.color }}
+                >
+                  <span
+                    className="papers-status-dot"
+                    style={{ background: statusInfo.color }}
+                    aria-hidden
+                  />
+                  <span className="papers-status-label">{statusInfo.label}</span>
+                </span>
+                {p.meta.bibkey ? (
+                  <span className="papers-bibkey-cell">@{p.meta.bibkey}</span>
+                ) : (
+                  <span className="papers-bibkey-cell papers-bibkey-empty" aria-hidden />
+                )}
               </div>
             );
           })}
