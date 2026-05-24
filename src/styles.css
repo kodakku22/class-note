@@ -98,70 +98,15 @@ body {
   grid-template-columns: 72px 268px minmax(0, 1fr);
 }
 
-.icon-rail {
-  background: var(--discord-rail);
-  border-right: none;
-  padding: 12px 0;
-  gap: 8px;
-  align-items: center;
-}
-
-.icon-rail-divider {
-  width: 32px;
-  height: 2px;
-  margin: 2px 0;
-  background: #35363c;
-  border-radius: 999px;
-}
-
-.icon-rail-btn {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: #313338;
-  color: var(--text-secondary);
-  font-size: 21px;
-  position: relative;
-  transition:
-    background-color 120ms ease,
-    border-radius 120ms ease,
-    color 120ms ease,
-    transform 120ms ease;
-}
-
-.icon-rail-btn::before {
-  content: '';
-  position: absolute;
-  left: -12px;
-  top: 50%;
-  width: 4px;
-  height: 0;
-  border-radius: 0 4px 4px 0;
-  background: #fff;
-  transform: translateY(-50%);
-  transition: height 120ms ease;
-}
-
-.icon-rail-btn:hover {
-  background: var(--discord-accent);
-  color: #fff;
-  border-radius: 16px;
-  transform: translateY(-1px);
-}
-
-.icon-rail-btn:hover::before {
-  height: 20px;
-}
-
-.icon-rail-btn.active {
-  background: var(--discord-accent);
-  color: #fff;
-  border-radius: 16px;
-}
-
-.icon-rail-btn.active::before {
-  height: 40px;
-}
+/* Layer 0 .icon-rail / .icon-rail-divider / .icon-rail-btn declarations
+ * were removed in the Iter-8 consolidation. Every property they set
+ * was overridden, byte-for-byte, by the "Final Discord-style cascade
+ * overrides" block at lines ~5638-5700, so they were pure dead weight
+ * — cascading by file position made them unreachable. The canonical
+ * Layer 1 .icon-rail block (now alone for the base selector — search
+ * for "HANDOFF grid: 72px rail") plus the Final Discord layer is the
+ * effective definition. Removing this block changes nothing visually.
+ */
 
 .icon-rail-ai {
   position: relative;
