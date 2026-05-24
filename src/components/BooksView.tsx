@@ -7,6 +7,39 @@ const STATUS_ICON: Record<NonNullable<BookMeta['status']>, string> = {
   done: '✅',
 };
 
+// HANDOFF: book tiles use synthetic covers tinted with the chart palette.
+// Each cover is a 135deg gradient between two chart colors, chosen by a
+// stable hash of the title so the same book always renders the same cover
+// across reloads. Real cover art is out of scope (no asset pipeline);
+// these tinted blocks give every book a recognizable visual handle.
+const COVER_GRADIENTS: ReadonlyArray<readonly [string, string]> = [
+  ['#3D73E8', '#b16cea'], // blue → purple
+  ['#d97757', '#f0b429'], // terracotta → yellow
+  ['#2fb490', '#3D73E8'], // teal → blue
+  ['#b16cea', '#d946ef'], // purple → pink
+  ['#f0b429', '#d97757'], // yellow → terracotta
+  ['#5865f2', '#2fb490'], // blue → teal
+  ['#d946ef', '#5865f2'], // pink → blue
+] as const;
+
+function coverGradient(title: string): string {
+  let hash = 0;
+  for (let i = 0; i < title.length; i++) {
+    hash = (hash * 31 + title.charCodeAt(i)) >>> 0;
+  }
+  const [c1, c2] = COVER_GRADIENTS[hash % COVER_GRADIENTS.length];
+  return `linear-gradient(135deg, ${c1}, ${c2})`;
+}
+
+function coverInitial(title: string): string {
+  const trimmed = title.trim();
+  if (!trimmed) return '?';
+  // Use the first non-whitespace, non-symbol character. For Japanese,
+  // this picks up kanji / hiragana / katakana naturally.
+  const ch = trimmed.charAt(0);
+  return /[A-Za-z]/.test(ch) ? ch.toUpperCase() : ch;
+}
+
 function StatusDropdown({
   book,
   onChange,
@@ -180,6 +213,13 @@ export function BooksView({ vaultPath, onOpenBook, activeFilePath }: Props) {
               className={`book-card${isActive ? ' active' : ''}`}
               onClick={() => onOpenBook(book.filePath)}
             >
+              <div
+                className="book-cover"
+                style={{ background: coverGradient(book.meta.title) }}
+                aria-hidden
+              >
+                {coverInitial(book.meta.title)}
+              </div>
               <div className="book-card-header">
                 <StatusDropdown book={book} onChange={(s) => setStatus(book, s)} />
                 <button
