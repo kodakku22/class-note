@@ -5,7 +5,14 @@ import { useEffect, useState, useCallback } from 'react';
 import { MarkdownRenderer } from './MarkdownRenderer';
 import { WikiCompilePanel } from './WikiCompilePanel';
 
-type WikiPage = { name: string; filePath: string; mtime: number };
+type WikiEntry = {
+  name: string;
+  filePath: string;
+  mtime: number;
+  preview: string;
+  sourceCount: number;
+  backlinkCount: number;
+};
 
 type Props = {
   vaultPath: string;
@@ -13,8 +20,15 @@ type Props = {
   onOpenFile: (filePath: string) => void;
 };
 
+function formatUpdated(mtimeMs: number): string {
+  if (!mtimeMs) return '';
+  const d = new Date(mtimeMs);
+  // ISO date (YYYY-MM-DD) — matches the HANDOFF wiki-entry-l meta format.
+  return `updated ${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
 export function WikiView({ vaultPath, onJumpToWikilink, onOpenFile }: Props) {
-  const [pages, setPages] = useState<WikiPage[]>([]);
+  const [pages, setPages] = useState<WikiEntry[]>([]);
   const [index, setIndex] = useState<string | null>(null);
   const [showCompile, setShowCompile] = useState(false);
   const [importing, setImporting] = useState(false);
@@ -23,7 +37,7 @@ export function WikiView({ vaultPath, onJumpToWikilink, onOpenFile }: Props) {
 
   const reload = useCallback(async () => {
     const [list, idx] = await Promise.all([
-      window.api.wiki.list(vaultPath),
+      window.api.wiki.listEntries(vaultPath),
       window.api.wiki.readIndex(vaultPath),
     ]);
     setPages(list);
@@ -140,16 +154,40 @@ export function WikiView({ vaultPath, onJumpToWikilink, onOpenFile }: Props) {
           {pages.length > 0 && (
             <div className="wiki-pages">
               <div className="section-label">ページ</div>
-              {pages.map((p) => (
-                <button
-                  key={p.filePath}
-                  className="wiki-page-item"
-                  onClick={() => onOpenFile(p.filePath)}
-                >
-                  <span className="wiki-page-icon">📄</span>
-                  <span className="wiki-page-name">{p.name.replace(/\.md$/, '')}</span>
-                </button>
-              ))}
+              {pages.map((p) => {
+                const title = p.name.replace(/\.md$/, '');
+                return (
+                  <button
+                    key={p.filePath}
+                    className="wiki-entry-l"
+                    onClick={() => onOpenFile(p.filePath)}
+                  >
+                    <h4 className="wiki-entry-title">{title}</h4>
+                    {p.preview && (
+                      <p className="wiki-entry-preview">{p.preview}</p>
+                    )}
+                    <div className="wiki-entry-meta">
+                      {p.mtime > 0 && <span>{formatUpdated(p.mtime)}</span>}
+                      {p.mtime > 0 && (p.sourceCount > 0 || p.backlinkCount > 0) && (
+                        <span aria-hidden>·</span>
+                      )}
+                      {p.sourceCount > 0 && (
+                        <span>
+                          {p.sourceCount} {p.sourceCount === 1 ? 'source' : 'sources'}
+                        </span>
+                      )}
+                      {p.sourceCount > 0 && p.backlinkCount > 0 && (
+                        <span aria-hidden>·</span>
+                      )}
+                      {p.backlinkCount > 0 && (
+                        <span>
+                          {p.backlinkCount} {p.backlinkCount === 1 ? 'backlink' : 'backlinks'}
+                        </span>
+                      )}
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>

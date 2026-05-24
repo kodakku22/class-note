@@ -537,6 +537,7 @@ const api = {
 
   wiki: {
     list: (vaultPath: string) => ipcRenderer.invoke('wiki:list', vaultPath),
+    listEntries: (vaultPath: string) => ipcRenderer.invoke('wiki:listEntries', vaultPath),
     read: (vaultPath: string, fileName: string) =>
       ipcRenderer.invoke('wiki:read', vaultPath, fileName),
     write: (vaultPath: string, fileName: string, content: string) =>

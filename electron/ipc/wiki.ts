@@ -21,7 +21,42 @@ import {
 } from './utils';
 import { runPrompt } from '../ai/provider';
 import { loadSelectedAiApiKey, loadSettings, selectedAiModel } from './settings';
+import { getBacklinkSources } from './backlinks';
 import { logger } from '../logger';
+
+// Strip the YAML frontmatter (---\n…\n---\n) at the start of a wiki note so
+// the preview shows actual prose. Returns the original string unchanged if
+// no frontmatter is detected.
+function stripFrontmatter(text: string): string {
+  if (!text.startsWith('---')) return text;
+  const end = text.indexOf('\n---', 3);
+  if (end < 0) return text;
+  return text.slice(end + 4).replace(/^\s+/, '');
+}
+
+// Pull the first paragraph as a one-line preview. Markdown headings and
+// blank lines are skipped so the preview is the first real content line.
+// Capped at 200 chars so cards stay uniform in the grid.
+function firstParagraphPreview(body: string): string {
+  const para = body
+    .split(/\n\s*\n/) // paragraph break
+    .map((p) => p.trim())
+    .find((p) => p && !p.startsWith('#'));
+  if (!para) return '';
+  // Collapse interior newlines to single spaces and trim long previews.
+  const oneLine = para.replace(/\s+/g, ' ');
+  return oneLine.length > 200 ? `${oneLine.slice(0, 197)}…` : oneLine;
+}
+
+// Count distinct [[wikilink]] targets in a wiki page. Embeds (![[...]])
+// are counted too — both represent "this entry references that source".
+function countWikilinks(body: string): number {
+  const targets = new Set<string>();
+  const re = /!?\[\[([^\]|]+)/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(body))) targets.add(m[1].trim());
+  return targets.size;
+}
 
 /**
  * Push a progress event to every open window. The renderer subscribes via
@@ -244,6 +279,44 @@ export function createWikiHandlers() {
               name: e.name,
               filePath: full,
               mtime: stat ? stat.mtimeMs : 0,
+            };
+          })
+      );
+      items.sort((a, b) => b.mtime - a.mtime);
+      return items;
+    },
+
+    // Enriched version of wiki:list. For each page returns the file metadata
+    // PLUS a first-paragraph preview, a count of distinct [[wikilink]]
+    // targets in the body (the page's "sources"), and a count of vault notes
+    // that link back to this page ("backlinks"). Used by the WikiView card
+    // grid so each entry shows the canonical HANDOFF "updated · N sources ·
+    // N backlinks" meta line without the renderer needing to read every file.
+    'wiki:listEntries': async (_e: unknown, vaultPath: string) => {
+      const root = path.resolve(vaultPath);
+      validateVaultPath(root, root);
+      const dir = path.join(root, WIKI_DIR);
+      if (!(await exists(dir))) return [];
+      const entries = await fs.readdir(dir, { withFileTypes: true });
+      const items = await Promise.all(
+        entries
+          .filter((e) => e.isFile() && e.name.endsWith('.md') && e.name !== WIKI_SCHEMA_FILE)
+          .map(async (e) => {
+            const full = path.join(dir, e.name);
+            const baseName = e.name.replace(/\.md$/, '');
+            const [stat, raw, backlinks] = await Promise.all([
+              fs.stat(full).catch(() => null),
+              fs.readFile(full, 'utf-8').catch(() => ''),
+              getBacklinkSources(root, baseName).catch(() => []),
+            ]);
+            const body = stripFrontmatter(raw);
+            return {
+              name: e.name,
+              filePath: full,
+              mtime: stat ? stat.mtimeMs : 0,
+              preview: firstParagraphPreview(body),
+              sourceCount: countWikilinks(body),
+              backlinkCount: backlinks.length,
             };
           })
       );

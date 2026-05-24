@@ -17,12 +17,40 @@ vi.mock('../../src/components/WikiCompilePanel', () => ({
 
 import { WikiView } from '../../src/components/WikiView';
 
-type WikiPage = { name: string; filePath: string; mtime: number };
+type WikiEntry = {
+  name: string;
+  filePath: string;
+  mtime: number;
+  preview: string;
+  sourceCount: number;
+  backlinkCount: number;
+};
 
-const SAMPLE_PAGES: WikiPage[] = [
-  { name: 'Calculus.md', filePath: '/vault/wiki/Calculus.md', mtime: 1000 },
-  { name: 'LinearAlgebra.md', filePath: '/vault/wiki/LinearAlgebra.md', mtime: 2000 },
-  { name: 'Topology.md', filePath: '/vault/wiki/Topology.md', mtime: 3000 },
+const SAMPLE_PAGES: WikiEntry[] = [
+  {
+    name: 'Calculus.md',
+    filePath: '/vault/wiki/Calculus.md',
+    mtime: 1000,
+    preview: 'Limits, derivatives, integrals.',
+    sourceCount: 2,
+    backlinkCount: 3,
+  },
+  {
+    name: 'LinearAlgebra.md',
+    filePath: '/vault/wiki/LinearAlgebra.md',
+    mtime: 2000,
+    preview: 'Vector spaces and linear maps.',
+    sourceCount: 1,
+    backlinkCount: 0,
+  },
+  {
+    name: 'Topology.md',
+    filePath: '/vault/wiki/Topology.md',
+    mtime: 3000,
+    preview: 'Open sets, continuous maps, homeomorphisms.',
+    sourceCount: 0,
+    backlinkCount: 1,
+  },
 ];
 
 const SAMPLE_INDEX = '# Wiki Index\n\n- [[Calculus]]\n- [[LinearAlgebra]]';
@@ -34,10 +62,13 @@ const DEFAULT_PROPS = {
 };
 
 function installMocks(options?: {
-  pages?: WikiPage[];
+  pages?: WikiEntry[];
   index?: string | null;
 }) {
-  const listMock = vi.fn().mockResolvedValue(options?.pages ?? SAMPLE_PAGES);
+  // WikiView calls wiki.listEntries (the enriched IPC introduced for the
+  // HANDOFF wiki-entry-l card layout). The legacy wiki.list IPC stays in
+  // the bridge but is no longer used by this component.
+  const listEntriesMock = vi.fn().mockResolvedValue(options?.pages ?? SAMPLE_PAGES);
   const readIndexMock = vi.fn().mockResolvedValue(options && 'index' in options ? options.index : SAMPLE_INDEX);
   const importFromQALogsMock = vi.fn().mockResolvedValue({ ok: true, imported: ['Math'] });
   const healthCheckMock = vi.fn().mockResolvedValue({
@@ -48,7 +79,7 @@ function installMocks(options?: {
   const origApi = window.api;
   const apiOverrides: Record<string, unknown> = {
     wiki: {
-      list: listMock,
+      listEntries: listEntriesMock,
       readIndex: readIndexMock,
       importFromQALogs: importFromQALogsMock,
       healthCheck: healthCheckMock,
@@ -64,7 +95,7 @@ function installMocks(options?: {
     },
   });
 
-  return { listMock, readIndexMock, importFromQALogsMock, healthCheckMock, origApi };
+  return { listEntriesMock, readIndexMock, importFromQALogsMock, healthCheckMock, origApi };
 }
 
 describe('WikiView', () => {
@@ -276,12 +307,12 @@ describe('WikiView', () => {
     });
   });
 
-  it('calls list and readIndex on mount', async () => {
+  it('calls listEntries and readIndex on mount', async () => {
     await act(async () => {
       render(<WikiView {...DEFAULT_PROPS} />);
     });
 
-    expect(mocks.listMock).toHaveBeenCalledWith('/vault');
+    expect(mocks.listEntriesMock).toHaveBeenCalledWith('/vault');
     expect(mocks.readIndexMock).toHaveBeenCalledWith('/vault');
   });
 
@@ -342,15 +373,15 @@ describe('WikiView', () => {
       fireEvent.click(screen.getByRole('button', { name: /Wiki をコンパイル/ }));
     });
 
-    const callCountBefore = mocks.listMock.mock.calls.length;
+    const callCountBefore = mocks.listEntriesMock.mock.calls.length;
 
     // Click "Complete" in the mock compile panel
     await act(async () => {
       fireEvent.click(screen.getByText('Complete'));
     });
 
-    // Should have reloaded (called list again)
-    expect(mocks.listMock.mock.calls.length).toBeGreaterThan(callCountBefore);
+    // Should have reloaded (called listEntries again)
+    expect(mocks.listEntriesMock.mock.calls.length).toBeGreaterThan(callCountBefore);
   });
 
   it('shows health check error without error message', async () => {

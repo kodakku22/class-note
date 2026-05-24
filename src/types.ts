@@ -788,6 +788,16 @@ declare global {
       };
       wiki: {
         list: (vaultPath: string) => Promise<{ name: string; filePath: string; mtime: number }[]>;
+        listEntries: (vaultPath: string) => Promise<
+          {
+            name: string;
+            filePath: string;
+            mtime: number;
+            preview: string;
+            sourceCount: number;
+            backlinkCount: number;
+          }[]
+        >;
         read: (vaultPath: string, fileName: string) => Promise<string>;
         write: (
           vaultPath: string,
