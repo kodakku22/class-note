@@ -3026,7 +3026,7 @@ input:focus, textarea:focus, select:focus {
 .daily-emoji { font-size: 24px; }
 .daily-date { font-size: 20px; font-weight: 600; }
 .daily-today-badge {
-  background: var(--accent, #4a90e2);
+  background: var(--accent);
   color: white;
   font-size: 11px;
   padding: 2px 8px;
@@ -3244,18 +3244,21 @@ input:focus, textarea:focus, select:focus {
   transform: scale(1.18);
 }
 .graph-node-label {
+  /* Token-driven label background — was rgba(255,255,255,0.85) +
+   * body.dark override at rgba(33,33,33,0.85). Same pattern as the
+   * note-card-toolbar fix in ce200a8: depend on a token that flips
+   * with theme instead of a body.dark class override that breaks
+   * when only data-theme is set. */
   font-size: 10px;
   margin-top: 2px;
-  background: rgba(255, 255, 255, 0.85);
+  background: var(--bg-elevated);
   padding: 1px 4px;
   border-radius: 3px;
   white-space: nowrap;
   color: var(--text-primary);
   pointer-events: none;
   user-select: none;
-}
-body.dark .graph-node-label {
-  background: rgba(33, 33, 33, 0.85);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Template editor */
@@ -3505,7 +3508,7 @@ body.dark .graph-node-label {
   color: var(--text-primary);
   font-size: 13px;
 }
-.relation-input:focus { outline: none; border-color: var(--accent, #4a90e2); }
+.relation-input:focus { outline: none; border-color: var(--accent); }
 .relation-textarea { resize: vertical; min-height: 50px; }
 .relation-rating {
   display: flex;
@@ -3531,7 +3534,7 @@ body.dark .graph-node-label {
   border: 1px solid var(--divider);
   border-radius: 4px;
 }
-.tag-input:focus-within { border-color: var(--accent, #4a90e2); }
+.tag-input:focus-within { border-color: var(--accent); }
 .tag-chip {
   /* Compact-inline tag variant (different from the row variant at
    * line ~2326 which is a pill button). Token-only — the stale
@@ -3722,7 +3725,7 @@ body.dark .graph-node-label {
 .note-card-tags { display: flex; gap: 3px; flex-wrap: wrap; }
 .note-card-tag {
   background: var(--accent-soft, rgba(74, 144, 226, 0.15));
-  color: var(--accent, #4a90e2);
+  color: var(--accent);
   padding: 1px 4px;
   border-radius: 2px;
   font-size: 10px;
@@ -3751,7 +3754,7 @@ body.dark .graph-node-label {
   padding: 0;
 }
 .color-swatch.active {
-  outline: 2px solid var(--accent, #4a90e2);
+  outline: 2px solid var(--accent);
   outline-offset: 1px;
 }
 
@@ -3975,7 +3978,7 @@ body.dark .graph-node-label {
 }
 .app-dialog-input:focus {
   outline: none;
-  border-color: var(--accent, #4a9eff);
+  border-color: var(--accent);
 }
 .app-dialog-actions {
   display: flex;
@@ -4072,7 +4075,7 @@ body.dark .graph-node-label {
   transition: background 200ms;
 }
 .onboarding-dot.active {
-  background: var(--accent, #4a9eff);
+  background: var(--accent);
 }
 .onboarding-content {
   font-size: 14px;
@@ -4110,7 +4113,7 @@ body.dark .graph-node-label {
   transition: border-color 150ms;
 }
 .onboarding-radio-group label:hover {
-  border-color: var(--accent, #4a9eff);
+  border-color: var(--accent);
 }
 .onboarding-radio-group input[type='radio']:checked + div {
   color: var(--text);
@@ -4172,7 +4175,7 @@ body.dark .graph-node-label {
   margin-top: 10px;
   padding: 8px 10px;
   background: var(--bg);
-  border-left: 3px solid var(--accent, #4a9eff);
+  border-left: 3px solid var(--accent);
   border-radius: 4px;
   font-size: 11px;
   color: var(--text-secondary);
@@ -4323,7 +4326,7 @@ body.dark .graph-node-label {
   color: inherit;
   cursor: pointer;
 }
-.papers-th.sorted { color: var(--accent, #4a9eff); }
+.papers-th.sorted { color: var(--accent); }
 .papers-th:not(button) { cursor: default; }
 .sort-arrow { font-size: 10px; }
 .papers-cell {
@@ -4589,7 +4592,7 @@ body.dark .graph-node-label {
 }
 .citation-picker-bibkey {
   font-family: var(--font-mono);
-  color: var(--accent, #4a9eff);
+  color: var(--accent);
   font-weight: 600;
 }
 .citation-picker-year { color: var(--text-tertiary); }
@@ -5283,7 +5286,7 @@ body.dark pre {
   height: 100%;
 }
 .reading-notes-quickadd {
-  background: var(--bg-secondary, #f7f7f7);
+  background: var(--bg-secondary);
   border: 1px solid var(--divider);
   border-radius: 8px;
   padding: 10px 12px;
@@ -5396,7 +5399,7 @@ body.dark pre {
   margin-left: 4px;
 }
 .wiki-info {
-  background: var(--bg-secondary, #f7f7f7);
+  background: var(--bg-secondary);
   border: 1px solid var(--divider);
   border-radius: 8px;
   padding: 8px 12px;
@@ -5461,7 +5464,7 @@ body.dark pre {
 
 /* Compile panel */
 .wiki-compile-panel {
-  background: var(--bg-secondary, #f7f7f7);
+  background: var(--bg-secondary);
   border: 1px solid var(--divider);
   border-radius: 10px;
   padding: 16px 18px;
