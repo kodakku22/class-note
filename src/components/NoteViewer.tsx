@@ -47,6 +47,12 @@ export function NoteViewer({
   const [picking, setPicking] = useState(false);
   const [showRelations, setShowRelations] = useState(true);
   const [exporting, setExporting] = useState(false);
+  // HANDOFF Phase 3: .cn-prose reading-mode toggle. When ON the
+  // rendered preview is wrapped in .cn-prose (Lora serif, 17px,
+  // 1.75 line-height, 68ch max width per the canonical typography
+  // spec) for long-form reading. Off by default — most editing
+  // sessions want the compact preview width.
+  const [readingMode, setReadingMode] = useState(false);
   const saveTimer = useRef<number | null>(null);
   const draftTimer = useRef<number | null>(null);
   const taRef = useRef<HTMLTextAreaElement>(null);
@@ -392,6 +398,18 @@ export function NoteViewer({
                 <span className="note-title-name">{noteName}</span>
                 <div style={{ display: 'flex', gap: 6 }}>
                   <button
+                    className={`subtle ${readingMode ? 'active' : ''}`}
+                    title={
+                      readingMode
+                        ? '読書モードを解除（通常プレビュー）'
+                        : '読書モードに切替（Lora セリフ 17px / 1.75）'
+                    }
+                    aria-pressed={readingMode}
+                    onClick={() => setReadingMode((v) => !v)}
+                  >
+                    {readingMode ? '📖 読書中' : '📖 読書'}
+                  </button>
+                  <button
                     className="subtle"
                     title="PDF にエクスポート"
                     onClick={exportPdf}
@@ -413,7 +431,7 @@ export function NoteViewer({
                   )}
                 </div>
               </div>
-              <div className="markdown">
+              <div className={`markdown${readingMode ? ' cn-prose' : ''}`}>
                 <MarkdownRenderer
                   content={body}
                   attachIndex={attachIndex}
