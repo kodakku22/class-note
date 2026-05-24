@@ -27,12 +27,21 @@ type Props = {
   onChanged?: () => void;
 };
 
+// Status colors reference design tokens so they theme correctly with
+// the canonical HANDOFF status palette (reading=yellow, review=terracotta,
+// done=teal) and adapt to light/dark via tokens.css. The reader-side
+// PaperStatus values map onto the HANDOFF status surface as:
+//   to-read  → planned (no token, --text-tertiary grey)
+//   reading  → --status-reading
+//   read     → --status-done
+//   cited    → --accent (paper is being used in the current draft)
+//   skimmed  → --status-review
 const STATUS_LABELS: Record<PaperStatus, { label: string; color: string }> = {
-  'to-read': { label: 'to-read', color: '#888' },
-  reading: { label: 'reading', color: '#4a9eff' },
-  read: { label: 'read', color: '#4caf50' },
-  cited: { label: 'cited', color: '#7b5cff' },
-  skimmed: { label: 'skimmed', color: '#ff9800' },
+  'to-read': { label: 'to-read', color: 'var(--text-tertiary)' },
+  reading: { label: 'reading', color: 'var(--status-reading)' },
+  read: { label: 'read', color: 'var(--status-done)' },
+  cited: { label: 'cited', color: 'var(--accent)' },
+  skimmed: { label: 'skimmed', color: 'var(--status-review)' },
 };
 const LATEX_STYLES: LatexStyle[] = ['generic', 'neurips', 'acl', 'ieee'];
 
@@ -446,21 +455,38 @@ export function PapersView({ vaultPath, activeFilePath, reloadKey, onOpenFile, o
                 }
               >
                 <div className="papers-cell papers-title">
-                  {p.meta.title ?? p.fileName}
-                  {p.meta.summary && (
-                    <div className="papers-summary">{p.meta.summary}</div>
+                  {p.meta.pdf && (
+                    <span className="papers-pdf-tile" aria-label="PDF available">
+                      PDF
+                    </span>
                   )}
+                  <div className="papers-title-text">
+                    <div className="papers-title-line">
+                      {p.meta.title ?? p.fileName}
+                    </div>
+                    {p.meta.summary && (
+                      <div className="papers-summary">{p.meta.summary}</div>
+                    )}
+                    {p.meta.bibkey && (
+                      <span className="papers-bibkey">@{p.meta.bibkey}</span>
+                    )}
+                  </div>
                 </div>
                 <div className="papers-cell">{firstAuthor(p.meta.authors)}</div>
                 <div className="papers-cell">{p.meta.year ?? '—'}</div>
                 <div className="papers-cell">{p.meta.venue ?? '—'}</div>
                 <div className="papers-cell">
                   <span
-                    className="papers-status-dot"
-                    style={{ background: statusInfo.color }}
-                    aria-hidden
-                  />
-                  <span className="papers-status-label">{statusInfo.label}</span>
+                    className={`papers-status-pill papers-status-${status}`}
+                    style={{ color: statusInfo.color }}
+                  >
+                    <span
+                      className="papers-status-dot"
+                      style={{ background: statusInfo.color }}
+                      aria-hidden
+                    />
+                    <span className="papers-status-label">{statusInfo.label}</span>
+                  </span>
                 </div>
                 <div className="papers-cell papers-tags">
                   {tags.slice(0, 3).map((t) => (

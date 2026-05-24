@@ -4270,10 +4270,16 @@ body.dark .graph-node-label {
   cursor: pointer;
   align-items: center;
   font-size: 13px;
-  transition: background 100ms;
+  /* HANDOFF: subtle hover lift on paper rows. */
+  transform: translateY(0);
+  transition: background var(--duration-fast) var(--ease-standard),
+              transform var(--duration-fast) var(--ease-standard);
 }
-.papers-row:hover { background: var(--bg-secondary); }
-.papers-row.active { background: var(--bg-tertiary, #e0eaff); }
+.papers-row:hover {
+  background: var(--bg-secondary);
+  transform: translateY(-1px);
+}
+.papers-row.active { background: var(--accent-soft); }
 .papers-header-row {
   background: var(--bg-secondary);
   cursor: default;
@@ -4321,13 +4327,64 @@ body.dark .graph-node-label {
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 }
+.papers-status-pill {
+  /* HANDOFF cn-pill: rounded pill with leading dot + lowercase label.
+   * Background is a wash derived from the active --status-* color via
+   * color-mix so light/dark themes render their own correct tint. */
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: color-mix(in srgb, currentColor 14%, transparent);
+}
 .papers-status-dot {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   flex-shrink: 0;
 }
 .papers-status-label { font-size: 11px; }
+.papers-title { gap: 10px; }
+.papers-title-text {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.papers-title-line {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.papers-bibkey {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-tertiary);
+  letter-spacing: 0;
+}
+.papers-pdf-tile {
+  /* HANDOFF: small left-side visual indicator that a PDF asset is
+   * attached to this entry. Anytype-card style — soft accent wash
+   * with the accent text color. */
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 36px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
 .papers-tags {
   flex-wrap: wrap;
   gap: 4px;
