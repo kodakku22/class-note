@@ -4657,31 +4657,51 @@ body.dark .graph-node-label {
   text-align: right;
 }
 
-/* Deadlines */
+/* Deadlines.
+ *
+ * HANDOFF: rows colored by urgency — within 14 days uses the warm
+ * --status-review (terracotta) treatment, past-due falls back to
+ * --danger. Both colors come from tokens.css so light/dark themes
+ * stay consistent. Subtle hover lift matches the rest of the design
+ * system. */
 .deadline-list {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 .deadline-item {
   display: grid;
   grid-template-columns: 110px 1fr auto;
   gap: 12px;
   align-items: center;
-  padding: 8px 10px;
+  padding: 10px 12px;
   background: var(--bg-secondary);
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   border-left: 3px solid var(--divider);
+  transform: translateY(0);
+  transition: transform var(--duration-fast) var(--ease-standard),
+              background var(--duration-fast) var(--ease-standard),
+              border-color var(--duration-fast) var(--ease-standard);
 }
-.deadline-item.urgent { border-left-color: #e76f51; }
-.deadline-item.past { border-left-color: #d33; opacity: 0.6; }
+.deadline-item:hover {
+  background: var(--bg-card-hover);
+  transform: translateY(-1px);
+}
+.deadline-item.urgent {
+  border-left-color: var(--status-review);
+  background: color-mix(in srgb, var(--status-review) 8%, var(--bg-secondary));
+}
+.deadline-item.past {
+  border-left-color: var(--danger);
+  opacity: 0.6;
+}
 .deadline-days {
-  font-weight: 600;
-  font-size: 13px;
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-sm);
   color: var(--text);
 }
-.deadline-item.urgent .deadline-days { color: #e76f51; }
-.deadline-item.past .deadline-days { color: #d33; }
+.deadline-item.urgent .deadline-days { color: var(--status-review); }
+.deadline-item.past .deadline-days { color: var(--danger); }
 .deadline-name { font-size: 13px; }
 .deadline-due {
   font-size: 11px;
