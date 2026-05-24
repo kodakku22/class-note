@@ -1,23 +1,48 @@
 /* =============================================================================
- * styles.css — global stylesheet (7134 lines as of Phase 2)
+ * styles.css — global stylesheet
  *
- * Migration roadmap (Phase 2-E, deferred):
- *   Reason: E2E specs and helpers/selectors.ts depend on global class names
- *   like `.palette-input` and `.file-item`. Moving these to CSS Modules
- *   (which hashes class names) requires a coordinated migration of:
- *     1. Component → import styles from './X.module.css'; use styles.foo
- *     2. e2e/helpers/selectors.ts → switch from `.palette-item` to
- *        `[data-testid="palette-item"]`
- *     3. Component → add data-testid where E2E needs to target
- *     4. Update tests (component) that use `document.querySelector('.x')`
+ * ------------------------------------------------------------
+ * LAYER ARCHITECTURE (read before touching)
+ * ------------------------------------------------------------
+ * The file is intentionally layered. Each layer is appended at the bottom
+ * to override the previous one without rewriting it. CSS cascade order
+ * means the LATEST rule wins for any given selector, so duplicates are
+ * common and (usually) intentional.
  *
- *   ErrorBoundary.module.css is the canonical example of a completed
- *   migration. The remaining components (IconRail, Sidebar, CommandPalette,
- *   Settings, DocAIPanel and its 4 dependents) follow the same pattern.
+ *   Layer 0  (lines 1..~5440)  — Anytype × Milanote redesign
+ *       Original layout, broad feature CSS, base IconRail/Sidebar/Note
+ *       styling. Many selectors here are superseded by Layer 1 below.
  *
- *   Estimated total: 2 days of focused work, deferred from Phase 2.
+ *   Layer 1  (lines ~5442..~5867)  — "Final Discord-style cascade overrides"
+ *       Re-skin to match the canonical Discord shell from the design
+ *       handoff. Re-declares .icon-rail, .sidebar-*, .palette-trigger,
+ *       .empty-state and many others with Discord chrome values.
+ *       Search for the header comment "===== Final Discord-style cascade
+ *       overrides =====" to find this section.
  *
- * Section layout (this file):
+ *   Layer 2  (lines ~5868..end)  — Feature-specific additions
+ *       Per-feature blocks added after both layers (rail overflow fix,
+ *       Subject workspace split, FAQ panel, DocAI suite, MultiDocPicker,
+ *       ContentGenerator, etc.). These should normally not duplicate
+ *       Layer 0/1 selectors.
+ *
+ * When you see the same selector declared 2–4 times across the file
+ * (e.g. .icon-rail, .sidebar-item.active, .tag-chip, .palette-trigger):
+ *   - The LAST occurrence is what users see.
+ *   - The earlier occurrences are usually historical Layer 0 declarations
+ *     kept for safety in case a Layer 1 rule is ever reverted.
+ *   - Removing an earlier occurrence is safe ONLY if every property it
+ *     declares is also set (or explicitly overridden) by every later
+ *     occurrence for the same element states. Otherwise you create
+ *     visual regressions in narrow contexts.
+ *
+ * Tokens are sourced from src/styles/tokens.css (canonical) — body.dark
+ * / body.light / html[data-theme] selectors apply theme-specific values.
+ * Do NOT introduce new tokens in this file.
+ *
+ * ------------------------------------------------------------
+ * SECTION INDEX
+ * ------------------------------------------------------------
  *   1. Design tokens (:root + body.dark overrides) — see also src/styles/tokens.css
  *   2. Base resets — see also src/styles/reset.css
  *   3. Discord-style shell (.discord-titlebar, .discord-window, etc.)
@@ -32,8 +57,23 @@
  *  11. FAQ — .faq-*
  *  12. Misc views (Books, Memos, Wiki, Outputs, Papers, Graph)
  *
- * Tokens are also re-defined in src/styles/tokens.css for the eventual
- * single-source-of-truth migration. Avoid duplicating new variables here.
+ * ------------------------------------------------------------
+ * MIGRATION ROADMAP (Phase 2-E, deferred)
+ * ------------------------------------------------------------
+ *   Reason: E2E specs and helpers/selectors.ts depend on global class names
+ *   like `.palette-input` and `.file-item`. Moving these to CSS Modules
+ *   (which hashes class names) requires a coordinated migration of:
+ *     1. Component → import styles from './X.module.css'; use styles.foo
+ *     2. e2e/helpers/selectors.ts → switch from `.palette-item` to
+ *        `[data-testid="palette-item"]`
+ *     3. Component → add data-testid where E2E needs to target
+ *     4. Update tests (component) that use `document.querySelector('.x')`
+ *
+ *   ErrorBoundary.module.css is the canonical example of a completed
+ *   migration. The remaining components (IconRail, Sidebar, CommandPalette,
+ *   Settings, DocAIPanel and its 4 dependents) follow the same pattern.
+ *
+ *   Estimated total: 2 days of focused work, deferred from Phase 2.
  * ============================================================================= */
 
 /* ===== Anytype × Milanote design tokens =====
@@ -3815,66 +3855,17 @@ body.dark .graph-node-label {
   border-top: 1px solid var(--divider);
 }
 
-/* ===== EmptyState v2 ===== */
-.empty-state-v2 {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 48px 24px;
-  gap: 8px;
-  color: var(--text-secondary);
-}
-.empty-state-icon {
-  font-size: 48px;
-  opacity: 0.6;
-  margin-bottom: 8px;
-}
-.empty-state-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin: 0;
-}
-.empty-state-desc {
-  font-size: 13px;
-  margin: 0;
-  max-width: 360px;
-  line-height: 1.5;
-}
-
-/* ===== Skeleton loaders ===== */
-.skeleton-line {
-  height: 14px;
-  background: linear-gradient(
-    90deg,
-    var(--bg-secondary) 25%,
-    var(--bg-hover) 50%,
-    var(--bg-secondary) 75%
-  );
-  background-size: 200% 100%;
-  animation: skeleton-shimmer 1.4s infinite;
-  border-radius: 4px;
-  margin-bottom: 8px;
-}
-.skeleton-note { padding: 16px 24px; }
-.skeleton-card {
-  padding: 12px 14px;
-  border: 1px solid var(--divider);
-  border-radius: 8px;
-  background: var(--bg-secondary);
-}
-.skeleton-card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 12px;
-  padding: 16px 22px;
-}
-@keyframes skeleton-shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
+/* ===== EmptyState v2 / Skeleton loaders ===== */
+/* Both sections were removed alongside the dead EmptyState.tsx and
+ * SkeletonLoader.tsx components. .empty-state-v2 / .empty-state-icon /
+ * .empty-state-title / .empty-state-desc had zero consumers in tsx, and
+ * the .skeleton-line / .skeleton-note / .skeleton-card / .skeleton-card-grid
+ * classes (plus the @keyframes skeleton-shimmer) were only ever set by
+ * SkeletonLoader.tsx exports. Re-add them if a future EmptyState v2 or
+ * skeleton component is reintroduced. The plain .empty-state class
+ * (defined at lines 604 / 1304 / 1755 / 5492) is still in use across
+ * Books, Daily, Database, ExperimentEditor, FileList, GraphView and
+ * stays. */
 
 /* ===== Error Boundary ===== */
 .error-boundary {
