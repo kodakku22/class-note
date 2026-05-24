@@ -5397,27 +5397,46 @@ body.dark pre {
 .wiki-pages {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  /* HANDOFF Wiki spec: long-form entry cards spaced ~10px apart, each
+   * sitting on the card surface with subtle hover lift. */
+  gap: 10px;
 }
 .wiki-page-item {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   text-align: left;
-  padding: 8px 12px;
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 6px;
+  padding: 14px 18px;
+  background: var(--bg-card);
+  border: 1px solid var(--divider);
+  border-radius: var(--radius-card);
   cursor: pointer;
-  font-size: 14px;
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
   color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(0);
+  transition: transform var(--duration-fast) var(--ease-standard),
+              box-shadow var(--duration-fast) var(--ease-standard),
+              border-color var(--duration-fast) var(--ease-standard);
 }
 .wiki-page-item:hover {
-  background: var(--bg-hover, rgba(0, 0, 0, 0.04));
-  border-color: var(--divider);
+  background: var(--bg-card-hover);
+  border-color: var(--border-strong);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-hover);
 }
 .wiki-page-icon {
-  font-size: 16px;
+  font-size: 18px;
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+.wiki-page-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* Compile panel */
