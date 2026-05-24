@@ -48,15 +48,25 @@ function firstParagraphPreview(body: string): string {
   return oneLine.length > 200 ? `${oneLine.slice(0, 197)}…` : oneLine;
 }
 
-// Count distinct [[wikilink]] targets in a wiki page. Embeds (![[...]])
-// are counted too — both represent "this entry references that source".
-function countWikilinks(body: string): number {
-  const targets = new Set<string>();
+// Collect distinct [[wikilink]] targets in a wiki page (also matches
+// embed syntax ![[...]] — both represent "this entry references that
+// source"). Order is preserved on first occurrence so chip rows are
+// stable across reloads. The renderer caps the display count so we
+// don't artificially trim here.
+function extractWikilinkTargets(body: string): string[] {
+  const seen = new Set<string>();
+  const out: string[] = [];
   const re = /!?\[\[([^\]|]+)/g;
   let m: RegExpExecArray | null;
-  while ((m = re.exec(body))) targets.add(m[1].trim());
-  return targets.size;
+  while ((m = re.exec(body))) {
+    const t = m[1].trim();
+    if (!t || seen.has(t)) continue;
+    seen.add(t);
+    out.push(t);
+  }
+  return out;
 }
+
 
 /**
  * Push a progress event to every open window. The renderer subscribes via
@@ -310,13 +320,18 @@ export function createWikiHandlers() {
               getBacklinkSources(root, baseName).catch(() => []),
             ]);
             const body = stripFrontmatter(raw);
+            const targets = extractWikilinkTargets(body);
             return {
               name: e.name,
               filePath: full,
               mtime: stat ? stat.mtimeMs : 0,
               preview: firstParagraphPreview(body),
-              sourceCount: countWikilinks(body),
+              sourceCount: targets.length,
               backlinkCount: backlinks.length,
+              // Capped at 8 so a wiki entry referencing dozens of notes
+              // doesn't dominate its card row. The full count remains
+              // available via sourceCount above.
+              linkTargets: targets.slice(0, 8),
             };
           })
       );

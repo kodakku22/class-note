@@ -5418,6 +5418,22 @@ body.dark pre {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+.wiki-entry-links {
+  /* HANDOFF .wiki-entry-l .links row — shows the [[wikilink]] targets
+   * cited inside the page body as inline accent chips. Capped at 8 in
+   * the IPC layer so this row stays single-line on a wide card. */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: var(--space-1);
+}
+.wiki-entry-link-chip {
+  font-size: var(--text-xs);
+  /* Override .cn-wikilink default padding for the slightly tighter chip
+   * geometry HANDOFF uses inside wiki-entry-l cards. */
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+}
 .wiki-entry-meta {
   display: flex;
   flex-wrap: wrap;

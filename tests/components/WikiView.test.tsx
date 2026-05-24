@@ -24,6 +24,7 @@ type WikiEntry = {
   preview: string;
   sourceCount: number;
   backlinkCount: number;
+  linkTargets: string[];
 };
 
 const SAMPLE_PAGES: WikiEntry[] = [
@@ -34,6 +35,7 @@ const SAMPLE_PAGES: WikiEntry[] = [
     preview: 'Limits, derivatives, integrals.',
     sourceCount: 2,
     backlinkCount: 3,
+    linkTargets: ['Limits', 'Derivatives'],
   },
   {
     name: 'LinearAlgebra.md',
@@ -42,6 +44,7 @@ const SAMPLE_PAGES: WikiEntry[] = [
     preview: 'Vector spaces and linear maps.',
     sourceCount: 1,
     backlinkCount: 0,
+    linkTargets: ['VectorSpace'],
   },
   {
     name: 'Topology.md',
@@ -50,6 +53,7 @@ const SAMPLE_PAGES: WikiEntry[] = [
     preview: 'Open sets, continuous maps, homeomorphisms.',
     sourceCount: 0,
     backlinkCount: 1,
+    linkTargets: [],
   },
 ];
 
@@ -337,6 +341,49 @@ describe('WikiView', () => {
     });
     // Should NOT show the .md extension in display
     expect(screen.queryByText('Calculus.md')).not.toBeInTheDocument();
+  });
+
+  it('renders wikilink chip row for each entry with non-empty linkTargets', async () => {
+    await act(async () => {
+      render(<WikiView {...DEFAULT_PROPS} />);
+    });
+
+    // Calculus has 2 link targets, LinearAlgebra has 1, Topology has 0 — so we
+    // expect 3 chips total across the rendered card list (2 + 1 + 0).
+    await waitFor(() => {
+      expect(screen.getByText('Limits')).toBeInTheDocument();
+    });
+    expect(screen.getByText('Derivatives')).toBeInTheDocument();
+    expect(screen.getByText('VectorSpace')).toBeInTheDocument();
+    // Verify no chip is rendered for the empty-targets entry.
+    const allChips = document.querySelectorAll('.wiki-entry-link-chip');
+    expect(allChips.length).toBe(3);
+  });
+
+  it('chip click triggers onJumpToWikilink (and does not open the page)', async () => {
+    const onJumpToWikilink = vi.fn();
+    const onOpenFile = vi.fn();
+
+    await act(async () => {
+      render(
+        <WikiView
+          vaultPath="/vault"
+          onJumpToWikilink={onJumpToWikilink}
+          onOpenFile={onOpenFile}
+        />
+      );
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('Limits')).toBeInTheDocument();
+    });
+
+    await act(async () => {
+      fireEvent.click(screen.getByText('Limits'));
+    });
+
+    expect(onJumpToWikilink).toHaveBeenCalledWith('Limits');
+    expect(onOpenFile).not.toHaveBeenCalled();
   });
 
   it('opens compile panel from empty state CTA', async () => {

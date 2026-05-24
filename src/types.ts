@@ -796,6 +796,7 @@ declare global {
             preview: string;
             sourceCount: number;
             backlinkCount: number;
+            linkTargets: string[];
           }[]
         >;
         read: (vaultPath: string, fileName: string) => Promise<string>;

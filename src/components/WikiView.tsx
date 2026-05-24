@@ -12,6 +12,7 @@ type WikiEntry = {
   preview: string;
   sourceCount: number;
   backlinkCount: number;
+  linkTargets: string[];
 };
 
 type Props = {
@@ -157,14 +158,47 @@ export function WikiView({ vaultPath, onJumpToWikilink, onOpenFile }: Props) {
               {pages.map((p) => {
                 const title = p.name.replace(/\.md$/, '');
                 return (
-                  <button
+                  <div
                     key={p.filePath}
                     className="wiki-entry-l"
+                    role="button"
+                    tabIndex={0}
                     onClick={() => onOpenFile(p.filePath)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        onOpenFile(p.filePath);
+                      }
+                    }}
                   >
                     <h4 className="wiki-entry-title">{title}</h4>
                     {p.preview && (
                       <p className="wiki-entry-preview">{p.preview}</p>
+                    )}
+                    {p.linkTargets.length > 0 && (
+                      <div className="wiki-entry-links">
+                        {p.linkTargets.map((target) => (
+                          <a
+                            key={target}
+                            className="cn-wikilink wiki-entry-link-chip"
+                            href="#"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              onJumpToWikilink(target);
+                            }}
+                            onKeyDown={(e) => {
+                              // Stop bubbling so chip Enter doesn't also open
+                              // the parent card.
+                              if (e.key === 'Enter' || e.key === ' ') {
+                                e.stopPropagation();
+                              }
+                            }}
+                          >
+                            {target}
+                          </a>
+                        ))}
+                      </div>
                     )}
                     <div className="wiki-entry-meta">
                       {p.mtime > 0 && <span>{formatUpdated(p.mtime)}</span>}
@@ -185,7 +219,7 @@ export function WikiView({ vaultPath, onJumpToWikilink, onOpenFile }: Props) {
                         </span>
                       )}
                     </div>
-                  </button>
+                  </div>
                 );
               })}
             </div>
