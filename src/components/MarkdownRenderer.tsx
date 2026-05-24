@@ -193,14 +193,28 @@ export function MarkdownRenderer({
         return <span className="embed-missing">⚠️ {name} が見つかりません</span>;
       }
       if (PDF_RE.test(name)) {
+        const open = () => onJumpToFile?.(resolved);
         return (
           <span
             className="pdf-embed-card"
-            onClick={() => onJumpToFile?.(resolved)}
+            onClick={open}
+            // role=button + tabIndex=0 requires a keyboard activation
+            // handler (Enter / Space) for full keyboard parity with
+            // the mouse path. Without it, focused-but-unactivatable
+            // controls fail WAI-ARIA Authoring Practices.
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                open();
+              }
+            }}
             role="button"
             tabIndex={0}
+            aria-label={`PDF ${name} を開く`}
           >
-            <span className="pdf-embed-icon">📕</span>
+            <span className="pdf-embed-icon" aria-hidden>
+              📕
+            </span>
             <span className="pdf-embed-text">
               <span className="pdf-embed-name">{name}</span>
               <span className="pdf-embed-hint">クリックで開く</span>
