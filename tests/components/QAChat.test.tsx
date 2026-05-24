@@ -434,13 +434,16 @@ describe('QAChat', () => {
     expect(mocks.onErrorMock).toHaveBeenCalled();
   });
 
-  it('shows provider name in the header', async () => {
+  it('shows provider name in the header and composer pill', async () => {
+    // After HANDOFF Phase 2.2 the provider label appears in three
+    // places: header ('現在のAI: Claude'), composer pill, and on each
+    // assistant message. Use getAllByText to accept any positive count.
     await act(async () => {
       render(<QAChat {...DEFAULT_PROPS} />);
     });
 
     await waitFor(() => {
-      expect(screen.getByText(/Claude/)).toBeInTheDocument();
+      expect(screen.getAllByText(/Claude/).length).toBeGreaterThan(0);
     });
   });
 
@@ -466,7 +469,10 @@ describe('QAChat', () => {
     expect(textarea.value).toBe('');
   });
 
-  it('shows AI role label for assistant turns', async () => {
+  it('shows provider avatar + label for assistant turns', async () => {
+    // HANDOFF Phase 2.2: the literal 'AI' role text is replaced with
+    // a 36px gradient .qa-avatar circle and the resolved provider
+    // label (e.g. 'Claude'). We assert the avatar element renders.
     (window as Record<string, unknown>).api = mocks.origApi;
     const logContent =
       '\n## 2025-01-01 — Q\nQ1\n\n---\n\n## 2025-01-01 — A\nA1\n\n---\n';
@@ -477,8 +483,11 @@ describe('QAChat', () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByText('AI')).toBeInTheDocument();
+      const avatar = document.querySelector('.qa-avatar');
+      expect(avatar).toBeTruthy();
     });
+    // Provider label should appear somewhere on the surface.
+    expect(screen.getAllByText(/Claude/).length).toBeGreaterThan(0);
   });
 
   it('shows Wiki save button on assistant turns that follow user turns', async () => {

@@ -13,6 +13,45 @@ import {
 } from './ai/AiSettingsPanel';
 import type { ProviderAuthStatus } from '../types';
 
+// HANDOFF AI Coach spec: each assistant message carries a 36px gradient
+// avatar with a two-letter monogram, and the composer carries a
+// persistent provider pill. Avatar gradients and pill colors are keyed
+// off the same provider slug so the visual identity stays consistent
+// between the message stream and the composer.
+const PROVIDER_VISUALS: Record<
+  string,
+  { gradient: string; mono: string; label: string }
+> = {
+  openai: {
+    gradient: 'linear-gradient(135deg, #10a37f, #0d8f6f)',
+    mono: 'GP',
+    label: 'GPT',
+  },
+  claude: {
+    gradient: 'linear-gradient(135deg, #d97757, #b85a3c)',
+    mono: 'CL',
+    label: 'Claude',
+  },
+  gemini: {
+    gradient: 'linear-gradient(135deg, #4285F4, #2c6cdb)',
+    mono: 'GE',
+    label: 'Gemini',
+  },
+  off: {
+    gradient: 'linear-gradient(135deg, #8b949e, #6e7681)',
+    mono: '–',
+    label: 'Off',
+  },
+};
+
+function providerVisual(provider: string): {
+  gradient: string;
+  mono: string;
+  label: string;
+} {
+  return PROVIDER_VISUALS[provider] ?? PROVIDER_VISUALS.off;
+}
+
 type Turn = { role: 'user' | 'assistant'; content: string };
 
 type Props = {
@@ -199,7 +238,14 @@ export function QAChat({ vaultPath, subject, onOpenSettings, onJumpToWikilink, o
             <div key={i} className={`qa-bubble ${t.role}`}>
               {t.role === 'assistant' && (
                 <div className="qa-role-row">
-                  <div className="qa-role">AI</div>
+                  <div
+                    className={`qa-avatar qa-avatar-${aiConfig.provider}`}
+                    style={{ background: providerVisual(aiConfig.provider).gradient }}
+                    aria-label={`${providerVisual(aiConfig.provider).label} の回答`}
+                  >
+                    {providerVisual(aiConfig.provider).mono}
+                  </div>
+                  <span className="qa-role">{providerVisual(aiConfig.provider).label}</span>
                   {prevUser && (
                     <button
                       className="qa-save-wiki-btn"
@@ -228,7 +274,16 @@ export function QAChat({ vaultPath, subject, onOpenSettings, onJumpToWikilink, o
             aria-live="polite"
             aria-atomic="false"
           >
-            <div className="qa-role">AI</div>
+            <div className="qa-role-row">
+              <div
+                className={`qa-avatar qa-avatar-${aiConfig.provider}`}
+                style={{ background: providerVisual(aiConfig.provider).gradient }}
+                aria-hidden
+              >
+                {providerVisual(aiConfig.provider).mono}
+              </div>
+              <span className="qa-role">{providerVisual(aiConfig.provider).label}</span>
+            </div>
             <div className="qa-body markdown">
               {streamingText ? (
                 <MarkdownRenderer
@@ -257,6 +312,17 @@ export function QAChat({ vaultPath, subject, onOpenSettings, onJumpToWikilink, o
 
       <div className="qa-input-area">
         <div className="qa-input-wrap">
+          <span
+            className={`qa-provider-pill qa-provider-${aiConfig.provider}`}
+            aria-label={`現在の AI プロバイダ: ${providerVisual(aiConfig.provider).label}`}
+          >
+            <span
+              className="qa-provider-dot"
+              style={{ background: providerVisual(aiConfig.provider).gradient }}
+              aria-hidden
+            />
+            {providerVisual(aiConfig.provider).label}
+          </span>
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}

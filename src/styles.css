@@ -4634,6 +4634,60 @@ input:focus, textarea:focus, select:focus {
   text-align: right;
 }
 
+/* HANDOFF AI Coach surface (patterns.html L599-647).
+ *
+ * Each assistant message renders a 36px gradient avatar circle with a
+ * two-letter provider monogram (GP / CL / GE) followed by the provider
+ * label. The composer carries a persistent .qa-provider-pill so the
+ * user always sees which provider will receive the prompt — the pill
+ * is intentionally NOT a toggle here (settings flow handles provider
+ * switching).
+ *
+ * Gradients are inlined per-element from PROVIDER_VISUALS in QAChat.tsx;
+ * this CSS just owns the geometry and theme-flippable surroundings. */
+.qa-role-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.qa-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+  flex-shrink: 0;
+  user-select: none;
+}
+.qa-provider-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: color-mix(in srgb, var(--text-primary) 6%, transparent);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.qa-provider-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
 /* HANDOFF "This week" progress sparkbar card (patterns.html L709-736).
  * One .progress-card-l wraps a stack of .progress-row-l rows; each row
  * is a 156px label / 1fr track / 80px value grid. The track is the
