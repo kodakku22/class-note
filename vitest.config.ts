@@ -10,8 +10,23 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./tests/setup.ts'],
     globals: false,
+    // Shuffle file order on every run so any latent order-dependence
+    // (window.api leakage, mock singletons, leftover timers) surfaces
+    // immediately instead of as a flaky CI failure. Per-test order
+    // stays sequential within a file to keep beforeEach semantics
+    // intact.
+    sequence: {
+      shuffle: { files: true, tests: false },
+    },
     coverage: {
       provider: 'v8',
+      // text   → human-readable summary in CI log
+      // html   → drillable report under coverage/index.html
+      // json-summary → coverage/coverage-summary.json consumed by
+      //                scripts/summarise-coverage.mjs to surface the
+      //                lines/branches/functions/statements % into the
+      //                GitHub Actions job summary.
+      reporter: ['text', 'html', 'json-summary'],
       include: ['electron/**/*.ts', 'src/**/*.{ts,tsx}'],
       thresholds: {
         statements: 70,
@@ -54,12 +69,9 @@ export default defineConfig({
           functions: 70,
           lines: 80,
         },
-        'src/components/SearchBar.tsx': {
-          statements: 80,
-          branches: 70,
-          functions: 70,
-          lines: 80,
-        },
+        // src/components/SearchBar.tsx threshold removed when the dead
+        // component was deleted (commit 23c03ec…). Left as a comment so
+        // future grep finds the rationale.
         'src/components/VaultPicker.tsx': {
           statements: 80,
           branches: 70,

@@ -37,6 +37,11 @@ jobs:
       - name: Coverage
         run: npm run test:coverage
 
+      - name: Coverage summary (job summary)
+        if: always()
+        shell: bash
+        run: npm run coverage:summary >> "$GITHUB_STEP_SUMMARY"
+
       - name: License check
         run: npm run license:check
 

@@ -3,6 +3,7 @@
 > Local-first AI research workspace for researchers and graduate students.
 
 [![quality gate](https://img.shields.io/badge/quality%20gate-lint%20%2B%20tests%20%2B%20coverage%20%2B%20audit-brightgreen)]()
+[![coverage](https://img.shields.io/badge/coverage-lines%2076%25%20%C2%B7%20branches%2071%25-yellow)]()
 [![initial bundle](https://img.shields.io/badge/initial%20JS-242%20KB-blue)]()
 [![platform](https://img.shields.io/badge/platform-Windows%20first-lightgrey)]()
 [![license](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)

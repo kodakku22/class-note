@@ -89,7 +89,7 @@ async function persistWindowState(win: BrowserWindow | null): Promise<void> {
  * the historical default.
  */
 function initialBackgroundColor(theme: 'light' | 'dark'): string {
-  // Keep these in sync with src/styles/tokens.css `:root` / `body.dark`.
+  // Keep these in sync with src/styles/tokens.css `:root` / `[data-theme="dark"]`.
   return theme === 'light' ? '#F9F9F7' : '#313338';
 }
 

@@ -26,6 +26,7 @@
     "perf:smoke": "node scripts/perf-smoke.mjs",
     "hash:release": "node scripts/hash-release.mjs",
     "test:coverage": "vitest run --coverage",
+    "coverage:summary": "node scripts/summarise-coverage.mjs",
     "test:release-smoke": "node scripts/release-smoke.mjs",
     "test:release-artifacts": "node scripts/release-artifacts.mjs",
     "security:sbom": "node scripts/generate-sbom.mjs",

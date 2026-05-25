@@ -36,14 +36,15 @@
  *     occurrence for the same element states. Otherwise you create
  *     visual regressions in narrow contexts.
  *
- * Tokens are sourced from src/styles/tokens.css (canonical) — body.dark
- * / body.light / html[data-theme] selectors apply theme-specific values.
+ * Tokens are sourced from src/styles/tokens.css (canonical) —
+ * html[data-theme="dark"] / html[data-theme="light"] selectors apply
+ * theme-specific values.
  * Do NOT introduce new tokens in this file.
  *
  * ------------------------------------------------------------
  * SECTION INDEX
  * ------------------------------------------------------------
- *   1. Design tokens (:root + body.dark overrides) — see also src/styles/tokens.css
+ *   1. Design tokens (:root + :root[data-theme] overrides) — see also src/styles/tokens.css
  *   2. Base resets — see also src/styles/reset.css
  *   3. Discord-style shell (.discord-titlebar, .discord-window, etc.)
  *   4. IconRail — .icon-rail-*
@@ -80,7 +81,7 @@
  *
  * Light mode: Anytype の温かみあるオフホワイト (#F9F9F7) をベースに
  * Milanote のソフトなカード影とカラーラベルを融合。
- * Dark mode: 後段の `body.dark` で同名トークンを上書きする。
+ * Dark mode: 後段の `:root[data-theme="dark"]` で同名トークンを上書きする。
  */
 
 body {
@@ -3200,9 +3201,10 @@ input:focus, textarea:focus, select:focus {
 }
 .graph-node-label {
   /* Token-driven label background — was rgba(255,255,255,0.85) +
-   * body.dark override at rgba(33,33,33,0.85). Same pattern as the
+   * [data-theme="dark"] override at rgba(33,33,33,0.85). Same pattern as the
    * note-card-toolbar fix in ce200a8: depend on a token that flips
-   * with theme instead of a body.dark class override that breaks
+   * with theme instead of a body.dark class override (those were removed
+   * when the migration to html[data-theme] stabilised) that breaks
    * when only data-theme is set. */
   font-size: 10px;
   margin-top: 2px;
@@ -3607,7 +3609,7 @@ input:focus, textarea:focus, select:focus {
   /* Theme-aware background via --bg-elevated (#FFFFFF in light,
    * #232428 in dark) plus the canonical card shadow. The previous
    * implementation hardcoded rgba(255,255,255,0.85) and relied on a
-   * body.dark override at line 4995; this single declaration works
+   * historical body.dark override; this single declaration works
    * in both themes via tokens. */
   position: absolute;
   top: 6px;
@@ -5180,13 +5182,12 @@ button.subtle:hover { color: var(--text); }
  * different hex values in dark mode for legibility against #383a40,
  * but the rest of the dark-mode tokens belong in tokens.css.
  *
- * The previous duplicate body.dark block defining a competing
+ * The previous duplicate `body.dark` block (now a [data-theme="dark"]) defining a competing
  * Anytype #191919-based palette was removed when the design system was
  * reconciled with design_handoff_classnotes (May 2026).
  */
 :root,
-:root[data-theme="dark"],
-body.dark {
+:root[data-theme="dark"] {
   --card-default: #212121;
   --card-red:     #2D1B1B;
   --card-orange:  #2D2218;
@@ -5200,12 +5201,12 @@ body.dark {
   --card-brown:   #2A1F1A;
   --card-indigo:  #1B1F2E;
 }
-body.dark .palette-highlight { background: rgba(255, 213, 79, 0.32); }
-body.dark .graph-svg { background: var(--bg-primary); }
+:root[data-theme="dark"] .palette-highlight { background: rgba(255, 213, 79, 0.32); }
+:root[data-theme="dark"] .graph-svg { background: var(--bg-primary); }
 /* .note-card-toolbar is now token-driven (var(--bg-elevated)), so the
  * previous dark-mode override here is no longer needed. */
-body.dark code,
-body.dark pre {
+:root[data-theme="dark"] code,
+:root[data-theme="dark"] pre {
   background: #1c1c1c;
   color: #E8E8E8;
 }
@@ -5687,7 +5688,7 @@ body.dark pre {
 
 /* ===== Final Discord-style cascade overrides ===== */
 :root,
-body.dark {
+:root[data-theme="dark"] {
   --discord-rail: #1e1f22;
   --discord-sidebar: #2b2d31;
   --discord-sidebar-soft: #313338;

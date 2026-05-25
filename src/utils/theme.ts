@@ -5,12 +5,13 @@
 //   <html data-theme="dark">    → dark theme tokens (explicit)
 //   no attribute                → :root in tokens.css resolves to dark
 //
-// Legacy mechanism still supported for backward compatibility with
-// `body.dark .X` selectors that exist in src/styles.css:
-//   <body class="dark"> / <body class="light">
+// The legacy body.dark / body.light class aliases were removed after the
+// migration to html[data-theme] selectors stabilised. If old localStorage
+// caches still exist they're harmless — only the data-theme attribute
+// drives styling now.
 //
-// `applyTheme(theme)` keeps both in sync, and `readCachedTheme()` is meant
-// for synchronous use in main.tsx before the React tree mounts so the
+// `applyTheme(theme)` writes the attribute + localStorage; `readCachedTheme()`
+// is for synchronous use in main.tsx before the React tree mounts so the
 // first paint matches the user's saved preference (no flash of the
 // default dark theme).
 
@@ -25,11 +26,11 @@ const STORAGE_KEY = 'classnotes:theme';
 const LEGACY_STORAGE_KEY = 'classnotes_theme';
 
 export function applyTheme(theme: Theme): void {
-  // <html data-theme="...">
+  // <html data-theme="..."> is the single source of truth.
   document.documentElement.setAttribute('data-theme', theme);
-  // <body class="dark"> / <body class="light"> compat
-  document.body.classList.toggle('dark', theme === 'dark');
-  document.body.classList.toggle('light', theme === 'light');
+  // Remove any stale body class aliases that older builds may have set.
+  // (Cheap idempotent cleanup; if they're absent classList.remove is a no-op.)
+  document.body.classList.remove('dark', 'light');
   try {
     localStorage.setItem(STORAGE_KEY, theme);
     // Clean up the legacy key once we've written the canonical one.

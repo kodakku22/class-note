@@ -1,7 +1,12 @@
 import { act, renderHook, waitFor } from '@testing-library/react';
-import { describe, expect, it, vi, beforeEach } from 'vitest';
+import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest';
 import { useRailConfig } from '../../src/hooks/useRailConfig';
 
+// NOTE: getMock / setMock are module-scoped so the test bodies can reach
+// them via closure. beforeEach calls .mockReset() to give each test a
+// fresh call history and afterEach deletes the entire `window.api` stub
+// so no later suite inherits this file's mock shape (the previous
+// flake source — Explore agent flagged this).
 const getMock = vi.fn();
 const setMock = vi.fn();
 
@@ -13,6 +18,13 @@ beforeEach(() => {
   (window as any).api = {
     settings: { get: getMock, set: setMock },
   };
+});
+
+afterEach(() => {
+  // Hard reset: drop the api shim so the next suite sees a clean window.
+  // Without this, parallel-run flakes happen when another suite checks
+  // for absence of (window as any).api.settings.set.
+  delete (window as Record<string, unknown>).api;
 });
 
 describe('useRailConfig / persistence', () => {
