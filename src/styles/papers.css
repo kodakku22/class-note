@@ -1,0 +1,447 @@
+/* ===== Papers (論文・文献) view ===== */
+.papers-view {
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+/* ===== Plugin sandbox view ===== */
+.plugin-view {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.plugin-view-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 22px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.plugin-view-header h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.plugin-view-subtitle {
+  display: block;
+  margin-top: 4px;
+  color: var(--text-tertiary);
+  font-size: 12px;
+}
+
+.plugin-view-frame {
+  flex: 1;
+  width: 100%;
+  border: 0;
+  background: var(--bg-primary);
+}
+
+.papers-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.papers-subtitle {
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+.papers-filter-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.papers-filter-search {
+  flex: 1;
+  min-width: 240px;
+  padding: 6px 10px;
+}
+.papers-year-range {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+.papers-filter-reset {
+  background: transparent;
+  color: var(--text-tertiary);
+  border: 1px solid var(--divider);
+}
+.papers-list {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--divider);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.papers-row {
+  /* HANDOFF row paradigm (patterns.html L312-367): 4-cell list row,
+   * not a table grid. PDF tile | flexible title-block | status pill |
+   * bibkey, with the title-block holding subtitle / summary / tags
+   * stacked. */
+  display: grid;
+  grid-template-columns: 36px 1fr auto auto;
+  gap: 14px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--divider);
+  cursor: pointer;
+  align-items: center;
+  font-size: var(--text-sm);
+  transform: translateY(0);
+  transition: background var(--duration-fast) var(--ease-standard),
+              transform var(--duration-fast) var(--ease-standard),
+              box-shadow var(--duration-fast) var(--ease-standard);
+}
+.papers-row:hover {
+  background: var(--bg-card-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+.papers-row.active { background: var(--accent-soft); }
+/* .papers-header-row was the legacy in-list column-header row; it was
+ * replaced by .papers-sort-toolbar (above .papers-list) when the row
+ * paradigm collapsed from a 6-column table to a 4-cell list. The
+ * declarations here are kept as no-ops in case any external CSS reads
+ * them, but no JSX renders the class anymore. */
+.papers-th {
+  background: transparent;
+  border: none;
+  padding: 0;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.papers-th.sorted { color: var(--accent); }
+.papers-th:not(button) { cursor: default; }
+.sort-arrow { font-size: 10px; }
+.papers-cell {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.papers-title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  white-space: normal;
+}
+.papers-summary {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  font-weight: 400;
+  margin-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+.papers-status-pill {
+  /* HANDOFF cn-pill: rounded pill with leading dot + lowercase label.
+   * Background is a wash derived from the active --status-* color via
+   * color-mix so light/dark themes render their own correct tint. */
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: color-mix(in srgb, currentColor 14%, transparent);
+}
+.papers-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.papers-status-label { font-size: 11px; }
+/* HANDOFF row title-block — the flexible middle cell containing title,
+ * subtitle (author · year · venue), optional summary, and tag row. */
+.papers-title-block {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.papers-title-line {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.papers-subtitle {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.papers-tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 2px;
+}
+.papers-bibkey-cell {
+  /* Bibkey column (rightmost). Monospace, tertiary, fixed minimum width
+   * so the column edge is visually stable even when bibkey is missing
+   * (placeholder span carries the empty class). */
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  letter-spacing: 0;
+  min-width: 8ch;
+  text-align: right;
+}
+.papers-bibkey-empty {
+  min-width: 1ch;
+}
+.papers-pdf-tile {
+  /* HANDOFF: small leftmost visual anchor that a PDF asset is attached.
+   * Anytype-card style — soft accent wash with the accent text colour.
+   * Width 36px matches the grid template's first column. */
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 40px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+.papers-pdf-tile.placeholder {
+  background: transparent;
+  border-color: transparent;
+}
+.papers-tags {
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.papers-tag {
+  background: var(--bg-secondary);
+  border: 1px solid var(--divider);
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+/* ===== DatabaseView (Obsidian Bases-equivalent) ===== */
+.database-view {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 16px;
+  height: 100%;
+  overflow-y: auto;
+}
+.database-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.database-toolbar select,
+.database-toolbar input {
+  padding: 4px 8px;
+  font-size: 12px;
+}
+.database-columns summary {
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--text-secondary);
+  list-style: none;
+  padding: 4px 8px;
+  border: 1px solid var(--divider);
+  border-radius: 4px;
+}
+.database-columns-popover {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: var(--bg);
+  border: 1px solid var(--divider);
+  border-radius: 6px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 10;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  min-width: 160px;
+  font-size: 12px;
+}
+.database-grid {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--divider);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.database-row {
+  display: grid;
+  grid-template-columns: 2fr repeat(auto-fill, minmax(120px, 1fr)) 80px;
+  gap: 8px;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--divider);
+  cursor: pointer;
+  font-size: 12px;
+  align-items: center;
+}
+.database-row:hover { background: var(--bg-secondary); }
+.database-row.database-header {
+  background: var(--bg-secondary);
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  cursor: default;
+}
+.database-cell {
+  background: transparent;
+  border: none;
+  padding: 0;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.database-header .database-cell { cursor: pointer; }
+
+/* ===== SkillsPanel (Settings → Obsidian Skills 連携) ===== */
+.skills-panel { display: flex; flex-direction: column; gap: 8px; }
+.skills-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+.skills-detected { color: var(--good, #4caf50); }
+.skills-missing { color: var(--text-tertiary); }
+.skills-install summary,
+.skills-features summary {
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--text-secondary);
+  padding: 4px 0;
+}
+.skills-install-body {
+  padding: 8px 0;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.skills-install-body pre {
+  background: var(--bg-secondary);
+  padding: 8px 10px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  overflow-x: auto;
+}
+.skills-analysis-output {
+  background: var(--bg-secondary);
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  max-height: 240px;
+  overflow: auto;
+  white-space: pre-wrap;
+  margin-top: 8px;
+}
+
+/* ===== Citation Picker (Phase 2 — [@bibkey] inserter) ===== */
+.citation-picker { display: flex; flex-direction: column; }
+.citation-picker-input {
+  border: none;
+  border-bottom: 1px solid var(--divider);
+  border-radius: 0;
+  padding: 14px 18px;
+  font-size: 14px;
+  outline: none;
+  background: transparent;
+  color: var(--text);
+}
+.citation-picker-input:focus { box-shadow: none; }
+.citation-picker-results {
+  max-height: 50vh;
+  overflow-y: auto;
+}
+.citation-picker-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  padding: 10px 18px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--divider);
+  color: var(--text);
+}
+.citation-picker-item:hover,
+.citation-picker-item.active {
+  background: var(--bg-secondary);
+}
+.citation-picker-item-row1 {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+.citation-picker-bibkey {
+  font-family: var(--font-mono);
+  color: var(--accent);
+  font-weight: 600;
+}
+.citation-picker-year { color: var(--text-tertiary); }
+.citation-picker-title {
+  font-size: 13px;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.citation-picker-authors {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+.citation-picker-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 18px;
+  font-size: 11px;
+  color: var(--text-tertiary);
+  border-top: 1px solid var(--divider);
+}
+.citation-picker-footer code {
+  background: var(--bg-secondary);
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+
