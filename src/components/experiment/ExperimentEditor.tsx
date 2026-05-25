@@ -13,9 +13,14 @@
 //
 // metrics は Markdown table 形式で frontmatter に保存し、ノート末尾にも
 // 同じテーブルを書き出す。表計算ソフトとの相互運用性を確保。
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, lazy, Suspense } from 'react';
 import { parseFrontmatter, stringifyFrontmatter } from '../../utils/frontmatter';
-import { BlockEditor } from '../editor/BlockEditor';
+// Lazy — see NoteViewer for rationale. ExperimentEditor only shows the
+// block editor in its bottom half, so the editor-tiptap chunk loads
+// after the structured form is interactive.
+const BlockEditor = lazy(() =>
+  import('../editor/BlockEditor').then((m) => ({ default: m.BlockEditor }))
+);
 import { useDialog } from '../common/Dialog';
 
 type ExperimentMeta = {
@@ -276,7 +281,15 @@ export function ExperimentEditor({ filePath, vaultPath }: Props) {
 
       <div className="experiment-section">
         <h3>📝 ノート</h3>
-        <BlockEditor content={body} onChange={updateBody} placeholder="観察・気づき・次の一手…" />
+        <Suspense
+          fallback={
+            <div className="empty-state" style={{ padding: 24 }}>
+              エディタを読み込み中…
+            </div>
+          }
+        >
+          <BlockEditor content={body} onChange={updateBody} placeholder="観察・気づき・次の一手…" />
+        </Suspense>
       </div>
 
       <div className="experiment-footer">

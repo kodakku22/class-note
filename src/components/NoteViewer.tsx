@@ -4,12 +4,21 @@ import {
   useRef,
   useCallback,
   useMemo,
+  lazy,
+  Suspense,
   ClipboardEvent,
   DragEvent,
 } from 'react';
 import { MarkdownRenderer } from './MarkdownRenderer';
 import { BacklinksPanel } from './BacklinksPanel';
-import { BlockEditor } from './editor/BlockEditor';
+// BlockEditor pulls in the entire @tiptap/* + extensions chunk
+// (editor-tiptap ≈ 0.48 MB). Most note opens go straight to preview
+// mode, so deferring the chunk behind React.lazy keeps initial open
+// fast — the editor is only fetched the first time the user clicks
+// the "Edit" tab.
+const BlockEditor = lazy(() =>
+  import('./editor/BlockEditor').then((m) => ({ default: m.BlockEditor }))
+);
 import { RelationsPanel } from './relations/RelationsPanel';
 import { parseFrontmatter, stringifyFrontmatter, type Frontmatter } from '../utils/frontmatter';
 import { useUndoRedo } from '../hooks/useUndoRedo';
@@ -464,7 +473,15 @@ export function NoteViewer({
                 </span>
               </div>
               {editorKind === 'block' ? (
-                <BlockEditor content={body} onChange={onBodyChange} />
+                <Suspense
+                  fallback={
+                    <div className="empty-state" style={{ padding: 24 }}>
+                      エディタを読み込み中…
+                    </div>
+                  }
+                >
+                  <BlockEditor content={body} onChange={onBodyChange} />
+                </Suspense>
               ) : (
                 <textarea
                   ref={taRef}
