@@ -1,10 +1,10 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.5",
-  "serialNumber": "urn:uuid:720f37cb-442b-4c5d-9b19-60f8d605358a",
+  "serialNumber": "urn:uuid:05acf851-b073-4cc9-bc47-911f5c1e889b",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-05-25T08:18:03.702Z",
+    "timestamp": "2026-05-25T08:20:30.044Z",
     "tools": [
       {
         "vendor": "ClassNotes",

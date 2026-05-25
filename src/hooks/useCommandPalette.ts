@@ -63,6 +63,7 @@ export function useCommandPalette(opts: CommandPaletteOptions): PaletteCommand[]
         subtitle: '種類を選んでMarkdownノートを作成',
         icon: '📝',
         keywords: ['create', 'note', 'new'],
+        keybinding: 'Ctrl+N',
         run: () => handleNewNote(),
       },
       {
@@ -106,6 +107,7 @@ export function useCommandPalette(opts: CommandPaletteOptions): PaletteCommand[]
         subtitle: 'URLからMarkdownをVaultに保存',
         icon: '🌐',
         keywords: ['clip', 'web', 'url', 'second brain'],
+        keybinding: 'Ctrl+Shift+L',
         run: () => setShowWebClip(true),
       },
       {
@@ -114,6 +116,7 @@ export function useCommandPalette(opts: CommandPaletteOptions): PaletteCommand[]
         subtitle: 'Papersのbibkeyから [@key] を挿入',
         icon: '📎',
         keywords: ['citation', 'bibkey', 'papers'],
+        keybinding: 'Ctrl+Shift+2',
         run: () => setShowCitation(true),
       },
       {
@@ -159,6 +162,7 @@ export function useCommandPalette(opts: CommandPaletteOptions): PaletteCommand[]
         subtitle: '論文・本・授業ノート・締切のダッシュボード',
         icon: '📈',
         keywords: ['progress', 'research', 'dashboard', 'papers'],
+        keybinding: 'Ctrl+9',
         run: () => setViewMode('progress'),
       },
       {
@@ -167,6 +171,7 @@ export function useCommandPalette(opts: CommandPaletteOptions): PaletteCommand[]
         subtitle: 'AIで整理したSecond Brainページ',
         icon: '🧠',
         keywords: ['wiki', 'second brain'],
+        keybinding: 'Ctrl+6',
         run: () => setViewMode('wiki'),
       },
       {

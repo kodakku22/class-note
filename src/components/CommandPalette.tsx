@@ -6,6 +6,13 @@ export type PaletteCommand = {
   title: string;
   subtitle?: string;
   icon?: string;
+  /** Display-only hint for the global keyboard shortcut that maps to
+   *  this command. The actual key handler still lives in
+   *  src/hooks/useKeyboardShortcuts.ts — this field is purely the
+   *  visible `.cn-kbd` chip on the palette row. Format examples:
+   *  "Ctrl+P", "Ctrl+Shift+L", "Ctrl+9". Windows-form is written;
+   *  macOS users mentally substitute Cmd. */
+  keybinding?: string;
   keywords?: string[];
   railEligible?: boolean;
   railConfirmLabel?: string;
@@ -220,6 +227,11 @@ export function CommandPalette({
                     )}
                   </span>
                   <span className="palette-meta">
+                    {c.keybinding && (
+                      <span className="cn-kbd" aria-label={`shortcut ${c.keybinding}`}>
+                        {c.keybinding}
+                      </span>
+                    )}
                     <span className="palette-cat">コマンド</span>
                   </span>
                 </div>
